@@ -1,7 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useAuth } from "@/components/auth/AuthProvider";
 import type { LinkItem } from "@/content/site";
+import { getHomeRoute } from "@/lib/auth/routes";
+import { USER_ROLES } from "@/lib/auth/types";
 import { cx } from "@/lib/cx";
 import { Button } from "./Button";
 import { IconButton } from "./IconButton";
@@ -27,6 +30,7 @@ function Wordmark({ text, onClick }: { text: string; onClick?: () => void }) {
 }
 
 export function NavBar({ wordmark, links, signIn, cta, floatingCta }: Props) {
+  const { status, user } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const closeRef = useRef<HTMLDivElement>(null);
@@ -51,6 +55,11 @@ export function NavBar({ wordmark, links, signIn, cta, floatingCta }: Props) {
   }, [open]);
 
   const close = () => setOpen(false);
+  const authenticated = status === "authenticated" && user;
+  const home = authenticated ? getHomeRoute(user.role) : signIn.href;
+  const account = authenticated ? { label: user.name.split(" ")[0], href: home } : signIn;
+  const action = authenticated && user.role !== USER_ROLES.CUSTOMER ? { label: "Open Dashboard", href: home } : cta;
+  const mobileAction = authenticated && user.role !== USER_ROLES.CUSTOMER ? { label: "Dashboard", href: home } : floatingCta;
 
   return (
     <>
@@ -71,11 +80,11 @@ export function NavBar({ wordmark, links, signIn, cta, floatingCta }: Props) {
           ))}
         </div>
         <div className="flex items-center justify-end gap-[26px] text-[16px] tablet:hidden">
-          <SmartLink href={signIn.href} className="text-white no-underline">
-            {signIn.label}
+          <SmartLink href={account.href} className="text-white no-underline">
+            {account.label}
           </SmartLink>
-          <Button variant="ivory" size="sm" href={cta.href} className="min-h-[42px]! px-[18px]! py-1 backdrop-blur-[10px]">
-            {cta.label}
+          <Button variant="ivory" size="sm" href={action.href} className="min-h-[42px]! px-[18px]! py-1 backdrop-blur-[10px]">
+            {action.label}
           </Button>
         </div>
         <div className="hidden justify-self-end tablet:block">
@@ -87,13 +96,13 @@ export function NavBar({ wordmark, links, signIn, cta, floatingCta }: Props) {
 
       {/* Floating Book button — phones only */}
       <SmartLink
-        href={floatingCta.href}
+        href={mobileAction.href}
         className={cx(
           "fixed right-5 bottom-5 z-40 hidden size-16 place-items-center rounded-full bg-beige text-[11px] font-extrabold tracking-button text-ink uppercase no-underline shadow-panel transition-transform duration-300 active:scale-[.97] mobile:grid",
           open && "mobile:hidden",
         )}
       >
-        {floatingCta.label}
+        {mobileAction.label}
       </SmartLink>
 
       {/* Full-screen mobile menu */}
@@ -137,11 +146,11 @@ export function NavBar({ wordmark, links, signIn, cta, floatingCta }: Props) {
           ))}
         </ul>
         <div className="relative mt-auto flex flex-col items-start gap-6 pt-10">
-          <TextLink light href={signIn.href} onClick={close}>
-            {signIn.label}
+          <TextLink light href={account.href} onClick={close}>
+            {account.label}
           </TextLink>
-          <Button variant="beige" size="lg" fullWidth href={cta.href} onClick={close}>
-            {cta.label}
+          <Button variant="beige" size="lg" fullWidth href={action.href} onClick={close}>
+            {action.label}
           </Button>
         </div>
       </div>

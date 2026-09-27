@@ -22,14 +22,15 @@ const IMG_ARENA = "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?
 
 export const routes = {
   booking: "/booking",
-  auth: "/auth",
-  register: "/auth?tab=register",
+  auth: "/login",
+  register: "/login",
   faq: "/faq",
   partner: "/partner",
   events: "/events",
   help: "/help",
   whatsapp: "https://wa.me/6281200000000",
   category: (slug: string) => `/categories/${slug}`,
+  venue: (slug: string) => `/venues/${slug}`,
   bookCategory: (slug: string) => `/booking?category=${slug}`,
   bookCity: (slug: string) => `/booking?city=${slug}`,
   event: (slug: string) => `/events/${slug}`,

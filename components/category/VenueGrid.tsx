@@ -26,6 +26,7 @@ export function VenueGrid({ categorySlug, venues }: { categorySlug: string; venu
       <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-6 mobile:no-scrollbar mobile:-mx-[18px] mobile:flex mobile:snap-x mobile:snap-mandatory mobile:overflow-x-auto mobile:scroll-px-[18px] mobile:px-[18px] mobile:py-2">
         {shown.map((v, i) => {
           const book = `${routes.bookCategory(categorySlug)}&venue=${v.slug}`;
+          const details = routes.venue(v.slug);
           return (
             <SportCard
               key={v.slug}
@@ -37,7 +38,7 @@ export function VenueGrid({ categorySlug, venues }: { categorySlug: string; venu
               unit={t.unit}
               image={v.image}
               live={v.live}
-              href={book}
+              href={details}
               detailsLabel={t.details}
               bookHref={book}
               bookLabel={t.book}

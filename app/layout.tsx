@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Lora, Manrope } from "next/font/google";
 import { brand, nav } from "@/content/site";
+import { AppFrame } from "@/components/auth/AppFrame";
+import { AuthProvider } from "@/components/auth/AuthProvider";
 import { Footer } from "@/components/sections/Footer";
 import { NavBar } from "@/components/ui/NavBar";
 import "./globals.css";
@@ -24,11 +26,20 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${manrope.variable} ${lora.variable}`}>
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`${manrope.variable} ${lora.variable}`}
+    >
       <body>
-        <NavBar wordmark={brand.wordmark} links={nav.links} signIn={nav.signIn} cta={nav.cta} floatingCta={nav.floatingCta} />
-        {children}
-        <Footer />
+        <AuthProvider>
+          <AppFrame
+            header={<NavBar wordmark={brand.wordmark} links={nav.links} signIn={nav.signIn} cta={nav.cta} floatingCta={nav.floatingCta} />}
+            footer={<Footer />}
+          >
+            {children}
+          </AppFrame>
+        </AuthProvider>
       </body>
     </html>
   );
