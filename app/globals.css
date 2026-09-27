@@ -1,0 +1,138 @@
+/* Drop into app/globals.css (Tailwind v4). Exposes every design token as a Tailwind utility:
+   bg-olive, text-beige, font-serif, text-display-xl, rounded-card, shadow-card, ease-card, etc. */
+@import "tailwindcss";
+
+@theme {
+  /* Fonts — wire these to next/font variables in app/layout.tsx */
+  --font-sans: var(--font-manrope), "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-lora), "Lora", Georgia, serif;
+
+  /* Brand */
+  --color-olive: #535b40;
+  --color-olive-deep: #454c35;
+  --color-olive-darker: #3f4632;
+  --color-muted: #8c926c;
+  --color-brown: #806148;
+  --color-beige: #c6ae94;
+  --color-beige-hover: #d4bda6;
+  --color-ivory: #f5f2ec;
+  --color-ink: #111111;
+  --color-line: #11111124;
+
+  /* Warm neutral section grounds */
+  --color-ivory-soft: #f7f5f0;
+  --color-sand: #e7e1d7;
+  --color-sand-hover: #ebe5db;
+  --color-stone: #ece8df;
+  --color-stone-2: #f0ebe2;
+  --color-loyalty: #20231c;
+
+  /* Status / data accents */
+  --color-live: #4ade80;
+  --color-tier-silver: #94a3b8;
+  --color-tier-gold: #d97706;
+
+  /* Category accent dots */
+  --color-cat-football: #2d8b4e;
+  --color-cat-padel: #e67e22;
+  --color-cat-tennis: #3498db;
+  --color-cat-badminton: #c6ae94;
+  --color-cat-music: #806148;
+  --color-cat-fishing: #8c926c;
+
+  /* Type scale */
+  --text-display-xl: clamp(70px, 8.4vw, 132px);
+  --text-display-xl--line-height: 0.82;
+  --text-display-xl--letter-spacing: -0.075em;
+  --text-display-lg: clamp(60px, 7.2vw, 112px);
+  --text-display-lg--line-height: 0.82;
+  --text-display-lg--letter-spacing: -0.075em;
+  --text-display-md: clamp(56px, 6.2vw, 96px);
+  --text-display-md--line-height: 0.82;
+  --text-display-md--letter-spacing: -0.075em;
+  --text-display-sm: clamp(42px, 5.3vw, 76px);
+  --text-display-sm--line-height: 0.9;
+  --text-display-sm--letter-spacing: -0.055em;
+  /* One-off display sizes used by specific sections */
+  --text-display-categories: clamp(62px, 7.4vw, 112px);
+  --text-display-categories--line-height: 0.82;
+  --text-display-categories--letter-spacing: -0.065em;
+  --text-display-events: clamp(62px, 7vw, 108px);
+  --text-display-events--line-height: 0.82;
+  --text-display-events--letter-spacing: -0.075em;
+  --text-display-cta: clamp(70px, 8vw, 122px);
+  --text-display-cta--line-height: 0.82;
+  --text-display-cta--letter-spacing: -0.075em;
+  --text-label: 12px;
+  --text-micro: 9px;
+
+  --tracking-eyebrow: 0.18em;
+  --tracking-label: 0.12em;
+  --tracking-button: 0.08em;
+  --font-weight-display: 750;
+
+  /* Radii */
+  --radius-field: 10px;
+  --radius-photo: 14px;
+  --radius-listing: 20px;
+  --radius-floor: 22px;
+  --radius-card: 28px;
+  --radius-panel: 30px;
+
+  /* Shadows */
+  --shadow-button: 0 8px 24px #11111114;
+  --shadow-button-hover: 0 13px 30px #11111126;
+  --shadow-card: 0 18px 46px #1111111f;
+  --shadow-card-hover: 0 20px 42px -10px #2d292224, 0 4px 14px #2d29220a;
+  --shadow-lift: 0 30px 70px #1111114d;
+  --shadow-panel: 0 24px 60px #1111112e;
+  --shadow-float: 0 35px 80px #1111113d;
+
+  /* Easing */
+  --ease-out-soft: cubic-bezier(.23, 1, .32, 1);
+  --ease-card: cubic-bezier(.2, .7, .2, 1);
+  --ease-drawer: cubic-bezier(.32, .72, 0, 1);
+
+  /* Motion keyframes */
+  --animate-pulse-live: pulse-live 2s infinite;
+  @keyframes pulse-live {
+    0% { transform: scale(.95); box-shadow: 0 0 #4ade8080; }
+    70% { transform: scale(1); box-shadow: 0 0 0 8px #4ade8000; }
+    100% { transform: scale(.95); box-shadow: 0 0 #4ade8000; }
+  }
+}
+
+/* Breakpoints from the handoff README (inclusive max-widths) */
+@custom-variant tablet (@media (max-width: 1024px));
+@custom-variant mobile (@media (max-width: 640px));
+
+@layer base {
+  html { scroll-padding-top: 76px; }
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+  body { @apply bg-ivory text-ink font-sans antialiased; }
+}
+
+@utility section-pad {
+  padding: 112px max(5vw, 64px);
+  @media (max-width: 1024px) { padding: 100px 42px; }
+  @media (max-width: 640px)  { padding: 82px 18px; }
+}
+@utility photo-muted { filter: saturate(.82) contrast(1.04); }
+@utility shade-photo { background: linear-gradient(#1111117a 0%, #1111110a 42%, #111111e6 100%); }
+@utility shade-floor { background: linear-gradient(#1111112e 0%, #11111114 30%, #111111e0 100%); }
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+/* Scroll reveal — toggled by components/Reveal.tsx */
+@utility reveal {
+  opacity: 0;
+  translate: 0 28px;
+  transition: opacity .8s var(--ease-out-soft), translate .8s var(--ease-out-soft);
+  &[data-revealed] { opacity: 1; translate: 0 0; }
+  @media (prefers-reduced-motion: reduce) { opacity: 1; translate: none; transition: none; }
+}
