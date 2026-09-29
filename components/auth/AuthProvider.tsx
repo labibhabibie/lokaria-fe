@@ -72,7 +72,7 @@ async function mapSupabaseUser(user: User): Promise<CurrentUser> {
     metadata.full_name ||
     metadata.name ||
     user.email?.split("@")[0] ||
-    "Lokaria User";
+    "Pengguna Lokaria";
   const role = roles.has(profile?.role)
     ? (profile.role as UserRole)
     : USER_ROLES.CUSTOMER;
@@ -168,7 +168,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         const supabase = createClient();
         if (!supabase) {
-          return { ok: false, code: "AUTH_DISABLED", message: "Supabase is not configured." };
+          return { ok: false, code: "AUTH_DISABLED", message: "Supabase belum dikonfigurasi." };
         }
         await authService.signOut();
         const { data, error } = await supabase.auth.signInWithPassword(credentials);
@@ -176,7 +176,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           return {
             ok: false,
             code: "INVALID_CREDENTIALS",
-            message: error?.message ?? "Unable to sign in.",
+            message: error?.message ?? "Tidak dapat masuk.",
           };
         }
         const mapped = await mapSupabaseUser(data.user);
@@ -189,7 +189,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (!supabase) {
           return {
             ok: false,
-            message: "Fill the Supabase URL and publishable key in .env.local first.",
+            message: "Isi URL dan kunci publik Supabase di .env.local terlebih dahulu.",
           };
         }
         await authService.signOut();
@@ -198,17 +198,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           password: credentials.password,
           options: {
             data: { full_name: credentials.name },
-            emailRedirectTo: `${window.location.origin}/auth/callback?next=/explore`,
+            emailRedirectTo: `${window.location.origin}/auth/callback?next=/`,
           },
         });
-        if (error) return { ok: false, message: error.message };
+        if (error) return { ok: false, message: "Pendaftaran gagal. Periksa email dan kata sandi Anda." };
         const requiresConfirmation = !data.session;
         return {
           ok: true,
           requiresConfirmation,
           message: requiresConfirmation
-            ? "Check your email to confirm the account."
-            : "Account created successfully.",
+            ? "Periksa email Anda untuk mengonfirmasi akun."
+            : "Akun berhasil dibuat.",
         };
       },
       async loginWithGoogle() {
@@ -216,22 +216,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (!supabase) {
           return {
             ok: false,
-            message: "Fill the Supabase env values before using Google sign-in.",
+            message: "Isi konfigurasi Supabase sebelum menggunakan login Google.",
           };
         }
         await authService.signOut();
         const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
         const { error } = await supabase.auth.signInWithOAuth({
           provider: "google",
-          options: { redirectTo: `${siteUrl}/auth/callback?next=/explore` },
+          options: { redirectTo: `${siteUrl}/auth/callback?next=/` },
         });
-        return error ? { ok: false, message: error.message } : { ok: true };
+        return error ? { ok: false, message: "Login Google tidak dapat dimulai. Coba lagi." } : { ok: true };
       },
       async updateProfile(input) {
         const name = input.name.trim();
-        if (!user || !name) return { ok: false, message: "Name is required." };
+        if (!user || !name) return { ok: false, message: "Nama wajib diisi." };
         if (input.photo && input.photo.size > 2 * 1024 * 1024) {
-          return { ok: false, message: "Profile photo must be smaller than 2 MB." };
+          return { ok: false, message: "Ukuran foto profil harus kurang dari 2 MB." };
         }
 
         const supabase = createClient();
@@ -239,10 +239,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           const avatarUrl = input.photo ? await fileToDataUrl(input.photo) : user.avatarUrl;
           const updated = { ...user, name, avatar: initials(name), avatarUrl };
           if (!persistMockUser(updated)) {
-            return { ok: false, message: "Browser session storage is unavailable." };
+            return { ok: false, message: "Penyimpanan sesi browser tidak tersedia." };
           }
           setUser(updated);
-          return { ok: true, message: "Profile updated in this browser session." };
+          return { ok: true, message: "Profil diperbarui untuk sesi browser ini." };
         }
 
         let avatarUrl = user.avatarUrl;
@@ -252,7 +252,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           const { error: uploadError } = await supabase.storage
             .from("avatars")
             .upload(path, input.photo, { upsert: true });
-          if (uploadError) return { ok: false, message: uploadError.message };
+          if (uploadError) return { ok: false, message: "Foto profil gagal diunggah. Coba lagi." };
           avatarUrl = supabase.storage.from("avatars").getPublicUrl(path).data.publicUrl;
         }
 
@@ -260,10 +260,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           .from("profiles")
           .update({ name, avatar_url: avatarUrl, updated_at: new Date().toISOString() })
           .eq("id", user.id);
-        if (error) return { ok: false, message: error.message };
+        if (error) return { ok: false, message: "Profil gagal diperbarui. Coba lagi." };
         await supabase.auth.updateUser({ data: { full_name: name, avatar_url: avatarUrl } });
         setUser({ ...user, name, avatar: initials(name), avatarUrl });
-        return { ok: true, message: "Profile updated." };
+        return { ok: true, message: "Profil berhasil diperbarui." };
       },
       async logout() {
         const supabase = createClient();

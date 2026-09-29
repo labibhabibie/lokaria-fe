@@ -18,7 +18,7 @@ export function generateStaticParams() {
 export async function generateMetadata(props: PageProps<"/[...path]">): Promise<Metadata> {
   const { path } = await props.params;
   const key = path.join("/");
-  if (key === "login" || key === "auth") return { title: "Local Login" };
+  if (key === "login" || key === "auth") return { title: "Masuk" };
   return { title: resolveProtectedPage(`/${key}`)?.title ?? comingSoon.pages[key] };
 }
 

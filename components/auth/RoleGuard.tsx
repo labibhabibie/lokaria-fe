@@ -2,7 +2,7 @@
 
 import { useEffect, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
-import { getHomeRoute, roleCanAccess } from "@/lib/auth/routes";
+import { roleCanAccess } from "@/lib/auth/routes";
 import type { UserRole } from "@/lib/auth/types";
 import { useAuth } from "./AuthProvider";
 
@@ -13,7 +13,7 @@ export function RoleGuard({ allowedRoles, children }: { allowedRoles: readonly U
 
   useEffect(() => {
     if (status === "anonymous") router.replace("/login");
-    if (status === "authenticated" && user && !allowed) router.replace(getHomeRoute(user.role));
+    if (status === "authenticated" && user && !allowed) router.replace("/");
   }, [allowed, router, status, user]);
 
   if (status === "loading" || !allowed) {
@@ -21,7 +21,7 @@ export function RoleGuard({ allowedRoles, children }: { allowedRoles: readonly U
       <main className="grid min-h-screen place-items-center bg-ivory px-5 text-ink">
         <div className="flex items-center gap-3 text-[12px] font-extrabold tracking-label uppercase">
           <span className="size-2 animate-pulse rounded-full bg-olive" />
-          Checking local session
+          Memeriksa sesi
         </div>
       </main>
     );

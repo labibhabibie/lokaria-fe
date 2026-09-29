@@ -96,10 +96,10 @@ function VenueCard({ venue }: { venue: ListedVenue }) {
         <div className="mt-5 flex items-end justify-between gap-3 border-t border-line pt-4">
           <p>
             <strong className="text-[14px]">{rupiah(venue.price)}</strong>
-            <span className="block text-[9px] text-[#11111173]">per session</span>
+            <span className="block text-[9px] text-[#11111173]">per sesi</span>
           </p>
           <SmartLink href={`/booking?venue=${venue.slug}`} className={secondaryButton}>
-            Book <ChevronRight size={14} />
+            Pesan <ChevronRight size={14} />
           </SmartLink>
         </div>
       </div>
@@ -113,10 +113,10 @@ function Explore() {
       <section className="grid grid-cols-[1.3fr_.7fr] overflow-hidden bg-olive text-white tablet:grid-cols-1">
         <div className="p-[clamp(24px,5vw,54px)]">
           <p className="text-[10px] font-extrabold tracking-eyebrow text-beige uppercase">
-            Find your next session
+            Temukan sesi berikutnya
           </p>
           <h2 className="mt-4 max-w-[650px] text-[clamp(30px,5vw,58px)] leading-[.96] font-extrabold uppercase">
-            Play, practice, or create today.
+            Bermain, berlatih, atau berkarya hari ini.
           </h2>
           <div className="mt-8 grid grid-cols-[1fr_1fr_auto] gap-2 mobile:grid-cols-1">
             <label className="relative">
@@ -124,13 +124,13 @@ function Explore() {
                 size={16}
                 className="absolute top-1/2 left-3 -translate-y-1/2 text-olive"
               />
-              <span className="sr-only">Search venue</span>
+              <span className="sr-only">Cari venue</span>
               <input
                 className={`${fieldClass} pl-10 text-ink`}
-                placeholder="Sport or venue"
+                placeholder="Aktivitas atau venue"
               />
             </label>
-            <select aria-label="City" className={`${fieldClass} text-ink`}>
+            <select aria-label="Kota" className={`${fieldClass} text-ink`}>
               <option>Jakarta</option>
               <option>Bandung</option>
               <option>Surabaya</option>
@@ -140,14 +140,14 @@ function Explore() {
               href="/venues"
               className={`${primaryButton} border-beige bg-beige text-ink hover:bg-beige-hover`}
             >
-              Explore
+              Jelajahi
             </SmartLink>
           </div>
         </div>
         <div className="relative min-h-[280px] tablet:min-h-[230px]">
           <Image
             src={venues[0].image.src}
-            alt="Padel court"
+            alt="Lapangan padel"
             fill
             priority
             sizes="(max-width: 1024px) 100vw, 40vw"
@@ -160,14 +160,14 @@ function Explore() {
         <div className="mb-4 flex items-end justify-between gap-4">
           <div>
             <p className="text-[9px] font-extrabold tracking-label text-olive uppercase">
-              Browse by activity
+              Jelajahi berdasarkan aktivitas
             </p>
             <h2 className="mt-1 text-[20px] font-extrabold uppercase">
-              What are you looking for?
+              Apa yang sedang kamu cari?
             </h2>
           </div>
           <SmartLink href="/venues" className="text-[10px] font-extrabold text-olive uppercase">
-            View all
+            Lihat semua
           </SmartLink>
         </div>
         <div className="no-scrollbar grid grid-cols-6 gap-2 overflow-x-auto pb-2 tablet:grid-cols-none tablet:auto-cols-[160px] tablet:grid-flow-col">
@@ -181,7 +181,7 @@ function Explore() {
               <h3 className="mt-8 text-[12px] font-extrabold uppercase">
                 {category.title}
               </h3>
-              <p className="mt-2 text-[9px] text-olive">From {rupiah(category.price)}</p>
+              <p className="mt-2 text-[9px] text-olive">Mulai {rupiah(category.price)}</p>
             </SmartLink>
           ))}
         </div>
@@ -189,7 +189,7 @@ function Explore() {
 
       <div className="grid grid-cols-[1fr_310px] gap-6 tablet:grid-cols-1">
         <section>
-          <h2 className="mb-4 text-[20px] font-extrabold uppercase">Popular near you</h2>
+          <h2 className="mb-4 text-[20px] font-extrabold uppercase">Populer di dekatmu</h2>
           <div className="grid grid-cols-2 gap-3 mobile:no-scrollbar mobile:-mx-[18px] mobile:flex mobile:snap-x mobile:overflow-x-auto mobile:px-[18px]">
             {venues.slice(0, 4).map((venue) => (
               <div key={venue.slug} className="mobile:w-[84vw] mobile:shrink-0">
@@ -198,17 +198,17 @@ function Explore() {
             ))}
           </div>
         </section>
-        <Panel title="Upcoming booking" eyebrow="Tomorrow">
+        <Panel title="Pemesanan mendatang" eyebrow="Besok">
           <div className="p-5">
-            <StatusBadge>Confirmed</StatusBadge>
+            <StatusBadge>Terkonfirmasi</StatusBadge>
             <h3 className="mt-5 text-[18px] font-extrabold uppercase">PIK Padel Club</h3>
-            <p className="mt-2 text-[11px] text-[#11111180]">Court 02</p>
+            <p className="mt-2 text-[11px] text-[#11111180]">Lapangan 02</p>
             <div className="mt-5 space-y-3 border-y border-line py-4 text-[11px]">
               <p className="flex items-center gap-2"><CalendarDays size={15} />28 Sep 2026</p>
               <p className="flex items-center gap-2"><Clock3 size={15} />19:00 - 20:00</p>
             </div>
             <SmartLink href="/bookings" className={`${secondaryButton} mt-5 w-full`}>
-              View booking
+              Lihat pesanan
             </SmartLink>
           </div>
         </Panel>
@@ -219,12 +219,12 @@ function Explore() {
 
 function VenueList() {
   const [query, setQuery] = useState("");
-  const [city, setCity] = useState("All cities");
+  const [city, setCity] = useState("Semua kota");
   const filtered = useMemo(
     () =>
       venues.filter(
         (venue) =>
-          (city === "All cities" || venue.city === city) &&
+          (city === "Semua kota" || venue.city === city) &&
           `${venue.name} ${venue.category}`.toLowerCase().includes(query.toLowerCase()),
       ),
     [city, query],
@@ -238,27 +238,27 @@ function VenueList() {
             size={16}
             className="absolute top-1/2 left-3 -translate-y-1/2 text-[#11111173]"
           />
-          <span className="sr-only">Search venues</span>
+          <span className="sr-only">Cari venue</span>
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             className={`${fieldClass} pl-10`}
-            placeholder="Search venue or activity"
+            placeholder="Cari venue atau aktivitas"
           />
         </label>
         <select
           value={city}
           onChange={(event) => setCity(event.target.value)}
           className={fieldClass}
-          aria-label="Filter city"
+          aria-label="Saring kota"
         >
-          <option>All cities</option>
+          <option>Semua kota</option>
           {[...new Set(venues.map((venue) => venue.city))].map((item) => (
             <option key={item}>{item}</option>
           ))}
         </select>
       </div>
-      <p className="text-[11px] text-[#11111173]">{filtered.length} venues found</p>
+      <p className="text-[11px] text-[#11111173]">{filtered.length} venue ditemukan</p>
       {filtered.length ? (
         <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-4">
           {filtered.map((venue) => <VenueCard key={venue.slug} venue={venue} />)}
@@ -267,8 +267,8 @@ function VenueList() {
         <Panel>
           <EmptyState
             icon={Search}
-            title="No venues found"
-            text="Try another city or search phrase."
+            title="Venue tidak ditemukan"
+            text="Coba kota atau kata pencarian lainnya."
           />
         </Panel>
       )}
@@ -293,7 +293,7 @@ function VenueDetail({ path }: { path: string }) {
           />
         </div>
         <div className="p-[clamp(24px,4vw,44px)]">
-          <StatusBadge>{venue.live ?? "Available"}</StatusBadge>
+          <StatusBadge>{venue.live ?? "Tersedia"}</StatusBadge>
           <p className="mt-6 text-[10px] font-extrabold text-olive uppercase">{venue.category}</p>
           <h2 className="mt-2 text-[clamp(27px,4vw,44px)] leading-none font-extrabold uppercase">
             {venue.name}
@@ -311,22 +311,22 @@ function VenueDetail({ path }: { path: string }) {
               </span>
             ))}
           </div>
-          <p className="mt-7 text-[10px] text-[#11111173]">Starting from</p>
+          <p className="mt-7 text-[10px] text-[#11111173]">Mulai dari</p>
           <p className="mt-1 text-[23px] font-extrabold">{rupiah(venue.price)}</p>
           <SmartLink
             href={`/booking?venue=${venue.slug}`}
             className={`${primaryButton} mt-5 w-full`}
           >
-            Choose schedule
+            Pilih jadwal
           </SmartLink>
         </div>
       </section>
-      <Panel title="Available spaces" eyebrow="Live preview">
+      <Panel title="Ruang tersedia" eyebrow="Pratinjau langsung">
         <div className="grid grid-cols-3 gap-3 p-5 tablet:grid-cols-1">
-          {["Court 01", "Court 02", "Court 03"].map((court, index) => (
+          {["Lapangan 01", "Lapangan 02", "Lapangan 03"].map((court, index) => (
             <article key={court} className="border border-line p-4">
               <h3 className="text-[13px] font-extrabold uppercase">{court}</h3>
-              <p className="mt-2 text-[10px] text-[#11111173]">{index + 2} slots today</p>
+              <p className="mt-2 text-[10px] text-[#11111173]">{index + 2} jadwal hari ini</p>
             </article>
           ))}
         </div>
@@ -368,7 +368,7 @@ function Booking() {
 
   return (
     <div className="grid grid-cols-[minmax(0,1fr)_340px] gap-5 tablet:grid-cols-1">
-      <Panel title="Select your session" eyebrow="Step 1 of 2">
+      <Panel title="Pilih sesimu" eyebrow="Langkah 1 dari 2">
         <div className="space-y-7 p-5">
           <label className="block text-[10px] font-extrabold tracking-label uppercase">
             Venue
@@ -385,7 +385,7 @@ function Booking() {
             </select>
           </label>
           <label className="block text-[10px] font-extrabold tracking-label uppercase">
-            Date
+            Tanggal
             <input
               type="date"
               value={date}
@@ -395,7 +395,7 @@ function Booking() {
           </label>
           <div>
             <p className="mb-3 text-[10px] font-extrabold tracking-label uppercase">
-              Available time
+              Waktu tersedia
             </p>
             <div className="grid grid-cols-4 gap-2 mobile:grid-cols-3">
               {slots.map((slot, index) => (
@@ -416,12 +416,12 @@ function Booking() {
               ))}
             </div>
             <p className="mt-3 text-[10px] text-[#11111173]">
-              Select one or more available times. Grey slots are unavailable.
+              Pilih satu atau beberapa waktu yang tersedia. Jadwal berwarna abu-abu tidak dapat dipilih.
             </p>
           </div>
         </div>
       </Panel>
-      <Panel title="Booking summary" eyebrow="Your selection">
+      <Panel title="Ringkasan pemesanan" eyebrow="Pilihanmu">
         <div className="p-5">
           <div className="relative aspect-[16/10] overflow-hidden">
             <Image
@@ -433,17 +433,17 @@ function Booking() {
             />
           </div>
           <h3 className="mt-5 text-[17px] font-extrabold uppercase">{current.name}</h3>
-          <p className="mt-1 text-[11px] text-[#11111173]">Court 02 - {current.city}</p>
+          <p className="mt-1 text-[11px] text-[#11111173]">Lapangan 02 - {current.city}</p>
           <div className="mt-5 space-y-3 border-y border-line py-4 text-[11px]">
-            <p className="flex justify-between gap-4"><span>Date</span><strong>{date}</strong></p>
+            <p className="flex justify-between gap-4"><span>Tanggal</span><strong>{date}</strong></p>
             <div className="flex items-start justify-between gap-4">
-              <span>Times</span>
+              <span>Waktu</span>
               <strong className="text-right">
-                {selectedSlots.length ? selectedSlots.join(", ") : "No slot selected"}
+                {selectedSlots.length ? selectedSlots.join(", ") : "Belum ada jadwal dipilih"}
               </strong>
             </div>
             <p className="flex justify-between gap-4">
-              <span>Sessions</span><strong>{selectedSlots.length} x 60 minutes</strong>
+              <span>Sesi</span><strong>{selectedSlots.length} x 60 menit</strong>
             </p>
           </div>
           <div className="mt-4 flex items-end justify-between">
@@ -456,7 +456,7 @@ function Booking() {
             onClick={continueToCheckout}
             className={`${primaryButton} mt-6 w-full`}
           >
-            Continue to checkout
+            Lanjut meninjau pesanan
           </button>
         </div>
       </Panel>
@@ -495,21 +495,21 @@ function Checkout() {
   return (
     <div className="grid grid-cols-[minmax(0,1fr)_360px] gap-5 tablet:grid-cols-1">
       <div className="space-y-5">
-        <Panel title="Contact details" eyebrow="Booking owner">
+        <Panel title="Detail kontak" eyebrow="Pemilik pesanan">
           <div className="grid grid-cols-2 gap-4 p-5 mobile:grid-cols-1">
             <label className="text-[10px] font-extrabold tracking-label uppercase">
-              Full name
-              <input className={`${fieldClass} mt-2 normal-case`} defaultValue="Customer Demo" />
+              Nama lengkap
+              <input className={`${fieldClass} mt-2 normal-case`} defaultValue="Pelanggan Demo" />
             </label>
             <label className="text-[10px] font-extrabold tracking-label uppercase">
-              Phone number
+              Nomor telepon
               <input className={`${fieldClass} mt-2 normal-case`} defaultValue="+62 812 3456 7890" />
             </label>
           </div>
         </Panel>
-        <Panel title="Payment method" eyebrow="Secure checkout">
+        <Panel title="Metode pembayaran" eyebrow="Pembayaran aman">
           <div className="grid grid-cols-3 gap-2 p-5 mobile:grid-cols-1">
-            {["DOKU Virtual Account", "QRIS", "Credit / Debit Card"].map(
+            {["DOKU Virtual Account", "QRIS", "Kartu Kredit / Debit"].map(
               (method, index) => (
                 <label
                   key={method}
@@ -523,11 +523,11 @@ function Checkout() {
           </div>
         </Panel>
       </div>
-      <Panel title="Order summary" eyebrow="1 item">
+      <Panel title="Ringkasan pesanan" eyebrow="1 item">
         <div className="p-5">
           <h3 className="text-[15px] font-extrabold uppercase">{draft.venueName}</h3>
           <p className="mt-2 text-[11px] leading-6 text-[#11111173]">
-            Court 02<br />{draft.date}<br />{draft.slots.join(", ")}
+            Lapangan 02<br />{draft.date}<br />{draft.slots.join(", ")}
           </p>
           <div className="mt-5 flex gap-2">
             <input
@@ -537,24 +537,24 @@ function Checkout() {
                 setApplied(false);
               }}
               className={fieldClass}
-              placeholder="Promo code"
+              placeholder="Kode promo"
             />
             <button
               type="button"
               onClick={() => setApplied(Boolean(promo))}
               className={secondaryButton}
             >
-              Apply
+              Terapkan
             </button>
           </div>
-          {applied && <p className="mt-2 text-[10px] font-bold text-[#266d3e]">Promo applied.</p>}
+          {applied && <p className="mt-2 text-[10px] font-bold text-[#266d3e]">Promo diterapkan.</p>}
           <div className="mt-5 space-y-3 border-y border-line py-4 text-[11px]">
             <p className="flex justify-between">
-              <span>{draft.slots.length} sessions</span><span>{rupiah(subtotal)}</span>
+              <span>{draft.slots.length} sesi</span><span>{rupiah(subtotal)}</span>
             </p>
-            <p className="flex justify-between"><span>Service fee</span><span>Rp 5.000</span></p>
+            <p className="flex justify-between"><span>Biaya layanan</span><span>Rp 5.000</span></p>
             <p className="flex justify-between">
-              <span>Discount</span><span>{discount ? `-${rupiah(discount)}` : "Rp 0"}</span>
+              <span>Diskon</span><span>{discount ? `-${rupiah(discount)}` : "Rp 0"}</span>
             </p>
           </div>
           <p className="mt-5 flex items-end justify-between">
@@ -562,10 +562,10 @@ function Checkout() {
             <strong className="text-[23px]">{rupiah(total)}</strong>
           </p>
           <SmartLink href="/payment" className={`${primaryButton} mt-6 w-full`}>
-            <ShieldCheck size={16} /> Pay securely
+            <ShieldCheck size={16} /> Bayar dengan aman
           </SmartLink>
           <p className="mt-3 text-center text-[9px] text-[#11111173]">
-            Demo only. No payment is processed.
+            Hanya demo. Tidak ada pembayaran yang diproses.
           </p>
         </div>
       </Panel>
@@ -577,19 +577,19 @@ function Payment() {
   const [copied, setCopied] = useState(false);
   return (
     <div className="mx-auto max-w-[720px]">
-      <Panel title="Complete your payment" eyebrow="DOKU Virtual Account">
+      <Panel title="Selesaikan pembayaran" eyebrow="DOKU Virtual Account">
         <div className="p-[clamp(22px,5vw,48px)] text-center">
           <span className="mx-auto grid size-14 place-items-center rounded-full bg-[#535b4012] text-olive">
             <CreditCard size={24} />
           </span>
-          <p className="mt-6 text-[11px] text-[#11111173]">Total payment</p>
+          <p className="mt-6 text-[11px] text-[#11111173]">Total pembayaran</p>
           <p className="mt-2 text-[34px] font-extrabold">Rp 305.000</p>
           <div className="mx-auto mt-7 max-w-[420px] border border-line bg-ivory p-5 text-left">
             <p className="text-[9px] font-extrabold tracking-label uppercase">BCA Virtual Account</p>
             <div className="mt-2 flex items-center justify-between gap-3">
               <strong className="text-[20px] mobile:text-[16px]">8808 0812 3456 7890</strong>
               <button type="button" onClick={() => setCopied(true)} className={secondaryButton}>
-                {copied ? "Copied" : "Copy"}
+                {copied ? "Tersalin" : "Salin"}
               </button>
             </div>
           </div>
@@ -597,9 +597,9 @@ function Payment() {
             href="/booking/success"
             className={`${primaryButton} mt-8 w-full max-w-[420px]`}
           >
-            I have completed payment
+            Saya sudah menyelesaikan pembayaran
           </SmartLink>
-          <p className="mt-4 text-[10px] text-[#11111173]">Payment status is simulated.</p>
+          <p className="mt-4 text-[10px] text-[#11111173]">Status pembayaran hanya simulasi.</p>
         </div>
       </Panel>
     </div>
@@ -615,26 +615,26 @@ function Success() {
             <Check size={30} />
           </span>
           <p className="mt-6 text-[10px] font-extrabold tracking-label text-olive uppercase">
-            Booking confirmed
+            Pemesanan terkonfirmasi
           </p>
           <h2 className="mt-3 text-[clamp(28px,5vw,48px)] leading-none font-extrabold uppercase">
-            See you on the court.
+            Sampai bertemu di lapangan.
           </h2>
           <div className="mx-auto mt-8 grid max-w-[520px] grid-cols-[160px_1fr] border border-line text-left mobile:grid-cols-1">
             <div className="grid aspect-square place-items-center bg-ink p-5 text-center text-white">
-              <div><Ticket size={36} className="mx-auto" /><p className="mt-3 text-[10px]">QR PREVIEW</p></div>
+              <div><Ticket size={36} className="mx-auto" /><p className="mt-3 text-[10px]">PRATINJAU QR</p></div>
             </div>
             <div className="p-5">
-              <p className="text-[9px] text-[#11111173] uppercase">Booking code</p>
+              <p className="text-[9px] text-[#11111173] uppercase">Kode pemesanan</p>
               <p className="mt-1 text-[20px] font-extrabold">LKR-240927</p>
               <p className="mt-5 text-[12px] font-bold">PIK Padel Club</p>
               <p className="mt-1 text-[11px] leading-5 text-[#11111173]">
-                Court 02<br />28 Sep 2026, 19:00
+                Lapangan 02<br />28 Sep 2026, 19:00
               </p>
             </div>
           </div>
           <SmartLink href="/bookings" className={`${primaryButton} mt-8`}>
-            My bookings
+            Pesanan saya
           </SmartLink>
         </div>
       </Panel>
@@ -643,14 +643,14 @@ function Success() {
 }
 
 function Bookings() {
-  const [filter, setFilter] = useState("All");
+  const [filter, setFilter] = useState("Semua");
   const shown = customerBookings.filter(
-    (booking) => filter === "All" || booking.status === filter,
+    (booking) => filter === "Semua" || booking.status === filter,
   );
   return (
     <div className="space-y-4">
       <div className="no-scrollbar flex gap-2 overflow-x-auto">
-        {["All", "Confirmed", "Completed", "Cancelled"].map((item) => (
+        {["Semua", "Terkonfirmasi", "Selesai", "Dibatalkan"].map((item) => (
           <button
             key={item}
             type="button"
@@ -680,7 +680,7 @@ function Bookings() {
           </div>
           <div className="text-right mobile:text-left">
             <p className="text-[16px] font-extrabold">{rupiah(booking.total)}</p>
-            <button type="button" className={`${secondaryButton} mt-3`}>View details</button>
+            <button type="button" className={`${secondaryButton} mt-3`}>Lihat detail</button>
           </div>
         </article>
       ))}
@@ -695,11 +695,11 @@ function Profile() {
       <Panel>
         <div className="p-6 text-center">
           <span className="mx-auto grid size-20 place-items-center rounded-full bg-olive text-[20px] font-extrabold text-white">CD</span>
-          <h2 className="mt-4 text-[17px] font-extrabold uppercase">Customer Demo</h2>
-          <p className="mt-1 text-[11px] text-[#11111173]">Customer since January 2026</p>
+          <h2 className="mt-4 text-[17px] font-extrabold uppercase">Pelanggan Demo</h2>
+          <p className="mt-1 text-[11px] text-[#11111173]">Pelanggan sejak Januari 2026</p>
         </div>
       </Panel>
-      <Panel title="Personal information" eyebrow="Account">
+      <Panel title="Informasi pribadi" eyebrow="Akun">
         <form
           onSubmit={(event) => {
             event.preventDefault();
@@ -707,13 +707,13 @@ function Profile() {
           }}
           className="grid grid-cols-2 gap-4 p-5 mobile:grid-cols-1"
         >
-          {["Full name", "Email", "Phone", "Home city"].map((label, index) => (
+          {["Nama lengkap", "Email", "Telepon", "Kota asal"].map((label, index) => (
             <label key={label} className="text-[10px] font-extrabold tracking-label uppercase">
               {label}
               <input
                 className={`${fieldClass} mt-2 normal-case`}
                 defaultValue={[
-                  "Customer Demo",
+                  "Pelanggan Demo",
                   "customer@lokaria.test",
                   "+62 812 3456 7890",
                   "Jakarta",
@@ -722,8 +722,8 @@ function Profile() {
             </label>
           ))}
           <div className="col-span-2 flex items-center justify-between gap-4 border-t border-line pt-5 mobile:col-span-1">
-            <p className="text-[11px] font-bold text-[#266d3e]">{saved ? "Profile saved locally." : ""}</p>
-            <button type="submit" className={primaryButton}>Save changes</button>
+            <p className="text-[11px] font-bold text-[#266d3e]">{saved ? "Profil disimpan secara lokal." : ""}</p>
+            <button type="submit" className={primaryButton}>Simpan perubahan</button>
           </div>
         </form>
       </Panel>
@@ -733,30 +733,30 @@ function Profile() {
 
 function Rewards() {
   const rewards = [
-    ["Rp 25.000 voucher", "500 pts"],
-    ["Free racket rental", "750 pts"],
-    ["Rp 50.000 voucher", "1,000 pts"],
+    ["Voucher Rp 25.000", "500 poin"],
+    ["Sewa raket gratis", "750 poin"],
+    ["Voucher Rp 50.000", "1.000 poin"],
   ];
   return (
     <div className="space-y-5">
       <section className="grid grid-cols-2 bg-loyalty text-white mobile:grid-cols-1">
         <div className="p-[clamp(24px,5vw,52px)]">
-          <p className="text-[10px] font-extrabold text-beige uppercase">Available balance</p>
+          <p className="text-[10px] font-extrabold text-beige uppercase">Saldo tersedia</p>
           <p className="mt-4 text-[clamp(42px,7vw,76px)] leading-none font-extrabold">1,250</p>
-          <p className="mt-2 text-[12px] text-[#ffffff9c]">Lokaria points</p>
+          <p className="mt-2 text-[12px] text-[#ffffff9c]">Poin Lokaria</p>
         </div>
         <div className="grid place-items-center border-l border-[#ffffff1f] p-8 text-center mobile:border-t mobile:border-l-0">
-          <div><Award size={44} className="mx-auto text-beige" /><p className="mt-4 text-[18px] font-extrabold uppercase">Silver member</p></div>
+          <div><Award size={44} className="mx-auto text-beige" /><p className="mt-4 text-[18px] font-extrabold uppercase">Anggota Perak</p></div>
         </div>
       </section>
-      <Panel title="Available rewards" eyebrow="Redeem points">
+      <Panel title="Hadiah tersedia" eyebrow="Tukarkan poin">
         <div className="grid grid-cols-3 gap-3 p-5 tablet:grid-cols-1">
           {rewards.map(([name, points]) => (
             <article key={name} className="border border-line p-5">
               <Gift size={20} className="text-olive" />
               <h3 className="mt-5 text-[14px] font-extrabold uppercase">{name}</h3>
               <p className="mt-2 text-[11px] text-[#11111173]">{points}</p>
-              <button type="button" className={`${secondaryButton} mt-5 w-full`}>Redeem</button>
+              <button type="button" className={`${secondaryButton} mt-5 w-full`}>Tukarkan</button>
             </article>
           ))}
         </div>
@@ -767,20 +767,20 @@ function Rewards() {
 
 function Membership() {
   const tiers = [
-    { name: "Basic", price: "Free", style: "bg-white text-ink" },
-    { name: "Plus", price: "Rp 49.000 / mo", style: "bg-[#e8d8c8] text-ink" },
-    { name: "Elite", price: "Rp 129.000 / mo", style: "bg-olive text-white" },
+    { name: "Dasar", price: "Gratis", style: "bg-white text-ink" },
+    { name: "Plus", price: "Rp 49.000 / bln", style: "bg-[#e8d8c8] text-ink" },
+    { name: "Elite", price: "Rp 129.000 / bln", style: "bg-olive text-white" },
   ];
   return (
     <div className="grid grid-cols-3 gap-4 tablet:grid-cols-1">
       {tiers.map((tier, index) => (
         <article key={tier.name} className={`border border-line p-6 ${tier.style}`}>
           <Sparkles size={22} />
-          <p className="mt-8 text-[10px] font-extrabold uppercase">Tier {index + 1}</p>
+          <p className="mt-8 text-[10px] font-extrabold uppercase">Tingkat {index + 1}</p>
           <h2 className="mt-2 text-[28px] font-extrabold uppercase">{tier.name}</h2>
           <p className="mt-3 text-[14px] font-bold">{tier.price}</p>
           <div className="mt-7 space-y-3 border-y border-current/20 py-5">
-            {["Booking discount", "Member points", "Priority support"].map((perk) => (
+            {["Diskon pemesanan", "Poin anggota", "Bantuan prioritas"].map((perk) => (
               <p key={perk} className="flex items-center gap-2 text-[11px]"><Check size={14} />{perk}</p>
             ))}
           </div>
@@ -788,7 +788,7 @@ function Membership() {
             type="button"
             className="mt-6 min-h-11 w-full cursor-pointer rounded-field border border-current px-4 text-[10px] font-extrabold uppercase"
           >
-            {index === 0 ? "Current plan" : "Choose plan"}
+            {index === 0 ? "Paket saat ini" : "Pilih paket"}
           </button>
         </article>
       ))}
@@ -812,8 +812,8 @@ export function CustomerWorkspace({ path }: { path: string }) {
     <Panel>
       <EmptyState
         icon={UserRound}
-        title="Page unavailable"
-        text="This customer screen is not mapped yet."
+        title="Halaman tidak tersedia"
+        text="Layar pelanggan ini belum tersedia."
       />
     </Panel>
   );

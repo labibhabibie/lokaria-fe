@@ -39,12 +39,12 @@ function PortalShell({ children }: { children: ReactNode }) {
       <div className="grid min-h-[calc(100vh-76px)] grid-cols-[250px_minmax(0,1fr)] tablet:grid-cols-1">
         <aside className="border-r border-line bg-white p-5 tablet:border-r-0 tablet:border-b tablet:p-3">
           <nav
-            aria-label={`${roleLabel(user.role)} navigation`}
+            aria-label={`Navigasi ${roleLabel(user.role)}`}
             className="sticky top-[96px] flex flex-col gap-1 tablet:hidden"
           >
             {user.role === USER_ROLES.CUSTOMER && (
               <SmartLink href="/" className="rounded-field px-3 py-2.5 text-[11px] font-bold whitespace-nowrap text-[#1111119c] no-underline hover:bg-ivory">
-                Public Home
+                Beranda Publik
               </SmartLink>
             )}
             {navigation.map((item) => {
@@ -62,7 +62,7 @@ function PortalShell({ children }: { children: ReactNode }) {
             })}
           </nav>
           <nav
-            aria-label={`${roleLabel(user.role)} mobile navigation`}
+            aria-label={`Navigasi seluler ${roleLabel(user.role)}`}
             className="hidden grid-cols-4 gap-1 tablet:grid"
           >
             {mobileNavigation.map((item) => {
@@ -106,7 +106,7 @@ export function PortalPage({ page }: { page: PortalPageDefinition }) {
           <div className="mb-6 flex flex-wrap items-end justify-between gap-5 border-b border-line pb-6">
             <div>
               <p className="mb-2 text-[9px] font-extrabold tracking-eyebrow text-olive uppercase">
-                {user ? roleLabel(user.role) : "Workspace"} / Local preview
+                {user ? roleLabel(user.role) : "Ruang Kerja"} / Pratinjau lokal
               </p>
               <h1 className="text-[clamp(27px,4vw,44px)] leading-none font-extrabold uppercase">
                 {page.title}
@@ -116,7 +116,7 @@ export function PortalPage({ page }: { page: PortalPageDefinition }) {
               </p>
             </div>
             <span className="rounded-full border border-[#535b4040] bg-[#535b4012] px-4 py-2 text-[9px] font-extrabold tracking-label text-olive uppercase">
-              Mock data
+              Data demo
             </span>
           </div>
           {workspace}

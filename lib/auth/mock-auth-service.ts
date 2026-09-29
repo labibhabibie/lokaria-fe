@@ -35,12 +35,12 @@ export function authenticateMockUser(credentials: LoginCredentials): AuthResult 
   const password = credentials.password;
 
   if (!email || !password) {
-    return { ok: false, code: "VALIDATION_ERROR", message: "Email and password are required." };
+    return { ok: false, code: "VALIDATION_ERROR", message: "Email dan kata sandi wajib diisi." };
   }
 
   const account = DEVELOPMENT_ACCOUNTS.find((item) => item.user.email === email && item.password === password);
   if (!account) {
-    return { ok: false, code: "INVALID_CREDENTIALS", message: "Email or password is incorrect." };
+    return { ok: false, code: "INVALID_CREDENTIALS", message: "Email atau kata sandi salah." };
   }
 
   return { ok: true, user: cloneUser(account.user) };
@@ -73,7 +73,7 @@ export function createMockAuthService({ enabled = MOCK_AUTH_ENABLED, getStorage 
         return {
           ok: false,
           code: "AUTH_DISABLED",
-          message: "Mock login is disabled in production builds.",
+          message: "Login demo dinonaktifkan pada versi produksi.",
         };
       }
 
@@ -86,7 +86,7 @@ export function createMockAuthService({ enabled = MOCK_AUTH_ENABLED, getStorage 
         return {
           ok: false,
           code: "STORAGE_UNAVAILABLE",
-          message: "Browser session storage is unavailable.",
+          message: "Penyimpanan sesi browser tidak tersedia.",
         };
       }
 

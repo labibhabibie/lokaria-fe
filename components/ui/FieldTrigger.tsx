@@ -12,7 +12,7 @@ type Props = {
   className?: string;
 };
 
-export function FieldTrigger({ label, value, placeholder = "Select", icon, open, disabled, onClick, className }: Props) {
+export function FieldTrigger({ label, value, placeholder = "Pilih", icon, open, disabled, onClick, className }: Props) {
   const has = value != null && value !== "";
   return (
     <button

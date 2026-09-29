@@ -16,7 +16,7 @@ const whereOptions: Option[] = cities.map((c) => ({ value: c.slug, label: c.titl
 function formatWhen(v: string) {
   const d = new Date(v);
   if (Number.isNaN(d.getTime())) return "";
-  return d.toLocaleString("en-GB", { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+  return d.toLocaleString("id-ID", { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
 }
 
 function Dropdown({ children, className }: { children: React.ReactNode; className?: string }) {

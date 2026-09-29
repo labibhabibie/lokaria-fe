@@ -15,7 +15,7 @@ type Props = {
 
 const caption = "text-[11.5px] tracking-[.16em] text-[#ffffff8c] uppercase";
 
-export function LoyaltyCard({ label, tier, balanceLabel = "Current Balance", balance, unit, voucherLabel = "Available Voucher", voucher, note, tilt = true, className }: Props) {
+export function LoyaltyCard({ label, tier, balanceLabel = "Saldo Saat Ini", balance, unit, voucherLabel = "Voucher Tersedia", voucher, note, tilt = true, className }: Props) {
   return (
     <div
       className={cx(

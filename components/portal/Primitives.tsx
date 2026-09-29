@@ -8,7 +8,7 @@ export function Panel({ title, eyebrow, action, children, className = "" }: { ti
   return (
     <section className={`border border-line bg-white ${className}`}>
       {(title || eyebrow || action) && (
-        <header className="flex min-h-[70px] items-center justify-between gap-4 border-b border-line px-5 py-4 mobile:items-start mobile:px-4">
+        <header className="flex min-h-[70px] items-center justify-between gap-4 border-b border-line px-5 py-4 mobile:flex-col mobile:items-start mobile:px-4">
           <div>
             {eyebrow && <p className="text-[9px] font-extrabold tracking-label text-olive uppercase">{eyebrow}</p>}
             {title && <h2 className="mt-1 text-[16px] font-extrabold uppercase">{title}</h2>}
@@ -37,9 +37,9 @@ export function MetricCard({ label, value, note, icon: Icon, tone = "default" }:
 
 export function StatusBadge({ children }: { children: ReactNode }) {
   const key = String(children).toLowerCase();
-  const style = key.includes("paid") || key.includes("active") || key.includes("confirm") || key.includes("verified") || key.includes("settled") || key.includes("approve") || key.includes("complete")
+  const style = key.includes("paid") || key.includes("active") || key.includes("confirm") || key.includes("verified") || key.includes("settled") || key.includes("approve") || key.includes("complete") || key.includes("dibayar") || key.includes("aktif") || key.includes("terkonfirmasi") || key.includes("terverifikasi") || key.includes("diselesaikan") || key.includes("disetujui") || key.includes("selesai") || key.includes("aman") || key.includes("lunas") || key.includes("tercatat")
     ? "border-[#2d8b4e42] bg-[#2d8b4e12] text-[#266d3e]"
-    : key.includes("cancel") || key.includes("suspend") || key.includes("refund")
+    : key.includes("cancel") || key.includes("suspend") || key.includes("refund") || key.includes("dibatalkan") || key.includes("ditangguhkan") || key.includes("dikembalikan") || key.includes("berakhir") || key.includes("nonaktif")
       ? "border-[#a13b3540] bg-[#a13b3510] text-[#8d332e]"
       : "border-[#d9770640] bg-[#d9770612] text-[#9a5904]";
   return <span className={`inline-flex min-h-7 items-center rounded-full border px-2.5 text-[9px] font-extrabold tracking-label whitespace-nowrap uppercase ${style}`}>{children}</span>;
@@ -48,7 +48,7 @@ export function StatusBadge({ children }: { children: ReactNode }) {
 export type DataColumn = { key: string; label: string; align?: "left" | "right" };
 export type DataRow = Record<string, ReactNode> & { id: ReactNode };
 
-export function ResponsiveTable({ columns, rows, empty = "No data found." }: { columns: DataColumn[]; rows: DataRow[]; empty?: string }) {
+export function ResponsiveTable({ columns, rows, empty = "Data tidak ditemukan." }: { columns: DataColumn[]; rows: DataRow[]; empty?: string }) {
   if (rows.length === 0) return <div className="grid min-h-[220px] place-items-center p-6 text-[13px] text-[#11111180]">{empty}</div>;
   return (
     <>
@@ -82,7 +82,7 @@ export function ResponsiveTable({ columns, rows, empty = "No data found." }: { c
   );
 }
 
-export function SearchField({ value, onChange, placeholder = "Search" }: { value: string; onChange(value: string): void; placeholder?: string }) {
+export function SearchField({ value, onChange, placeholder = "Cari" }: { value: string; onChange(value: string): void; placeholder?: string }) {
   return (
     <label className="relative block w-full max-w-[320px]">
       <Search aria-hidden="true" size={16} className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-[#11111173]" />
@@ -107,7 +107,7 @@ export function EmptyState({ icon: Icon, title, text, action }: { icon: LucideIc
 
 export function MiniBars({ values }: { values: number[] }) {
   return (
-    <div className="flex h-36 items-end gap-2" aria-label="Weekly performance chart">
+    <div className="flex h-36 items-end gap-2" aria-label="Grafik performa mingguan">
       {values.map((value, index) => (
         <div key={index} className="flex h-full min-w-0 flex-1 items-end">
           <div className="w-full bg-olive transition-[height] hover:bg-brown" style={{ height: `${value}%` }} title={`${value}%`} />
@@ -118,5 +118,5 @@ export function MiniBars({ values }: { values: number[] }) {
 }
 
 export const primaryButton = "inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-field border border-olive bg-olive px-4 text-[10px] font-extrabold tracking-label text-white no-underline uppercase transition-colors hover:bg-olive-deep disabled:cursor-not-allowed disabled:opacity-50";
-export const secondaryButton = "inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-field border border-line bg-white px-4 text-[10px] font-extrabold tracking-label text-ink no-underline uppercase transition-colors hover:border-olive hover:text-olive";
+export const secondaryButton = "inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-field border border-line bg-white px-4 text-[10px] font-extrabold tracking-label text-ink no-underline uppercase transition-colors hover:border-olive hover:text-olive disabled:cursor-not-allowed disabled:opacity-50";
 export const fieldClass = "min-h-11 w-full rounded-field border border-line bg-white px-3 text-[12px] outline-none focus:border-olive focus:shadow-[0_0_0_3px_#535b4017]";

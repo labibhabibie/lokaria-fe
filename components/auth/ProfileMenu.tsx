@@ -23,7 +23,7 @@ function Avatar({ name, initials, url, large = false }: {
   return (
     <span
       role="img"
-      aria-label={`${name} profile photo`}
+      aria-label={`Foto profil ${name}`}
       style={url ? { backgroundImage: `url(${url})` } : undefined}
       className={`grid shrink-0 place-items-center rounded-full border bg-[#ffffff17] bg-cover bg-center font-extrabold ${
         large
@@ -154,14 +154,14 @@ export function ProfileMenu() {
               }}
               className="flex min-h-10 w-full cursor-pointer items-center gap-2 rounded-field px-3 text-[10px] font-extrabold uppercase hover:bg-ivory"
             >
-              <Pencil size={14} /> Edit profile
+              <Pencil size={14} /> Edit profil
             </button>
             <button
               type="button"
               onClick={signOut}
               className="flex min-h-10 w-full cursor-pointer items-center gap-2 rounded-field px-3 text-[10px] font-extrabold text-[#8d332e] uppercase hover:bg-[#a13b350a]"
             >
-              <LogOut size={14} /> Logout
+              <LogOut size={14} /> Keluar
             </button>
           </div>
         </div>
@@ -177,13 +177,13 @@ export function ProfileMenu() {
           >
             <header className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-[9px] font-extrabold tracking-label text-olive uppercase">Account</p>
-                <h2 id="edit-profile-title" className="mt-1 text-[20px] font-extrabold uppercase">Edit profile</h2>
+                <p className="text-[9px] font-extrabold tracking-label text-olive uppercase">Akun</p>
+                <h2 id="edit-profile-title" className="mt-1 text-[20px] font-extrabold uppercase">Edit profil</h2>
               </div>
               <button
                 type="button"
                 onClick={() => setEditing(false)}
-                title="Close"
+                title="Tutup"
                 className="grid size-10 cursor-pointer place-items-center rounded-full border border-line"
               >
                 <X size={17} />
@@ -198,7 +198,7 @@ export function ProfileMenu() {
               />
               <div>
                 <label className={`${secondaryButton} relative cursor-pointer`}>
-                  <Camera size={15} /> Change photo
+                  <Camera size={15} /> Ganti foto
                   <input
                     type="file"
                     accept="image/jpeg,image/png,image/webp"
@@ -206,24 +206,24 @@ export function ProfileMenu() {
                     className="sr-only"
                   />
                 </label>
-                <p className="mt-2 text-[9px] leading-4 text-[#11111173]">JPG, PNG, or WebP. Maximum 2 MB.</p>
+                <p className="mt-2 text-[9px] leading-4 text-[#11111173]">JPG, PNG, atau WebP. Maksimal 2 MB.</p>
               </div>
             </div>
             <label className="mt-6 block text-[10px] font-extrabold uppercase">
-              Display name
+              Nama tampilan
               <input
                 value={name}
                 onChange={(event) => setName(event.target.value)}
                 className={`${fieldClass} mt-2 normal-case`}
               />
             </label>
-            <p className={`mt-4 min-h-5 text-[11px] font-bold ${message.toLowerCase().includes("updated") ? "text-[#266d3e]" : "text-[#a13b35]"}`}>
+            <p className={`mt-4 min-h-5 text-[11px] font-bold ${message.toLowerCase().includes("diperbarui") ? "text-[#266d3e]" : "text-[#a13b35]"}`}>
               {message}
             </p>
             <div className="mt-3 flex justify-end gap-2">
-              <button type="button" onClick={() => setEditing(false)} className={secondaryButton}>Cancel</button>
+              <button type="button" onClick={() => setEditing(false)} className={secondaryButton}>Batal</button>
               <button type="button" onClick={save} disabled={saving} className={primaryButton}>
-                {saving ? "Saving..." : "Save profile"}
+                {saving ? "Menyimpan..." : "Simpan profil"}
               </button>
             </div>
           </section>

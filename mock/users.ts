@@ -9,11 +9,11 @@ export type DevelopmentAccount = {
 /** Local UI-development identities. Never use these credentials for real authentication. */
 export const DEVELOPMENT_ACCOUNTS: readonly DevelopmentAccount[] = [
   {
-    label: "Customer",
+    label: "Pelanggan",
     password: "Customer123!",
     user: {
       id: "dev-customer-001",
-      name: "Customer Demo",
+      name: "Pelanggan Demo",
       email: "customer@lokaria.test",
       role: USER_ROLES.CUSTOMER,
       avatar: "CD",

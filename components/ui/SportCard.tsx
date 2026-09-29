@@ -28,9 +28,9 @@ export function SportCard({
   image,
   live,
   href,
-  detailsLabel = "Details →",
+  detailsLabel = "Detail →",
   bookHref,
-  bookLabel = "Book",
+  bookLabel = "Pesan",
   className,
 }: Props) {
   return (

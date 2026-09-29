@@ -39,25 +39,25 @@ export const routes = {
 export const brand = {
   name: "Lokaria",
   wordmark: "LOKARIA",
-  tagline: "Find your place. Book your time.",
+  tagline: "Temukan tempatmu. Pesan waktumu.",
   meta: {
-    title: "Lokaria | Book Sports Venues & Creative Spaces",
+    title: "Lokaria | Pesan Venue Olahraga & Ruang Kreatif",
     description:
-      "Book football, futsal, padel, tennis and badminton courts, music studios and fishing ponds near you. Live availability, instant confirmation, secure payment.",
+      "Pesan lapangan sepak bola, futsal, padel, tenis, bulu tangkis, studio musik, dan kolam pancing di dekatmu. Ketersediaan langsung, konfirmasi instan, dan pembayaran aman.",
   },
 };
 
 export const nav = {
   links: [
-    { label: "Explore", href: "/#categories" },
-    { label: "For Venues", href: "/#for-venues" },
-    { label: "Rewards", href: "/#rewards" },
-    { label: "Membership", href: "/#membership" },
-    { label: "FAQ", href: routes.faq },
+    { label: "Jelajahi", href: "/#categories" },
+    { label: "Untuk Venue", href: "/#for-venues" },
+    { label: "Poin", href: "/#rewards" },
+    { label: "Keanggotaan", href: "/#membership" },
+    { label: "Tanya Jawab", href: routes.faq },
   ] satisfies LinkItem[],
-  signIn: { label: "Sign in", href: routes.auth },
-  cta: { label: "Book a Space", href: routes.booking },
-  floatingCta: { label: "Book", href: routes.booking },
+  signIn: { label: "Masuk", href: routes.auth },
+  cta: { label: "Pesan Tempat", href: routes.booking },
+  floatingCta: { label: "Pesan", href: routes.booking },
 };
 
 // ─── Categories ──────────────────────────────────────────────────────────────
@@ -97,14 +97,14 @@ export type Category = {
 
 const defaultRules = (bring: string[]) => [
   {
-    label: "House rules",
-    items: ["Arrive 10 minutes before your slot.", "Show your booking QR at the front desk.", "Follow each venue's own safety guidelines."],
+    label: "Peraturan venue",
+    items: ["Datang 10 menit sebelum jadwal dimulai.", "Tunjukkan QR pemesanan di meja layanan.", "Patuhi panduan keselamatan yang berlaku di setiap venue."],
   },
   {
-    label: "Cancellation",
-    items: ["Free cancellation up to 24 hours before.", "Credits are refunded to your Lokaria wallet.", "Elite members reschedule free up to 6 hours before."],
+    label: "Pembatalan",
+    items: ["Pembatalan gratis hingga 24 jam sebelumnya.", "Kredit dikembalikan ke dompet Lokaria.", "Anggota Elite dapat menjadwalkan ulang gratis hingga 6 jam sebelumnya."],
   },
-  { label: "What to bring", items: bring },
+  { label: "Yang perlu dibawa", items: bring },
 ];
 
 // TODO: replace placeholder highlights, venues and rules with real partner data
@@ -113,23 +113,23 @@ export const categories: Category[] = [
     slug: "football",
     index: "01",
     code: "FB",
-    title: "Football & Futsal",
-    description: "Indoor futsal courts and outdoor mini soccer pitches",
+    title: "Sepak Bola & Futsal",
+    description: "Lapangan futsal dalam ruangan dan mini soccer luar ruangan",
     price: 150000,
-    unit: "/ pitch / hr",
+    unit: "/ lapangan / jam",
     accent: "football",
-    image: { src: IMG_TENNIS, alt: "Floodlit outdoor pitch" }, // TODO: replace with Lokaria photo
+    image: { src: IMG_TENNIS, alt: "Lapangan luar ruangan dengan lampu sorot" }, // TODO: replace with Lokaria photo
     span: 7,
     detail: {
-      lead: "Indoor futsal courts and outdoor mini soccer pitches, bookable by the hour with instant confirmation.",
-      highlights: ["Vinyl & synthetic turf", "Night lighting", "Changing rooms", "Ball & bib rental"],
+      lead: "Lapangan futsal dalam ruangan dan mini soccer luar ruangan yang dapat dipesan per jam dengan konfirmasi instan.",
+      highlights: ["Vinil & rumput sintetis", "Penerangan malam", "Ruang ganti", "Sewa bola & rompi"],
       venues: [
-        { slug: "arena-kemang", name: "Arena Kemang", city: "Jakarta", tag: "Indoor", description: "Two FIFA-size futsal courts with stands.", price: 180000, image: { src: IMG_ARENA, alt: "Indoor futsal court" }, live: "3 slots today" },
-        { slug: "gbk-mini-soccer", name: "Senayan Mini Soccer", city: "Jakarta", tag: "Outdoor", description: "Seven-a-side synthetic pitch under lights.", price: 350000, image: { src: IMG_TENNIS, alt: "Outdoor mini soccer pitch" } },
-        { slug: "dago-futsal", name: "Dago Futsal Center", city: "Bandung", tag: "Indoor", description: "Three courts, cafe and parking on site.", price: 150000, image: { src: IMG_INDOOR, alt: "Futsal court" }, live: "5 slots today" },
-        { slug: "pakuwon-soccer", name: "Pakuwon Soccer Park", city: "Surabaya", tag: "Outdoor", description: "Mini soccer with shaded seating for fans.", price: 300000, image: { src: IMG_TENNIS, alt: "Mini soccer pitch" } },
+        { slug: "arena-kemang", name: "Arena Kemang", city: "Jakarta", tag: "Dalam Ruangan", description: "Dua lapangan futsal berukuran standar FIFA dengan tribun.", price: 180000, image: { src: IMG_ARENA, alt: "Lapangan futsal dalam ruangan" }, live: "3 jadwal hari ini" },
+        { slug: "gbk-mini-soccer", name: "Senayan Mini Soccer", city: "Jakarta", tag: "Luar Ruangan", description: "Lapangan sintetis untuk tujuh pemain dengan lampu sorot.", price: 350000, image: { src: IMG_TENNIS, alt: "Lapangan mini soccer luar ruangan" } },
+        { slug: "dago-futsal", name: "Dago Futsal Center", city: "Bandung", tag: "Dalam Ruangan", description: "Tiga lapangan, kafe, dan area parkir di lokasi.", price: 150000, image: { src: IMG_INDOOR, alt: "Lapangan futsal" }, live: "5 jadwal hari ini" },
+        { slug: "pakuwon-soccer", name: "Pakuwon Soccer Park", city: "Surabaya", tag: "Luar Ruangan", description: "Mini soccer dengan tempat duduk beratap untuk penonton.", price: 300000, image: { src: IMG_TENNIS, alt: "Lapangan mini soccer" } },
       ],
-      rules: defaultRules(["Futsal or turf shoes", "Shin guards", "Water bottle"]),
+      rules: defaultRules(["Sepatu futsal atau sepatu rumput sintetis", "Pelindung tulang kering", "Botol minum"]),
     },
   },
   {
@@ -137,167 +137,167 @@ export const categories: Category[] = [
     index: "02",
     code: "PD",
     title: "Padel",
-    description: "Panoramic glass courts, indoor and outdoor",
+    description: "Lapangan kaca panoramik dalam dan luar ruangan",
     price: 250000,
-    unit: "/ court / hr",
+    unit: "/ lapangan / jam",
     accent: "padel",
-    image: { src: IMG_PADEL, alt: "Padel court" }, // TODO: replace with Lokaria photo
+    image: { src: IMG_PADEL, alt: "Lapangan padel" }, // TODO: replace with Lokaria photo
     span: 5,
     detail: {
-      lead: "Panoramic glass courts, indoor and outdoor, for doubles games any time of day.",
-      highlights: ["Panoramic glass walls", "Pro-grade artificial turf", "Indoor & outdoor courts", "Racket & ball rental"],
+      lead: "Lapangan kaca panoramik dalam dan luar ruangan untuk permainan ganda kapan saja.",
+      highlights: ["Dinding kaca panoramik", "Rumput sintetis kelas profesional", "Lapangan dalam & luar ruangan", "Sewa raket & bola"],
       venues: [
-        { slug: "padel-pik", name: "PIK Padel Club", city: "Jakarta", tag: "Panoramic", description: "Four panoramic courts by the waterfront.", price: 300000, image: { src: IMG_PADEL, alt: "Panoramic padel court" }, live: "2 slots today" },
-        { slug: "padel-senopati", name: "Senopati Padel House", city: "Jakarta", tag: "Indoor", description: "Climate-controlled courts in the city centre.", price: 350000, image: { src: IMG_INDOOR, alt: "Indoor padel court" } },
-        { slug: "padel-bandung", name: "Lembang Padel Garden", city: "Bandung", tag: "Outdoor", description: "Cool mountain air and three outdoor courts.", price: 250000, image: { src: IMG_PADEL, alt: "Outdoor padel court" }, live: "4 slots today" },
+        { slug: "padel-pik", name: "PIK Padel Club", city: "Jakarta", tag: "Panoramik", description: "Empat lapangan panoramik di tepi perairan.", price: 300000, image: { src: IMG_PADEL, alt: "Lapangan padel panoramik" }, live: "2 jadwal hari ini" },
+        { slug: "padel-senopati", name: "Senopati Padel House", city: "Jakarta", tag: "Dalam Ruangan", description: "Lapangan berpengatur suhu di pusat kota.", price: 350000, image: { src: IMG_INDOOR, alt: "Lapangan padel dalam ruangan" } },
+        { slug: "padel-bandung", name: "Lembang Padel Garden", city: "Bandung", tag: "Luar Ruangan", description: "Udara pegunungan yang sejuk dan tiga lapangan luar ruangan.", price: 250000, image: { src: IMG_PADEL, alt: "Lapangan padel luar ruangan" }, live: "4 jadwal hari ini" },
       ],
-      rules: defaultRules(["Padel racket (or rent on site)", "Non-marking court shoes", "Water bottle"]),
+      rules: defaultRules(["Raket padel (atau sewa di lokasi)", "Sepatu lapangan tanpa bekas", "Botol minum"]),
     },
   },
   {
     slug: "tennis",
     index: "03",
     code: "TN",
-    title: "Tennis",
-    description: "Hard and clay courts with night lighting",
+    title: "Tenis",
+    description: "Lapangan keras dan tanah liat dengan penerangan malam",
     price: 150000,
-    unit: "/ court / hr",
+    unit: "/ lapangan / jam",
     accent: "tennis",
-    image: { src: IMG_TENNIS, alt: "Tennis court" }, // TODO: replace with Lokaria photo
+    image: { src: IMG_TENNIS, alt: "Lapangan tenis" }, // TODO: replace with Lokaria photo
     span: 5,
     detail: {
-      lead: "Hard and clay courts with night lighting, from casual rallies to competitive sets.",
-      highlights: ["Hard & clay surfaces", "Night lighting", "Ball machine rental", "Coaches on request"],
+      lead: "Lapangan keras dan tanah liat dengan penerangan malam, untuk latihan santai hingga pertandingan kompetitif.",
+      highlights: ["Permukaan keras & tanah liat", "Penerangan malam", "Sewa mesin bola", "Pelatih sesuai permintaan"],
       venues: [
-        { slug: "tennis-senayan", name: "Senayan Tennis Courts", city: "Jakarta", tag: "Hard", description: "Tournament-standard hard courts.", price: 200000, image: { src: IMG_TENNIS, alt: "Hard tennis court" }, live: "6 slots today" },
-        { slug: "tennis-bandung", name: "Setiabudi Clay Club", city: "Bandung", tag: "Clay", description: "Red clay courts with a clubhouse.", price: 150000, image: { src: IMG_TENNIS, alt: "Clay tennis court" } },
-        { slug: "tennis-yogya", name: "Kaliurang Tennis Park", city: "Yogyakarta", tag: "Hard", description: "Quiet courts with night lighting.", price: 150000, image: { src: IMG_ARENA, alt: "Tennis court at night" } },
+        { slug: "tennis-senayan", name: "Senayan Tennis Courts", city: "Jakarta", tag: "Keras", description: "Lapangan keras berstandar turnamen.", price: 200000, image: { src: IMG_TENNIS, alt: "Lapangan tenis keras" }, live: "6 jadwal hari ini" },
+        { slug: "tennis-bandung", name: "Setiabudi Clay Club", city: "Bandung", tag: "Tanah Liat", description: "Lapangan tanah liat merah dengan rumah klub.", price: 150000, image: { src: IMG_TENNIS, alt: "Lapangan tenis tanah liat" } },
+        { slug: "tennis-yogya", name: "Kaliurang Tennis Park", city: "Yogyakarta", tag: "Keras", description: "Lapangan yang tenang dengan penerangan malam.", price: 150000, image: { src: IMG_ARENA, alt: "Lapangan tenis pada malam hari" } },
       ],
-      rules: defaultRules(["Tennis racket", "Tennis shoes", "Towel"]),
+      rules: defaultRules(["Raket tenis", "Sepatu tenis", "Handuk"]),
     },
   },
   {
     slug: "badminton",
     index: "04",
     code: "BD",
-    title: "Badminton",
-    description: "Wooden and vinyl courts with tournament-standard nets",
+    title: "Bulu Tangkis",
+    description: "Lapangan kayu dan vinil dengan net berstandar turnamen",
     price: 60000,
-    unit: "/ court / hr",
+    unit: "/ lapangan / jam",
     accent: "badminton",
-    image: { src: IMG_ARENA, alt: "Badminton hall" }, // TODO: replace with Lokaria photo
+    image: { src: IMG_ARENA, alt: "Gedung bulu tangkis" }, // TODO: replace with Lokaria photo
     span: 7,
     detail: {
-      lead: "Wooden and vinyl courts with tournament-standard nets and bright, even lighting.",
-      highlights: ["Wooden & vinyl floors", "Tournament-standard nets", "Anti-glare lighting", "Shuttlecock sales"],
+      lead: "Lapangan kayu dan vinil dengan net berstandar turnamen serta pencahayaan terang dan merata.",
+      highlights: ["Lantai kayu & vinil", "Net berstandar turnamen", "Pencahayaan anti-silau", "Penjualan kok"],
       venues: [
-        { slug: "gor-cempaka", name: "GOR Cempaka", city: "Jakarta", tag: "Wooden", description: "Eight wooden courts under one roof.", price: 80000, image: { src: IMG_ARENA, alt: "Wooden badminton court" }, live: "8 slots today" },
-        { slug: "gor-pajajaran", name: "GOR Pajajaran", city: "Bandung", tag: "Vinyl", description: "Vinyl courts used by local clubs.", price: 60000, image: { src: IMG_INDOOR, alt: "Vinyl badminton court" } },
-        { slug: "gor-kertajaya", name: "Kertajaya Sports Hall", city: "Surabaya", tag: "Wooden", description: "Six courts with spectator seating.", price: 70000, image: { src: IMG_ARENA, alt: "Badminton hall" }, live: "2 slots today" },
+        { slug: "gor-cempaka", name: "GOR Cempaka", city: "Jakarta", tag: "Kayu", description: "Delapan lapangan kayu dalam satu gedung.", price: 80000, image: { src: IMG_ARENA, alt: "Lapangan bulu tangkis kayu" }, live: "8 jadwal hari ini" },
+        { slug: "gor-pajajaran", name: "GOR Pajajaran", city: "Bandung", tag: "Vinil", description: "Lapangan vinil yang digunakan klub lokal.", price: 60000, image: { src: IMG_INDOOR, alt: "Lapangan bulu tangkis vinil" } },
+        { slug: "gor-kertajaya", name: "Kertajaya Sports Hall", city: "Surabaya", tag: "Kayu", description: "Enam lapangan dengan tempat duduk penonton.", price: 70000, image: { src: IMG_ARENA, alt: "Gedung bulu tangkis" }, live: "2 jadwal hari ini" },
       ],
-      rules: defaultRules(["Badminton racket", "Non-marking shoes", "Shuttlecocks"]),
+      rules: defaultRules(["Raket bulu tangkis", "Sepatu tanpa bekas", "Kok"]),
     },
   },
   {
     slug: "music-studio",
     index: "05",
     code: "MS",
-    title: "Music Studio",
-    description: "Rehearsal and recording rooms with full backline",
+    title: "Studio Musik",
+    description: "Ruang latihan dan rekaman dengan peralatan lengkap",
     price: 80000,
-    unit: "/ room / hr",
+    unit: "/ ruang / jam",
     accent: "music",
-    image: { src: IMG_INDOOR, alt: "Music studio" }, // TODO: replace with Lokaria photo
+    image: { src: IMG_INDOOR, alt: "Studio musik" }, // TODO: replace with Lokaria photo
     span: 7,
     detail: {
-      lead: "Rehearsal and recording rooms with full backline, soundproofed and ready when you are.",
-      highlights: ["Full backline", "Soundproofed rooms", "Recording add-on", "Late-night slots"],
+      lead: "Ruang latihan dan rekaman dengan peralatan lengkap, kedap suara, dan siap digunakan kapan saja.",
+      highlights: ["Peralatan lengkap", "Ruang kedap suara", "Tambahan layanan rekaman", "Jadwal larut malam"],
       venues: [
-        { slug: "studio-blok-m", name: "Blok M Sound Room", city: "Jakarta", tag: "Rehearsal", description: "Three rooms with drums, amps and PA.", price: 100000, image: { src: IMG_INDOOR, alt: "Rehearsal room" }, live: "Open now" },
-        { slug: "studio-braga", name: "Braga Studio", city: "Bandung", tag: "Recording", description: "Tracking room with an engineer on call.", price: 150000, image: { src: IMG_INDOOR, alt: "Recording studio" } },
-        { slug: "studio-prawirotaman", name: "Prawirotaman Jam Space", city: "Yogyakarta", tag: "Rehearsal", description: "Cosy rooms for bands and solo practice.", price: 80000, image: { src: IMG_ARENA, alt: "Jam space" }, live: "Open now" },
+        { slug: "studio-blok-m", name: "Blok M Sound Room", city: "Jakarta", tag: "Latihan", description: "Tiga ruang dengan drum, amplifier, dan sistem PA.", price: 100000, image: { src: IMG_INDOOR, alt: "Ruang latihan musik" }, live: "Buka sekarang" },
+        { slug: "studio-braga", name: "Braga Studio", city: "Bandung", tag: "Rekaman", description: "Ruang perekaman dengan teknisi yang siap dipanggil.", price: 150000, image: { src: IMG_INDOOR, alt: "Studio rekaman" } },
+        { slug: "studio-prawirotaman", name: "Prawirotaman Jam Space", city: "Yogyakarta", tag: "Latihan", description: "Ruang nyaman untuk latihan band dan solo.", price: 80000, image: { src: IMG_ARENA, alt: "Ruang latihan musik" }, live: "Buka sekarang" },
       ],
-      rules: defaultRules(["Your own instrument (optional)", "Cables & picks", "Earplugs"]),
+      rules: defaultRules(["Instrumen pribadi (opsional)", "Kabel & plektrum", "Pelindung telinga"]),
     },
   },
   {
     slug: "fishing",
     index: "06",
     code: "FP",
-    title: "Fishing Pond",
-    description: "Stocked ponds with shaded gazebos and gear rental",
+    title: "Kolam Pancing",
+    description: "Kolam berisi ikan dengan gazebo teduh dan penyewaan alat",
     price: 40000,
-    unit: "/ person / session",
+    unit: "/ orang / sesi",
     accent: "fishing",
-    image: { src: IMG_ARENA, alt: "Fishing pond" }, // TODO: replace with Lokaria photo
+    image: { src: IMG_ARENA, alt: "Kolam pancing" }, // TODO: replace with Lokaria photo
     span: 5,
     detail: {
-      lead: "Stocked ponds with shaded gazebos and gear rental, for a slow morning or a family day out.",
-      highlights: ["Stocked daily", "Shaded gazebos", "Rod & bait rental", "Family friendly"],
+      lead: "Kolam berisi ikan dengan gazebo teduh dan penyewaan alat, cocok untuk pagi santai atau rekreasi keluarga.",
+      highlights: ["Ikan ditambahkan setiap hari", "Gazebo teduh", "Sewa joran & umpan", "Ramah keluarga"],
       venues: [
-        { slug: "pond-sidoarjo", name: "Telaga Sidoarjo", city: "Surabaya", tag: "Stocked", description: "Large pond with twenty gazebos.", price: 50000, image: { src: IMG_ARENA, alt: "Fishing pond with gazebos" }, live: "Open now" },
-        { slug: "pond-sleman", name: "Kolam Sleman", city: "Yogyakarta", tag: "Family", description: "Shallow ponds and a small cafe.", price: 40000, image: { src: IMG_INDOOR, alt: "Family fishing pond" } },
-        { slug: "pond-bekasi", name: "Pemancingan Bekasi", city: "Jakarta", tag: "Stocked", description: "Night sessions every weekend.", price: 60000, image: { src: IMG_ARENA, alt: "Fishing pond" } },
+        { slug: "pond-sidoarjo", name: "Telaga Sidoarjo", city: "Surabaya", tag: "Berisi Ikan", description: "Kolam besar dengan dua puluh gazebo.", price: 50000, image: { src: IMG_ARENA, alt: "Kolam pancing dengan gazebo" }, live: "Buka sekarang" },
+        { slug: "pond-sleman", name: "Kolam Sleman", city: "Yogyakarta", tag: "Keluarga", description: "Kolam dangkal dan sebuah kafe kecil.", price: 40000, image: { src: IMG_INDOOR, alt: "Kolam pancing keluarga" } },
+        { slug: "pond-bekasi", name: "Pemancingan Bekasi", city: "Jakarta", tag: "Berisi Ikan", description: "Sesi malam setiap akhir pekan.", price: 60000, image: { src: IMG_ARENA, alt: "Kolam pancing" } },
       ],
-      rules: defaultRules(["Hat & sunscreen", "Cooler box for your catch", "Your own rod (optional)"]),
+      rules: defaultRules(["Topi & tabir surya", "Kotak pendingin untuk hasil tangkapan", "Joran pribadi (opsional)"]),
     },
   },
 ];
 
-export const categoryLabel = (c: Category) => `From ${rupiah(c.price)} ${c.unit}`;
+export const categoryLabel = (c: Category) => `Mulai ${rupiah(c.price)} ${c.unit}`;
 
 // ─── Cities ──────────────────────────────────────────────────────────────────
 
 export type City = { slug: string; label: string; meta: string; title: string; subtitle: string; image: Img };
 
 export const cities: City[] = [
-  { slug: "jakarta", label: "City 01", meta: "120+ Venues", title: "Jakarta", subtitle: "Football, Padel, Tennis, Music Studios", image: { src: IMG_PADEL, alt: "Jakarta venue" } }, // TODO: replace with Lokaria photo
-  { slug: "bandung", label: "City 02", meta: "80+ Venues", title: "Bandung", subtitle: "Futsal, Badminton, Music Studios", image: { src: IMG_TENNIS, alt: "Bandung venue" } }, // TODO: replace with Lokaria photo
-  { slug: "surabaya", label: "City 03", meta: "60+ Venues", title: "Surabaya", subtitle: "Football, Badminton, Fishing Ponds", image: { src: IMG_INDOOR, alt: "Surabaya venue" } }, // TODO: replace with Lokaria photo
-  { slug: "yogyakarta", label: "City 04", meta: "40+ Venues", title: "Yogyakarta", subtitle: "Futsal, Music Studios, Fishing Ponds", image: { src: IMG_ARENA, alt: "Yogyakarta venue" } }, // TODO: replace with Lokaria photo
+  { slug: "jakarta", label: "Kota 01", meta: "120+ Venue", title: "Jakarta", subtitle: "Sepak Bola, Padel, Tenis, Studio Musik", image: { src: IMG_PADEL, alt: "Venue di Jakarta" } }, // TODO: replace with Lokaria photo
+  { slug: "bandung", label: "Kota 02", meta: "80+ Venue", title: "Bandung", subtitle: "Futsal, Bulu Tangkis, Studio Musik", image: { src: IMG_TENNIS, alt: "Venue di Bandung" } }, // TODO: replace with Lokaria photo
+  { slug: "surabaya", label: "Kota 03", meta: "60+ Venue", title: "Surabaya", subtitle: "Sepak Bola, Bulu Tangkis, Kolam Pancing", image: { src: IMG_INDOOR, alt: "Venue di Surabaya" } }, // TODO: replace with Lokaria photo
+  { slug: "yogyakarta", label: "Kota 04", meta: "40+ Venue", title: "Yogyakarta", subtitle: "Futsal, Studio Musik, Kolam Pancing", image: { src: IMG_ARENA, alt: "Venue di Yogyakarta" } }, // TODO: replace with Lokaria photo
 ];
 
 // ─── Homepage sections ───────────────────────────────────────────────────────
 
 export const hero = {
-  eyebrow: "One App. Every Place to Play.",
-  heading: { before: "Find your", accent: "PLACE", after: "to play" } satisfies Accented,
-  sub: "Book football pitches, courts, music studios and fishing ponds across Indonesia. Check live availability, pick your slot and pay in seconds.",
-  primary: { label: "Book Now", href: routes.booking },
-  secondary: { label: "Explore Categories", href: "/#categories" },
+  eyebrow: "Satu Aplikasi. Semua Tempat Bermain.",
+  heading: { before: "Temukan", accent: "TEMPATMU", after: "untuk bermain" } satisfies Accented,
+  sub: "Pesan lapangan sepak bola, olahraga raket, studio musik, dan kolam pancing di seluruh Indonesia. Cek ketersediaan langsung, pilih jadwal, lalu bayar dalam hitungan detik.",
+  primary: { label: "Pesan Sekarang", href: routes.booking },
+  secondary: { label: "Jelajahi Kategori", href: "/#categories" },
   slides: [
-    { label: "Football & Futsal", image: { src: IMG_TENNIS, alt: "Football pitch under lights" } }, // TODO: replace with Lokaria photo
-    { label: "Racket Sports", image: { src: IMG_PADEL, alt: "Padel court" } }, // TODO: replace with Lokaria photo
-    { label: "Music Studios", image: { src: IMG_INDOOR, alt: "Music studio" } }, // TODO: replace with Lokaria photo
-    { label: "Fishing Ponds", image: { src: IMG_ARENA, alt: "Fishing pond" } }, // TODO: replace with Lokaria photo
+    { label: "Sepak Bola & Futsal", image: { src: IMG_TENNIS, alt: "Lapangan sepak bola dengan lampu sorot" } }, // TODO: replace with Lokaria photo
+    { label: "Olahraga Raket", image: { src: IMG_PADEL, alt: "Lapangan padel" } }, // TODO: replace with Lokaria photo
+    { label: "Studio Musik", image: { src: IMG_INDOOR, alt: "Studio musik" } }, // TODO: replace with Lokaria photo
+    { label: "Kolam Pancing", image: { src: IMG_ARENA, alt: "Kolam pancing" } }, // TODO: replace with Lokaria photo
   ],
   search: {
-    what: { label: "What", placeholder: "Choose category" },
-    where: { label: "Where", placeholder: "Choose city" },
-    when: { label: "When", placeholder: "Date & time" },
-    button: "Search",
+    what: { label: "Aktivitas", placeholder: "Pilih kategori" },
+    where: { label: "Lokasi", placeholder: "Pilih kota" },
+    when: { label: "Waktu", placeholder: "Tanggal & waktu" },
+    button: "Cari",
   },
-  scrollHint: "Scroll to discover",
+  scrollHint: "Gulir untuk menjelajahi",
 };
 
 export const categoriesSection = {
   id: "categories",
-  eyebrow: "Six Ways to Play",
-  heading: { before: "Explore by", accent: "CATEGORY" } satisfies Accented,
-  sub: "From weekend football to late-night jam sessions, every space is verified, bookable by the hour and confirmed instantly.",
-  detailsLabel: "View details",
-  bookLabel: "Book now",
-  comingSoon: { label: "Coming soon", items: ["Basketball", "Mini Soccer", "Photo Studio", "Meeting Room", "Swimming Pool"] },
+  eyebrow: "Enam Pilihan Aktivitas",
+  heading: { before: "Jelajahi", accent: "KATEGORI" } satisfies Accented,
+  sub: "Dari sepak bola akhir pekan hingga sesi musik larut malam, setiap tempat telah diverifikasi, dapat dipesan per jam, dan dikonfirmasi secara instan.",
+  detailsLabel: "Lihat detail",
+  bookLabel: "Pesan sekarang",
+  comingSoon: { label: "Segera hadir", items: ["Bola Basket", "Sepak Bola Mini", "Studio Foto", "Ruang Rapat", "Kolam Renang"] },
 };
 
 export const manifesto = {
   eyebrow: "Manifesto",
   statement: {
-    before: "We built Lokaria because finding a place to play should be as easy as deciding to play.",
-    accent: "One app, every space,",
-    after: "no more calls, chats or waiting for a reply.",
+    before: "Kami membangun Lokaria karena mencari tempat bermain seharusnya semudah memutuskan untuk bermain.",
+    accent: "Satu aplikasi, semua tempat,",
+    after: "tanpa lagi menelepon, mengirim pesan, atau menunggu balasan.",
   } satisfies Accented,
-  meta: ["Indonesia", "6 Categories at Launch", "Est. 2026"],
+  meta: ["Indonesia", "6 Kategori Saat Diluncurkan", "Berdiri 2026"],
 };
 
 export type Feature = {
@@ -317,54 +317,54 @@ export type Feature = {
 
 export const features: Feature[] = [
   {
-    image: { src: IMG_INDOOR, alt: "Players on an indoor court" }, // TODO: replace with Lokaria photo
-    imageLabel: "Live Availability",
-    eyebrow: "For Players",
-    heading: { before: "Book in", accent: "60 SECONDS" },
-    body: "See every open slot live, compare venues by price, distance and rating, and lock in your booking with instant confirmation. Split the bill with friends and get a reminder before you play.",
-    chips: ["Live Slot Calendar", "Instant Confirmation", "Split Payment", "QRIS & E-Wallet"],
-    cta: { label: "Start Booking", href: routes.booking },
+    image: { src: IMG_INDOOR, alt: "Pemain di lapangan dalam ruangan" }, // TODO: replace with Lokaria photo
+    imageLabel: "Ketersediaan Langsung",
+    eyebrow: "Untuk Pemain",
+    heading: { before: "Pesan dalam", accent: "60 DETIK" },
+    body: "Lihat setiap jadwal kosong secara langsung, bandingkan venue berdasarkan harga, jarak, dan penilaian, lalu amankan pesanan dengan konfirmasi instan. Bagi tagihan bersama teman dan dapatkan pengingat sebelum bermain.",
+    chips: ["Kalender Jadwal Langsung", "Konfirmasi Instan", "Bagi Pembayaran", "QRIS & Dompet Digital"],
+    cta: { label: "Mulai Memesan", href: routes.booking },
   },
   {
     id: "for-venues",
     dark: true,
     reverse: true,
-    image: { src: IMG_ARENA, alt: "Venue at night" }, // TODO: replace with Lokaria photo
-    stat: { value: "24/7", label: "Bookings come in while you sleep" },
-    eyebrow: "For Venue Owners",
-    heading: { before: "Grow with", accent: "LOKARIA PARTNER" },
-    body: "Turn empty hours into revenue. Manage schedules, pricing, staff and payouts from one dashboard, and reach players searching for a place near you.",
-    list: ["Smart Schedule Manager", "Dynamic Pricing", "Automatic Payouts", "Sales Reports"],
-    cta: { label: "List Your Venue", href: routes.partner },
+    image: { src: IMG_ARENA, alt: "Venue pada malam hari" }, // TODO: replace with Lokaria photo
+    stat: { value: "24/7", label: "Pesanan masuk bahkan saat Anda tidur" },
+    eyebrow: "Untuk Pemilik Venue",
+    heading: { before: "Tumbuh bersama", accent: "MITRA LOKARIA" },
+    body: "Ubah jam kosong menjadi pendapatan. Kelola jadwal, harga, staf, dan pencairan dana dari satu dasbor, serta jangkau pemain yang mencari tempat di dekat mereka.",
+    list: ["Pengelola Jadwal Pintar", "Harga Dinamis", "Pencairan Dana Otomatis", "Laporan Penjualan"],
+    cta: { label: "Daftarkan Venue", href: routes.partner },
   },
 ];
 
 export const rewards = {
   id: "rewards",
-  eyebrow: "Lokaria Rewards",
-  heading: { before: "Earn points on", accent: "EVERY BOOKING" } satisfies Accented,
-  body: "Every booking in any category earns Lokaria Points. Redeem them for free hours, partner vouchers and membership upgrades.",
+  eyebrow: "Poin Lokaria",
+  heading: { before: "Dapatkan poin dari", accent: "SETIAP PESANAN" } satisfies Accented,
+  body: "Setiap pemesanan di kategori apa pun menghasilkan Poin Lokaria. Tukarkan dengan jam gratis, voucher mitra, dan peningkatan keanggotaan.",
   stats: [
-    { value: "1 Point", label: "per Rp 10.000 spent" },
-    { value: "Cross-Category", label: "earn on the court, redeem at the studio" },
+    { value: "1 Poin", label: "per Rp 10.000 transaksi" },
+    { value: "Lintas Kategori", label: "kumpulkan di lapangan, tukarkan di studio" },
   ],
   card: {
-    label: "Lokaria Pass",
-    tier: "Gold Tier",
-    balanceLabel: "Current Balance",
+    label: "Kartu Lokaria",
+    tier: "Tingkat Emas",
+    balanceLabel: "Saldo Saat Ini",
     balance: "2,450",
-    unit: "Lokaria Points",
-    voucherLabel: "Available Voucher",
-    voucher: `${rupiah(50000)} off next booking`,
-    note: "Sign in or create an account to activate your rewards pass.",
+    unit: "Poin Lokaria",
+    voucherLabel: "Voucher Tersedia",
+    voucher: `Potongan ${rupiah(50000)} untuk pesanan berikutnya`,
+    note: "Masuk atau buat akun untuk mengaktifkan kartu poin Anda.",
   },
 };
 
 export const citiesSection = {
-  eyebrow: "Where We Play",
-  heading: { before: "Explore by", accent: "CITY" } satisfies Accented,
-  sub: "Discover verified venues in cities across Indonesia, with new partners joining every month.",
-  note: "Tap to see venues near you.",
+  eyebrow: "Lokasi Bermain",
+  heading: { before: "Jelajahi", accent: "KOTA" } satisfies Accented,
+  sub: "Temukan venue terverifikasi di berbagai kota di Indonesia, dengan mitra baru yang bergabung setiap bulan.",
+  note: "Ketuk untuk melihat venue di dekatmu.",
 };
 
 export type Tier = {
@@ -383,40 +383,40 @@ export type Tier = {
 export const membership = {
   id: "membership",
   eyebrow: "Lokaria Plus",
-  heading: { before: "Membership", accent: "TIERS" } satisfies Accented,
-  sub: "Play more, pay less. Get booking credits, member discounts and early access to peak hours at every partner venue.",
-  cta: { label: "Join Tier →", href: routes.register },
+  heading: { before: "Tingkat", accent: "KEANGGOTAAN" } satisfies Accented,
+  sub: "Lebih sering bermain, lebih hemat membayar. Dapatkan kredit pemesanan, diskon anggota, dan akses lebih awal ke jam sibuk di setiap venue mitra.",
+  cta: { label: "Pilih Tingkat →", href: routes.register },
   tiers: [
     {
       tone: "silver",
-      index: "Tier 01",
-      name: "Starter",
-      note: "For casual weekend players",
+      index: "Tingkat 01",
+      name: "Pemula",
+      note: "Untuk pemain santai di akhir pekan",
       price: 250000,
-      period: "/ 30 days",
-      credits: "+25 credits",
-      features: ["25 credits included, usable in any category", "Up to 5% member discount", "Book up to 3 days ahead", "30-day validity per cycle"],
+      period: "/ 30 hari",
+      credits: "+25 kredit",
+      features: ["Termasuk 25 kredit, dapat digunakan di semua kategori", "Diskon anggota hingga 5%", "Pesan hingga 3 hari sebelumnya", "Berlaku 30 hari per siklus"],
     },
     {
       tone: "gold",
-      index: "Tier 02",
+      index: "Tingkat 02",
       name: "Pro",
-      popular: "Most Popular",
-      note: "For regular players and bands",
+      popular: "Paling Populer",
+      note: "Untuk pemain rutin dan grup musik",
       price: 500000,
-      period: "/ 30 days",
-      credits: "+55 credits",
-      features: ["55 credits included (10% bonus)", "Up to 10% member discount", "Book up to 7 days ahead", "2x Lokaria Points on every booking"],
+      period: "/ 30 hari",
+      credits: "+55 kredit",
+      features: ["Termasuk 55 kredit (bonus 10%)", "Diskon anggota hingga 10%", "Pesan hingga 7 hari sebelumnya", "2x Poin Lokaria di setiap pemesanan"],
     },
     {
       tone: "black",
-      index: "Tier 03",
+      index: "Tingkat 03",
       name: "Elite",
-      note: "For teams, clubs and power users",
+      note: "Untuk tim, klub, dan pengguna aktif",
       price: 1000000,
-      period: "/ 30 days",
-      credits: "+115 credits",
-      features: ["115 credits included (15% bonus)", "Up to 15% member discount", "Book up to 14 days ahead", "Free rescheduling up to 6 hours before"],
+      period: "/ 30 hari",
+      credits: "+115 kredit",
+      features: ["Termasuk 115 kredit (bonus 15%)", "Diskon anggota hingga 15%", "Pesan hingga 14 hari sebelumnya", "Jadwal ulang gratis hingga 6 jam sebelumnya"],
     },
   ] satisfies Tier[],
 };
@@ -424,100 +424,100 @@ export const membership = {
 export type EventItem = { slug: string; day: string; month: string; tag: string; title: string; description: string };
 
 export const events = {
-  eyebrow: "Community Calendar",
-  heading: { before: "Upcoming", accent: "EVENTS" } satisfies Accented,
-  link: { label: "View All Events", href: routes.events },
+  eyebrow: "Kalender Komunitas",
+  heading: { before: "Acara", accent: "MENDATANG" } satisfies Accented,
+  link: { label: "Lihat Semua Acara", href: routes.events },
   items: [
-    { slug: "lokaria-futsal-league-season-1", day: "18", month: "Oct", tag: "Futsal", title: "Lokaria Futsal League, Season 1", description: "A 16-team league played across partner venues in Jakarta." },
-    { slug: "weekend-padel-americano", day: "25", month: "Oct", tag: "Padel", title: "Weekend Padel Americano", description: "Mixed-level social tournament, every player welcome." },
-    { slug: "open-jam-night", day: "08", month: "Nov", tag: "Music", title: "Open Jam Night", description: "Bring your instrument and share the stage at a partner studio." },
-    { slug: "lokaria-fishing-cup", day: "15", month: "Nov", tag: "Fishing", title: "Lokaria Fishing Cup", description: "Biggest catch wins. Family friendly, gear rental available." },
+    { slug: "lokaria-futsal-league-season-1", day: "18", month: "Okt", tag: "Futsal", title: "Liga Futsal Lokaria, Musim 1", description: "Liga 16 tim yang digelar di berbagai venue mitra di Jakarta." },
+    { slug: "weekend-padel-americano", day: "25", month: "Okt", tag: "Padel", title: "Padel Americano Akhir Pekan", description: "Turnamen sosial untuk berbagai tingkat kemampuan, terbuka bagi semua pemain." },
+    { slug: "open-jam-night", day: "08", month: "Nov", tag: "Musik", title: "Malam Jam Terbuka", description: "Bawa instrumenmu dan berbagi panggung di studio mitra." },
+    { slug: "lokaria-fishing-cup", day: "15", month: "Nov", tag: "Memancing", title: "Piala Memancing Lokaria", description: "Tangkapan terbesar menjadi pemenang. Ramah keluarga dan tersedia penyewaan alat." },
   ] satisfies EventItem[],
 };
 
 export const finalCta = {
   image: { src: IMG_TENNIS, alt: "" }, // TODO: replace with Lokaria photo
-  eyebrow: "Ready to Play?",
-  heading: { before: "Claim your", accent: "SPOT", after: "today" } satisfies Accented,
-  body: "New slots open every day. Find yours and book in under a minute.",
-  primary: { label: "Book Now", href: routes.booking },
-  secondary: { label: "Create Account", href: routes.register },
+  eyebrow: "Siap Bermain?",
+  heading: { before: "Amankan", accent: "TEMPATMU", after: "hari ini" } satisfies Accented,
+  body: "Jadwal baru tersedia setiap hari. Temukan pilihanmu dan pesan dalam waktu kurang dari satu menit.",
+  primary: { label: "Pesan Sekarang", href: routes.booking },
+  secondary: { label: "Buat Akun", href: routes.register },
 };
 
 export const howItWorks = {
-  eyebrow: "How It Works",
-  heading: { before: "Three steps to", accent: "GAME ON." } satisfies Accented,
+  eyebrow: "Cara Kerjanya",
+  heading: { before: "Tiga langkah untuk", accent: "MULAI BERMAIN." } satisfies Accented,
   aside: brand.tagline,
   image: { src: IMG_INDOOR, alt: "" }, // TODO: replace with Lokaria photo
-  statusPill: "Live availability · 24/7",
+  statusPill: "Ketersediaan langsung · 24/7",
   steps: [
-    { index: "01", title: "Search", body: "Pick a category, city and time to see every available slot." },
-    { index: "02", title: "Book & Pay", body: "Confirm instantly with QRIS, e-wallet, bank transfer or credits." },
-    { index: "03", title: "Show Up & Play", body: "Show your booking QR at the venue and enjoy your session." },
+    { index: "01", title: "Cari", body: "Pilih kategori, kota, dan waktu untuk melihat semua jadwal yang tersedia." },
+    { index: "02", title: "Pesan & Bayar", body: "Konfirmasi secara instan dengan QRIS, dompet digital, transfer bank, atau kredit." },
+    { index: "03", title: "Datang & Bermain", body: "Tunjukkan QR pemesanan di venue dan nikmati sesimu." },
   ],
   support: {
-    label: "Lokaria · Support",
-    title: "Need a hand?",
+    label: "Lokaria · Bantuan",
+    title: "Butuh bantuan?",
     email: "hello@lokaria.id",
-    copyLabel: "Copy",
-    copiedLabel: "Copied",
+    copyLabel: "Salin",
+    copiedLabel: "Tersalin",
     rows: [
       { label: "WhatsApp", value: "+62 812 0000 0000" },
-      { label: "Hours", value: "Every day, 07.00 to 23.00 WIB" },
+      { label: "Jam layanan", value: "Setiap hari, pukul 07.00 sampai 23.00 WIB" },
     ],
-    primary: { label: "Chat with Us ↗", href: routes.whatsapp },
-    secondary: { label: "Visit Help Center", href: routes.help },
+    primary: { label: "Hubungi Kami ↗", href: routes.whatsapp },
+    secondary: { label: "Kunjungi Pusat Bantuan", href: routes.help },
   },
 };
 
 export const footer = {
   wordmark: "LOKARIA",
-  newsletter: { label: "Stay in the game", placeholder: "Your email", button: "Join", success: "You're on the list." },
+  newsletter: { label: "Tetap terhubung", placeholder: "Email Anda", button: "Daftar", success: "Anda sudah terdaftar." },
   columns: [
     {
-      heading: "Play",
+      heading: "Olahraga",
       links: [
-        { label: "Football & Futsal", href: routes.category("football") },
+        { label: "Sepak Bola & Futsal", href: routes.category("football") },
         { label: "Padel", href: routes.category("padel") },
-        { label: "Tennis", href: routes.category("tennis") },
-        { label: "Badminton", href: routes.category("badminton") },
+        { label: "Tenis", href: routes.category("tennis") },
+        { label: "Bulu Tangkis", href: routes.category("badminton") },
       ],
     },
     {
-      heading: "Create & Relax",
+      heading: "Berkreasi & Bersantai",
       links: [
-        { label: "Music Studios", href: routes.category("music-studio") },
-        { label: "Fishing Ponds", href: routes.category("fishing") },
-        { label: "Coming Soon", href: "/#categories" },
+        { label: "Studio Musik", href: routes.category("music-studio") },
+        { label: "Kolam Pancing", href: routes.category("fishing") },
+        { label: "Segera Hadir", href: "/#categories" },
       ],
     },
     {
-      heading: "Partners",
+      heading: "Mitra",
       links: [
-        { label: "List Your Venue", href: routes.partner },
-        { label: "Partner Dashboard", href: "/partner/dashboard" },
-        { label: "Pricing for Venues", href: "/partner/pricing" },
+        { label: "Daftarkan Venue", href: routes.partner },
+        { label: "Dasbor Mitra", href: "/partner/dashboard" },
+        { label: "Kelola Lapangan", href: "/partner/courts" },
       ],
     },
     {
-      heading: "Support",
+      heading: "Bantuan",
       links: [
-        { label: "FAQ", href: routes.faq },
-        { label: "Contact Us", href: "/contact" },
-        { label: "Help Center", href: routes.help },
+        { label: "Tanya Jawab", href: routes.faq },
+        { label: "Hubungi Kami", href: "/contact" },
+        { label: "Pusat Bantuan", href: routes.help },
       ],
     },
     {
-      heading: "Account",
+      heading: "Akun",
       links: [
-        { label: "Sign in", href: routes.auth },
+        { label: "Masuk", href: routes.auth },
         { label: "Lokaria Plus", href: "/#membership" },
-        { label: "Rewards", href: "/#rewards" },
-        { label: "My Bookings", href: "/bookings" },
+        { label: "Poin", href: "/#rewards" },
+        { label: "Pesanan Saya", href: "/bookings" },
       ],
     },
     {
-      heading: "Connect",
+      heading: "Terhubung",
       // TODO: add real social profile URLs
       links: [
         { label: "Instagram", href: "#" },
@@ -527,11 +527,11 @@ export const footer = {
     },
   ] satisfies { heading: string; links: LinkItem[] }[],
   bottom: {
-    left: "Lokaria. Find your place.",
+    left: "Lokaria. Temukan tempatmu.",
     middle: "Indonesia / © 2026 Lokaria",
     links: [
-      { label: "Privacy", href: "/privacy" },
-      { label: "Terms", href: "/terms" },
+      { label: "Privasi", href: "/privacy" },
+      { label: "Ketentuan", href: "/terms" },
     ],
   },
 };
@@ -539,37 +539,36 @@ export const footer = {
 // ─── Category detail + placeholder pages ─────────────────────────────────────
 
 export const categoryDetail = {
-  back: { label: "← All categories", href: "/#categories" },
-  bookLabel: (title: string) => `Book ${title}`,
-  highlights: { eyebrow: "Highlights", heading: "Why play here" },
-  venues: { eyebrow: "Available venues", heading: "Choose your venue", all: "All cities", details: "Details →", book: "Book", unit: "/ hour" },
+  back: { label: "← Semua kategori", href: "/#categories" },
+  bookLabel: (title: string) => `Pesan ${title}`,
+  highlights: { eyebrow: "Keunggulan", heading: "Mengapa bermain di sini" },
+  venues: { eyebrow: "Venue tersedia", heading: "Pilih venue", all: "Semua kota", details: "Detail →", book: "Pesan", unit: "/ jam" },
   cta: {
-    eyebrow: "Ready to play?",
-    heading: "Reserve your spot",
-    body: "Fast, seamless booking in under 60 seconds.",
-    secondary: { label: "Contact us", href: "/contact" },
+    eyebrow: "Siap bermain?",
+    heading: "Pesan tempatmu",
+    body: "Pemesanan cepat dan mudah dalam waktu kurang dari 60 detik.",
+    secondary: { label: "Hubungi kami", href: "/contact" },
   },
 };
 
 export const comingSoon = {
-  eyebrow: "Coming soon",
-  body: "We're building this page right now. In the meantime, find a place to play.",
-  primary: { label: "Back home", href: "/" },
-  secondary: { label: "Explore categories", href: "/#categories" },
+  eyebrow: "Segera hadir",
+  body: "Kami sedang menyiapkan halaman ini. Sementara itu, temukan tempat untuk bermain.",
+  primary: { label: "Kembali ke beranda", href: "/" },
+  secondary: { label: "Jelajahi kategori", href: "/#categories" },
   /** Every linked route that doesn't exist yet → page title. */
   pages: {
-    booking: "Booking",
-    auth: "Sign in",
-    faq: "FAQ",
-    partner: "Lokaria Partner",
-    "partner/dashboard": "Partner Dashboard",
-    "partner/pricing": "Pricing for Venues",
-    events: "Events",
-    help: "Help Center",
-    contact: "Contact Us",
-    bookings: "My Bookings",
-    privacy: "Privacy",
-    terms: "Terms",
+    booking: "Pemesanan",
+    auth: "Masuk",
+    faq: "Tanya Jawab",
+    partner: "Mitra Lokaria",
+    "partner/dashboard": "Dasbor Mitra",
+    events: "Acara",
+    help: "Pusat Bantuan",
+    contact: "Hubungi Kami",
+    bookings: "Pesanan Saya",
+    privacy: "Privasi",
+    terms: "Ketentuan",
     ...Object.fromEntries(events.items.map((e) => [`events/${e.slug}`, e.title])),
   } as Record<string, string>,
 };

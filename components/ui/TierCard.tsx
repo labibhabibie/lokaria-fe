@@ -27,7 +27,7 @@ type Props = {
   className?: string;
 };
 
-export function TierCard({ tone = "ivory", index, name, note, price, period = "/ 30 days", credits, features = [], popular, cta = "Join Tier →", href, className }: Props) {
+export function TierCard({ tone = "ivory", index, name, note, price, period = "/ 30 hari", credits, features = [], popular, cta = "Pilih Tingkat →", href, className }: Props) {
   const t = TONE[tone];
   return (
     <div

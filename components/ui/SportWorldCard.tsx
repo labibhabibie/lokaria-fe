@@ -31,9 +31,9 @@ export function SportWorldCard({
   image,
   accentClassName = "bg-beige",
   detailsHref,
-  detailsLabel = "View details",
+  detailsLabel = "Lihat detail",
   bookHref,
-  bookLabel = "Book now",
+  bookLabel = "Pesan sekarang",
   sizes = "(max-width: 640px) 85vw, (max-width: 1024px) 50vw, 58vw",
   className,
 }: Props) {

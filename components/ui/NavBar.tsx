@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/components/auth/AuthProvider";
+import { ProfileMenu } from "@/components/auth/ProfileMenu";
 import type { LinkItem } from "@/content/site";
-import { getHomeRoute } from "@/lib/auth/routes";
 import { USER_ROLES } from "@/lib/auth/types";
 import { cx } from "@/lib/cx";
 import { Button } from "./Button";
@@ -56,10 +56,12 @@ export function NavBar({ wordmark, links, signIn, cta, floatingCta }: Props) {
 
   const close = () => setOpen(false);
   const authenticated = status === "authenticated" && user;
-  const home = authenticated ? getHomeRoute(user.role) : signIn.href;
-  const account = authenticated ? { label: user.name.split(" ")[0], href: home } : signIn;
-  const action = authenticated && user.role !== USER_ROLES.CUSTOMER ? { label: "Open Dashboard", href: home } : cta;
-  const mobileAction = authenticated && user.role !== USER_ROLES.CUSTOMER ? { label: "Dashboard", href: home } : floatingCta;
+  const action = authenticated && user.role !== USER_ROLES.CUSTOMER
+    ? { label: "Jelajahi", href: "/#categories" }
+    : cta;
+  const mobileAction = authenticated && user.role !== USER_ROLES.CUSTOMER
+    ? { label: "Jelajahi", href: "/#categories" }
+    : floatingCta;
 
   return (
     <>
@@ -80,15 +82,19 @@ export function NavBar({ wordmark, links, signIn, cta, floatingCta }: Props) {
           ))}
         </div>
         <div className="flex items-center justify-end gap-[26px] text-[16px] tablet:hidden">
-          <SmartLink href={account.href} className="text-white no-underline">
-            {account.label}
-          </SmartLink>
+          {authenticated ? (
+            <ProfileMenu />
+          ) : (
+            <SmartLink href={signIn.href} className="text-white no-underline">
+              {signIn.label}
+            </SmartLink>
+          )}
           <Button variant="ivory" size="sm" href={action.href} className="min-h-[42px]! px-[18px]! py-1 backdrop-blur-[10px]">
             {action.label}
           </Button>
         </div>
         <div className="hidden justify-self-end tablet:block">
-          <IconButton label="Open menu" variant="glass" size={44} onClick={() => setOpen(true)}>
+          <IconButton label="Buka menu" variant="glass" size={44} onClick={() => setOpen(true)}>
             ☰
           </IconButton>
         </div>
@@ -109,7 +115,7 @@ export function NavBar({ wordmark, links, signIn, cta, floatingCta }: Props) {
       <div
         role="dialog"
         aria-modal="true"
-        aria-label="Menu"
+        aria-label="Menu utama"
         aria-hidden={!open}
         inert={!open}
         className={cx(
@@ -126,7 +132,7 @@ export function NavBar({ wordmark, links, signIn, cta, floatingCta }: Props) {
         <div className="flex h-[92px] shrink-0 items-center justify-between">
           <Wordmark text={wordmark} onClick={close} />
           <div ref={closeRef}>
-            <IconButton label="Close menu" variant="glass" size={44} onClick={close}>
+            <IconButton label="Tutup menu" variant="glass" size={44} onClick={close}>
               ×
             </IconButton>
           </div>
@@ -146,9 +152,13 @@ export function NavBar({ wordmark, links, signIn, cta, floatingCta }: Props) {
           ))}
         </ul>
         <div className="relative mt-auto flex flex-col items-start gap-6 pt-10">
-          <TextLink light href={account.href} onClick={close}>
-            {account.label}
-          </TextLink>
+          {authenticated ? (
+            <ProfileMenu />
+          ) : (
+            <TextLink light href={signIn.href} onClick={close}>
+              {signIn.label}
+            </TextLink>
+          )}
           <Button variant="beige" size="lg" fullWidth href={action.href} onClick={close}>
             {action.label}
           </Button>

@@ -42,34 +42,34 @@ function Dashboard() {
     <div className="space-y-5">
       <div className="grid grid-cols-4 gap-3 tablet:grid-cols-2 mobile:grid-cols-1">
         <MetricCard
-          label="Gross booking value"
+          label="Nilai pemesanan kotor"
           value="Rp 1,84 M"
-          note="+18.2% month over month"
+          note="+18,2% dibanding bulan lalu"
           icon={CircleDollarSign}
           tone="dark"
         />
-        <MetricCard label="Bookings" value="6,482" note="91% paid successfully" icon={BookOpenCheck} />
-        <MetricCard label="Active venues" value="248" note="12 awaiting review" icon={Building2} />
-        <MetricCard label="Customers" value="18.6K" note="1,204 new this month" icon={UsersRound} tone="warm" />
+        <MetricCard label="Pemesanan" value="6.482" note="91% berhasil dibayar" icon={BookOpenCheck} />
+        <MetricCard label="Venue aktif" value="248" note="12 menunggu ditinjau" icon={Building2} />
+        <MetricCard label="Pelanggan" value="18,6 rb" note="1.204 baru bulan ini" icon={UsersRound} tone="warm" />
       </div>
       <div className="grid grid-cols-[1fr_340px] gap-5 tablet:grid-cols-1">
-        <Panel title="Platform activity" eyebrow="Last 7 days">
+        <Panel title="Aktivitas platform" eyebrow="7 hari terakhir">
           <div className="p-5">
             <MiniBars values={[48, 54, 67, 62, 75, 94, 86]} />
             <div className="mt-3 grid grid-cols-7 text-center text-[9px] text-[#11111173]">
-              {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
+              {["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"].map((day) => (
                 <span key={day}>{day}</span>
               ))}
             </div>
           </div>
         </Panel>
-        <Panel title="Needs attention" eyebrow="Operations queue">
+        <Panel title="Perlu perhatian" eyebrow="Antrean operasional">
           <div className="divide-y divide-line">
             {[
-              ["Partner verification", "4 waiting"],
-              ["Venue moderation", "8 waiting"],
-              ["Refund requests", "3 open"],
-              ["Payment mismatch", "2 flagged"],
+              ["Verifikasi mitra", "4 menunggu"],
+              ["Moderasi venue", "8 menunggu"],
+              ["Permintaan pengembalian dana", "3 terbuka"],
+              ["Pembayaran tidak cocok", "2 ditandai"],
             ].map(([label, value]) => (
               <div key={label} className="flex items-center justify-between gap-3 px-5 py-4">
                 <span className="text-[11px] font-bold">{label}</span>
@@ -79,14 +79,14 @@ function Dashboard() {
           </div>
         </Panel>
       </div>
-      <Panel title="Latest payments" eyebrow="Transaction monitor">
+      <Panel title="Pembayaran terbaru" eyebrow="Pemantauan transaksi">
         <ResponsiveTable
           columns={[
-            { key: "id", label: "Payment" },
-            { key: "booking", label: "Booking" },
-            { key: "customer", label: "Customer" },
-            { key: "channel", label: "Channel" },
-            { key: "amount", label: "Amount", align: "right" },
+            { key: "id", label: "Pembayaran" },
+            { key: "booking", label: "Pemesanan" },
+            { key: "customer", label: "Pelanggan" },
+            { key: "channel", label: "Kanal" },
+            { key: "amount", label: "Jumlah", align: "right" },
             { key: "status", label: "Status", align: "right" },
           ]}
           rows={paymentRows}
@@ -102,10 +102,10 @@ function EntityList({ kind }: { kind: EntityKind }) {
   const [query, setQuery] = useState("");
   const configs = {
     customers: {
-      title: "Customers",
-      eyebrow: "Platform accounts",
-      action: "Export customers",
-      columns: ["Customer", "Email", "Bookings", "Joined", "Status"],
+      title: "Pelanggan",
+      eyebrow: "Akun platform",
+      action: "Ekspor pelanggan",
+      columns: ["Pelanggan", "Email", "Pemesanan", "Bergabung", "Status"],
       rows: adminCustomers.map((item) => [
         item.name,
         item.email,
@@ -115,10 +115,10 @@ function EntityList({ kind }: { kind: EntityKind }) {
       ]),
     },
     partners: {
-      title: "Partners",
-      eyebrow: "Verification and access",
-      action: "Invite partner",
-      columns: ["Partner", "Owner", "Venues", "City", "Status"],
+      title: "Mitra",
+      eyebrow: "Verifikasi dan akses",
+      action: "Undang mitra",
+      columns: ["Mitra", "Pemilik", "Venue", "Kota", "Status"],
       rows: adminPartners.map((item) => [
         item.name,
         item.owner,
@@ -128,22 +128,22 @@ function EntityList({ kind }: { kind: EntityKind }) {
       ]),
     },
     venues: {
-      title: "Venue moderation",
-      eyebrow: "Listings and quality",
-      action: "Add venue",
-      columns: ["Venue", "Category", "Partner", "City", "Status"],
+      title: "Moderasi venue",
+      eyebrow: "Daftar dan kualitas",
+      action: "Tambah venue",
+      columns: ["Venue", "Kategori", "Mitra", "Kota", "Status"],
       rows: [
-        ["PIK Padel Club", "Padel", "PT Arena Bersama", "Jakarta", "Verified"],
-        ["GOR Cempaka", "Badminton", "Cempaka Sports", "Jakarta", "Verified"],
-        ["Braga Studio", "Music", "Braga Creative", "Bandung", "Review"],
-        ["Kolam Sleman", "Fishing", "Sleman Leisure", "Yogyakarta", "Review"],
+        ["PIK Padel Club", "Padel", "PT Arena Bersama", "Jakarta", "Terverifikasi"],
+        ["GOR Cempaka", "Bulu Tangkis", "Cempaka Sports", "Jakarta", "Terverifikasi"],
+        ["Braga Studio", "Musik", "Braga Creative", "Bandung", "Ditinjau"],
+        ["Kolam Sleman", "Memancing", "Sleman Leisure", "Yogyakarta", "Ditinjau"],
       ],
     },
     bookings: {
-      title: "All bookings",
-      eyebrow: "Platform monitoring",
-      action: "Export bookings",
-      columns: ["Booking", "Customer", "Venue space", "Schedule", "Status"],
+      title: "Semua pemesanan",
+      eyebrow: "Pemantauan platform",
+      action: "Ekspor pemesanan",
+      columns: ["Pemesanan", "Pelanggan", "Ruang venue", "Jadwal", "Status"],
       rows: partnerBookings.map((item) => [
         item.id,
         item.customer,
@@ -153,10 +153,10 @@ function EntityList({ kind }: { kind: EntityKind }) {
       ]),
     },
     payments: {
-      title: "Payments",
-      eyebrow: "Gateway reconciliation",
-      action: "Export payments",
-      columns: ["Payment", "Booking", "Customer", "Amount", "Status"],
+      title: "Pembayaran",
+      eyebrow: "Rekonsiliasi penyedia pembayaran",
+      action: "Ekspor pembayaran",
+      columns: ["Pembayaran", "Pemesanan", "Pelanggan", "Jumlah", "Status"],
       rows: adminPayments.map((item) => [
         item.id,
         item.booking,
@@ -166,10 +166,10 @@ function EntityList({ kind }: { kind: EntityKind }) {
       ]),
     },
     refunds: {
-      title: "Refund requests",
-      eyebrow: "Review queue",
-      action: "Export refunds",
-      columns: ["Refund", "Booking", "Requester", "Amount", "Status"],
+      title: "Permintaan pengembalian dana",
+      eyebrow: "Antrean tinjauan",
+      action: "Ekspor pengembalian dana",
+      columns: ["Pengembalian Dana", "Pemesanan", "Pemohon", "Jumlah", "Status"],
       rows: adminRefunds.map((item) => [
         item.id,
         item.booking,
@@ -179,10 +179,10 @@ function EntityList({ kind }: { kind: EntityKind }) {
       ]),
     },
     promotions: {
-      title: "Promotions",
-      eyebrow: "Campaign management",
-      action: "Create promotion",
-      columns: ["Code", "Benefit", "Usage", "Period", "Status"],
+      title: "Promosi",
+      eyebrow: "Pengelolaan kampanye",
+      action: "Buat promosi",
+      columns: ["Kode", "Manfaat", "Penggunaan", "Periode", "Status"],
       rows: adminPromotions.map((item) => [
         item.code,
         item.benefit,
@@ -211,7 +211,7 @@ function EntityList({ kind }: { kind: EntityKind }) {
   return (
     <Panel
       title={config.title}
-      eyebrow={`${shown.length} results - ${config.eyebrow}`}
+      eyebrow={`${shown.length} hasil - ${config.eyebrow}`}
       action={
         <button className={primaryButton}>
           {kind === "promotions" || kind === "partners" || kind === "venues" ? (
@@ -224,7 +224,7 @@ function EntityList({ kind }: { kind: EntityKind }) {
       }
     >
       <div className="border-b border-line p-4">
-        <SearchField value={query} onChange={setQuery} placeholder={`Search ${config.title}`} />
+        <SearchField value={query} onChange={setQuery} placeholder={`Cari ${config.title.toLowerCase()}`} />
       </div>
       <ResponsiveTable
         columns={[
@@ -235,7 +235,7 @@ function EntityList({ kind }: { kind: EntityKind }) {
           { key: "fifth", label: config.columns[4], align: "right" },
         ]}
         rows={rows}
-        empty="No records match this search."
+        empty="Tidak ada data yang sesuai dengan pencarian ini."
       />
     </Panel>
   );
@@ -245,25 +245,25 @@ function Reports() {
   return (
     <div className="space-y-5">
       <div className="grid grid-cols-3 gap-3 mobile:grid-cols-1">
-        <MetricCard label="Platform revenue" value="Rp 128 jt" note="September net revenue" icon={Banknote} tone="dark" />
-        <MetricCard label="Take rate" value="7.2%" note="Across all paid bookings" icon={HandCoins} />
-        <MetricCard label="Refund rate" value="1.8%" note="Down 0.4% this month" icon={TrendingUp} tone="warm" />
+        <MetricCard label="Pendapatan platform" value="Rp 128 jt" note="Pendapatan bersih September" icon={Banknote} tone="dark" />
+        <MetricCard label="Tingkat komisi" value="7,2%" note="Dari semua pemesanan berbayar" icon={HandCoins} />
+        <MetricCard label="Tingkat pengembalian dana" value="1,8%" note="Turun 0,4% bulan ini" icon={TrendingUp} tone="warm" />
       </div>
       <div className="grid grid-cols-[1fr_340px] gap-5 tablet:grid-cols-1">
         <Panel
-          title="Gross booking value"
-          eyebrow="Monthly comparison"
-          action={<button className={secondaryButton}><Download size={15} />Export</button>}
+          title="Nilai pemesanan kotor"
+          eyebrow="Perbandingan bulanan"
+          action={<button className={secondaryButton}><Download size={15} />Ekspor</button>}
         >
           <div className="p-5"><MiniBars values={[40, 55, 49, 64, 70, 82, 88, 78, 96]} /></div>
         </Panel>
-        <Panel title="Category mix" eyebrow="By booking value">
+        <Panel title="Komposisi kategori" eyebrow="Berdasarkan nilai pemesanan">
           <div className="space-y-5 p-5">
             {[
               ["Padel", "34%"],
-              ["Football", "28%"],
-              ["Badminton", "16%"],
-              ["Other", "22%"],
+              ["Sepak Bola", "28%"],
+              ["Bulu Tangkis", "16%"],
+              ["Lainnya", "22%"],
             ].map(([label, value]) => (
               <div key={label}>
                 <div className="mb-2 flex justify-between text-[10px] font-bold"><span>{label}</span><span>{value}</span></div>
@@ -281,9 +281,9 @@ function Settings() {
   const [saved, setSaved] = useState(false);
   return (
     <div className="grid grid-cols-[220px_minmax(0,1fr)] gap-5 tablet:grid-cols-1">
-      <Panel title="Settings" eyebrow="Platform">
+      <Panel title="Pengaturan" eyebrow="Platform">
         <nav className="p-2">
-          {["General", "Booking policy", "Payments", "Notifications", "Access"].map(
+          {["Umum", "Kebijakan pemesanan", "Pembayaran", "Notifikasi", "Akses"].map(
             (item, index) => (
               <button
                 key={item}
@@ -296,7 +296,7 @@ function Settings() {
           )}
         </nav>
       </Panel>
-      <Panel title="General settings" eyebrow="Platform identity">
+      <Panel title="Pengaturan umum" eyebrow="Identitas platform">
         <form
           className="grid grid-cols-2 gap-4 p-5 mobile:grid-cols-1"
           onSubmit={(event) => {
@@ -305,24 +305,24 @@ function Settings() {
           }}
         >
           <label className="text-[10px] font-extrabold uppercase">
-            Platform name
+            Nama platform
             <input defaultValue="LOKARIA" className={`${fieldClass} mt-2 normal-case`} />
           </label>
           <label className="text-[10px] font-extrabold uppercase">
-            Support email
+            Email bantuan
             <input defaultValue="support@lokaria.id" className={`${fieldClass} mt-2 normal-case`} />
           </label>
           <label className="text-[10px] font-extrabold uppercase">
-            Default commission
+            Komisi bawaan
             <input type="number" defaultValue="7" className={`${fieldClass} mt-2 normal-case`} />
           </label>
           <label className="text-[10px] font-extrabold uppercase">
-            Default timezone
+            Zona waktu bawaan
             <select className={`${fieldClass} mt-2 normal-case`}><option>Asia/Jakarta</option></select>
           </label>
           <div className="col-span-2 flex items-center justify-between border-t border-line pt-5 mobile:col-span-1">
-            <p className="text-[10px] font-bold text-[#266d3e]">{saved ? "Settings saved locally." : ""}</p>
-            <button type="submit" className={primaryButton}><ShieldCheck size={15} />Save settings</button>
+            <p className="text-[10px] font-bold text-[#266d3e]">{saved ? "Pengaturan disimpan secara lokal." : ""}</p>
+            <button type="submit" className={primaryButton}><ShieldCheck size={15} />Simpan pengaturan</button>
           </div>
         </form>
       </Panel>

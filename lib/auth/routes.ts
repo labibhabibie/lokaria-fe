@@ -13,46 +13,45 @@ const PARTNER = [USER_ROLES.PARTNER_OWNER, USER_ROLES.PARTNER_STAFF] as const;
 const ADMIN = [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN] as const;
 
 export const CUSTOMER_PAGES: readonly PortalPageDefinition[] = [
-  { path: "/explore", title: "Explore", navLabel: "Explore", description: "Customer home for discovering categories and venues.", roles: CUSTOMER },
-  { path: "/venues", title: "Venues", navLabel: "Venues", description: "Search and filter the local venue catalogue.", roles: CUSTOMER },
-  { path: "/booking", title: "Booking", navLabel: "Booking", description: "Select a venue, date, and available mock time slot.", roles: CUSTOMER },
-  { path: "/checkout", title: "Checkout", navLabel: "Checkout", description: "Review attendee, payment, promo, and booking totals.", roles: CUSTOMER },
-  { path: "/payment", title: "Payment", navLabel: "Payment", description: "Preview the payment handoff without processing a transaction.", roles: CUSTOMER },
-  { path: "/booking/success", title: "Booking Success", navLabel: "Confirmation", description: "Preview booking confirmation and local QR state.", roles: CUSTOMER },
-  { path: "/bookings", title: "My Bookings", navLabel: "My Bookings", description: "Browse upcoming and previous mock bookings.", roles: CUSTOMER },
-  { path: "/profile", title: "Profile", navLabel: "Profile", description: "Local customer profile and logout access.", roles: CUSTOMER },
-  { path: "/rewards", title: "Rewards", navLabel: "Rewards", description: "Review points, tier progress, and mock reward redemption.", roles: CUSTOMER },
-  { path: "/membership", title: "Membership", navLabel: "Membership", description: "Compare local membership tiers and benefits.", roles: CUSTOMER },
+  { path: "/explore", title: "Jelajahi", navLabel: "Jelajahi", description: "Temukan kategori dan venue yang sesuai untuk aktivitasmu.", roles: CUSTOMER },
+  { path: "/venues", title: "Venue", navLabel: "Venue", description: "Cari dan saring katalog venue yang tersedia.", roles: CUSTOMER },
+  { path: "/booking", title: "Pemesanan", navLabel: "Pesan", description: "Pilih venue, tanggal, dan satu atau beberapa jadwal yang tersedia.", roles: CUSTOMER },
+  { path: "/checkout", title: "Tinjau Pesanan", navLabel: "Tinjau Pesanan", description: "Periksa data pemesan, pembayaran, promo, dan total pesanan.", roles: CUSTOMER },
+  { path: "/payment", title: "Pembayaran", navLabel: "Pembayaran", description: "Pratinjau proses pembayaran tanpa memproses transaksi sungguhan.", roles: CUSTOMER },
+  { path: "/booking/success", title: "Pemesanan Berhasil", navLabel: "Konfirmasi", description: "Lihat konfirmasi pemesanan dan QR lokal.", roles: CUSTOMER },
+  { path: "/bookings", title: "Pesanan Saya", navLabel: "Pesanan Saya", description: "Lihat pesanan mendatang dan riwayat pesanan demo.", roles: CUSTOMER },
+  { path: "/profile", title: "Profil", navLabel: "Profil", description: "Kelola profil pelanggan dan akses keluar akun.", roles: CUSTOMER },
+  { path: "/rewards", title: "Poin", navLabel: "Poin", description: "Lihat poin, perkembangan tingkat, dan simulasi penukaran hadiah.", roles: CUSTOMER },
+  { path: "/membership", title: "Keanggotaan", navLabel: "Keanggotaan", description: "Bandingkan tingkat keanggotaan dan manfaatnya.", roles: CUSTOMER },
 ];
 
 export const PARTNER_PAGES: readonly PortalPageDefinition[] = [
-  { path: "/partner", title: "Partner Dashboard", navLabel: "Dashboard", description: "Local partner workspace overview.", roles: PARTNER },
-  { path: "/partner/bookings", title: "Bookings", navLabel: "Bookings", description: "Filter and monitor venue bookings.", roles: PARTNER },
-  { path: "/partner/calendar", title: "Calendar", navLabel: "Calendar", description: "Review weekly court occupancy and blocked time.", roles: PARTNER },
-  { path: "/partner/venues", title: "Venues", navLabel: "Venues", description: "Manage local venue listings and verification states.", roles: PARTNER },
-  { path: "/partner/courts", title: "Courts & Spaces", navLabel: "Courts", description: "Review bookable spaces, prices, and operating status.", roles: PARTNER },
-  { path: "/partner/pricing", title: "Pricing", navLabel: "Pricing", description: "Manage weekly time-based pricing rules.", roles: PARTNER },
-  { path: "/partner/staff", title: "Staff", navLabel: "Staff", description: "Review team roles, shifts, and account status.", roles: PARTNER },
-  { path: "/partner/inventory", title: "Inventory", navLabel: "Inventory", description: "Monitor product stock, minimum levels, and movements.", roles: PARTNER },
-  { path: "/partner/inventory/stock-in", title: "Stock In", navLabel: "Stock In", description: "Record a local incoming inventory movement.", roles: PARTNER },
-  { path: "/partner/inventory/stock-out", title: "Stock Out", navLabel: "Stock Out", description: "Record a local outgoing inventory movement.", roles: PARTNER },
-  { path: "/partner/inventory/stock-opname", title: "Stock Opname", navLabel: "Stock Opname", description: "Preview a physical stock reconciliation form.", roles: PARTNER },
-  { path: "/partner/pos", title: "Point of Sale", navLabel: "POS", description: "Build a local cart and preview front desk checkout.", roles: PARTNER },
-  { path: "/partner/finance", title: "Finance", navLabel: "Finance", description: "Review revenue, payouts, and transaction activity.", roles: PARTNER },
-  { path: "/partner/expenses", title: "Expenses", navLabel: "Expenses", description: "Review local operating expense records.", roles: PARTNER },
+  { path: "/partner", title: "Dasbor Mitra", navLabel: "Dasbor", description: "Ringkasan ruang kerja mitra.", roles: PARTNER },
+  { path: "/partner/bookings", title: "Pemesanan", navLabel: "Pemesanan", description: "Saring dan pantau pemesanan venue.", roles: PARTNER },
+  { path: "/partner/calendar", title: "Kalender", navLabel: "Kalender", description: "Lihat keterisian lapangan dan waktu yang diblokir.", roles: PARTNER },
+  { path: "/partner/venues", title: "Venue", navLabel: "Venue", description: "Tambah, edit, dan kelola daftar venue beserta status verifikasinya.", roles: PARTNER },
+  { path: "/partner/courts", title: "Lapangan & Harga", navLabel: "Lapangan", description: "Kelola lapangan, harga dasar, serta aturan harga hari kerja, akhir pekan, dan khusus.", roles: PARTNER },
+  { path: "/partner/staff", title: "Staf", navLabel: "Staf", description: "Tambah, edit, dan kelola peran, sif, serta status akun staf.", roles: PARTNER },
+  { path: "/partner/inventory", title: "Inventaris", navLabel: "Inventaris", description: "Kelola produk, harga jual, stok, dan batas minimum inventaris.", roles: PARTNER },
+  { path: "/partner/inventory/stock-in", title: "Stok Masuk", navLabel: "Stok Masuk", description: "Catat pergerakan inventaris yang masuk.", roles: PARTNER },
+  { path: "/partner/inventory/stock-out", title: "Stok Keluar", navLabel: "Stok Keluar", description: "Catat pergerakan inventaris yang keluar.", roles: PARTNER },
+  { path: "/partner/inventory/stock-opname", title: "Stok Opname", navLabel: "Stok Opname", description: "Pratinjau formulir rekonsiliasi stok fisik.", roles: PARTNER },
+  { path: "/partner/pos", title: "Kasir", navLabel: "Kasir", description: "Kelola keranjang, pembayaran, dan riwayat transaksi meja layanan.", roles: PARTNER },
+  { path: "/partner/finance", title: "Keuangan", navLabel: "Keuangan", description: "Kelola buku besar dan ekspor laporan keuangan berdasarkan periode.", roles: PARTNER },
+  { path: "/partner/expenses", title: "Pengeluaran", navLabel: "Pengeluaran", description: "Tambah, edit, dan kelola catatan pengeluaran operasional.", roles: PARTNER },
 ];
 
 export const ADMIN_PAGES: readonly PortalPageDefinition[] = [
-  { path: "/admin", title: "Admin Dashboard", navLabel: "Dashboard", description: "Local platform administration overview.", roles: ADMIN },
-  { path: "/admin/customers", title: "Customers", navLabel: "Customers", description: "Search platform customer accounts and activity.", roles: ADMIN },
-  { path: "/admin/partners", title: "Partners", navLabel: "Partners", description: "Review partner access and verification state.", roles: ADMIN },
-  { path: "/admin/venues", title: "Venues", navLabel: "Venues", description: "Moderate venue listings across the platform.", roles: ADMIN },
-  { path: "/admin/bookings", title: "Bookings", navLabel: "Bookings", description: "Monitor mock bookings across all partners.", roles: ADMIN },
-  { path: "/admin/payments", title: "Payments", navLabel: "Payments", description: "Review local gateway and reconciliation states.", roles: ADMIN },
-  { path: "/admin/refunds", title: "Refunds", navLabel: "Refunds", description: "Review refund requests and resolution states.", roles: ADMIN },
-  { path: "/admin/promotions", title: "Promotions", navLabel: "Promotions", description: "Manage mock campaign codes, periods, and usage.", roles: ADMIN },
-  { path: "/admin/reports", title: "Reports", navLabel: "Reports", description: "Track booking value, revenue, and category mix.", roles: ADMIN },
-  { path: "/admin/settings", title: "Settings", navLabel: "Settings", description: "Configure local platform defaults and identity.", roles: ADMIN },
+  { path: "/admin", title: "Dasbor Admin", navLabel: "Dasbor", description: "Ringkasan administrasi platform.", roles: ADMIN },
+  { path: "/admin/customers", title: "Pelanggan", navLabel: "Pelanggan", description: "Cari akun pelanggan dan aktivitasnya.", roles: ADMIN },
+  { path: "/admin/partners", title: "Mitra", navLabel: "Mitra", description: "Tinjau akses mitra dan status verifikasinya.", roles: ADMIN },
+  { path: "/admin/venues", title: "Venue", navLabel: "Venue", description: "Moderasi daftar venue di seluruh platform.", roles: ADMIN },
+  { path: "/admin/bookings", title: "Pemesanan", navLabel: "Pemesanan", description: "Pantau data pemesanan demo dari semua mitra.", roles: ADMIN },
+  { path: "/admin/payments", title: "Pembayaran", navLabel: "Pembayaran", description: "Tinjau penyedia pembayaran dan status rekonsiliasi.", roles: ADMIN },
+  { path: "/admin/refunds", title: "Pengembalian Dana", navLabel: "Pengembalian Dana", description: "Tinjau permintaan dan status penyelesaian pengembalian dana.", roles: ADMIN },
+  { path: "/admin/promotions", title: "Promosi", navLabel: "Promosi", description: "Kelola kode kampanye, periode, dan penggunaannya.", roles: ADMIN },
+  { path: "/admin/reports", title: "Laporan", navLabel: "Laporan", description: "Pantau nilai pemesanan, pendapatan, dan komposisi kategori.", roles: ADMIN },
+  { path: "/admin/settings", title: "Pengaturan", navLabel: "Pengaturan", description: "Atur nilai bawaan dan identitas platform.", roles: ADMIN },
 ];
 
 export const PORTAL_PAGES = [...CUSTOMER_PAGES, ...PARTNER_PAGES, ...ADMIN_PAGES] as const;
@@ -70,9 +69,9 @@ export function resolveProtectedPage(pathname: string): PortalPageDefinition | n
   if (/^\/venues\/[^/]+$/.test(path)) {
     return {
       path,
-      title: "Venue Detail",
-      navLabel: "Venue Detail",
-      description: "Review venue information, amenities, spaces, and starting price.",
+      title: "Detail Venue",
+      navLabel: "Detail Venue",
+      description: "Lihat informasi venue, fasilitas, ruang, dan harga awal.",
       roles: CUSTOMER,
     };
   }
@@ -103,16 +102,16 @@ const PROFILE_PATHS: Record<UserRole, readonly string[]> = {
   CUSTOMER: ["/explore", "/bookings", "/rewards", "/membership", "/profile"],
   PARTNER_OWNER: [
     "/partner",
+    "/partner/pos",
     "/partner/bookings",
-    "/partner/calendar",
     "/partner/finance",
     "/partner/staff",
   ],
   PARTNER_STAFF: [
     "/partner",
+    "/partner/pos",
     "/partner/bookings",
     "/partner/calendar",
-    "/partner/pos",
     "/partner/inventory",
   ],
   ADMIN: ["/admin", "/admin/partners", "/admin/payments", "/admin/refunds", "/admin/reports"],
@@ -155,9 +154,9 @@ export function roleCanAccess(role: UserRole, allowedRoles: readonly UserRole[])
 }
 
 export function roleLabel(role: UserRole) {
-  if (role === USER_ROLES.CUSTOMER) return "Customer";
-  if (role === USER_ROLES.PARTNER_OWNER) return "Partner Owner";
-  if (role === USER_ROLES.PARTNER_STAFF) return "Partner Staff";
+  if (role === USER_ROLES.CUSTOMER) return "Pelanggan";
+  if (role === USER_ROLES.PARTNER_OWNER) return "Pemilik Mitra";
+  if (role === USER_ROLES.PARTNER_STAFF) return "Staf Mitra";
   if (role === USER_ROLES.ADMIN) return "Admin";
-  return "Super Admin";
+  return "Admin Utama";
 }
