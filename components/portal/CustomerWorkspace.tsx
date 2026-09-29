@@ -19,8 +19,10 @@ import {
   UserRound,
 } from "lucide-react";
 import { SmartLink } from "@/components/ui/SmartLink";
-import { categories, routes, rupiah, type Venue } from "@/content/site";
+import { useAuth } from "@/components/auth/AuthProvider";
+import { categories, routes, rupiah } from "@/content/site";
 import { customerBookings } from "@/mock/portal";
+import { createClient } from "@/lib/supabase/client";
 import {
   EmptyState,
   Panel,
@@ -29,14 +31,22 @@ import {
   primaryButton,
   secondaryButton,
 } from "./Primitives";
+import {
+  useCustomerBookings,
+  useMarketplaceVenues,
+  useUnavailableSlots,
+  type MarketplaceVenue,
+} from "./customer/useMarketplace";
 
-type ListedVenue = Venue & { category: string; categorySlug: string };
+type ListedVenue = MarketplaceVenue;
 
-const venues: ListedVenue[] = categories.flatMap((category) =>
+const fallbackVenues: ListedVenue[] = categories.flatMap((category) =>
   category.detail.venues.map((venue) => ({
     ...venue,
+    id: "",
     category: category.title,
     categorySlug: category.slug,
+    courts: [{ id: "", name: "Lapangan utama", price: venue.price }],
   })),
 );
 
@@ -53,13 +63,35 @@ const slots = [
 ];
 
 const BOOKING_DRAFT_KEY = "lokaria.booking.draft.v1";
+const BOOKING_PAYMENT_KEY = "lokaria.booking.payment.v1";
+
+function localIsoDate() {
+  const date = new Date();
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+}
 
 type BookingDraft = {
+  venueId: string;
   venueSlug: string;
   venueName: string;
+  courtId: string;
+  courtName: string;
   date: string;
   slots: string[];
   unitPrice: number;
+};
+
+type BookingPayment = {
+  bookingId: string;
+  paymentId: string;
+  bookingCode: string;
+  venueName: string;
+  courtName: string;
+  date: string;
+  slots: string[];
+  method: string;
+  total: number;
+  demo?: boolean;
 };
 
 function VenueCard({ venue }: { venue: ListedVenue }) {
@@ -108,6 +140,8 @@ function VenueCard({ venue }: { venue: ListedVenue }) {
 }
 
 function Explore() {
+  const { venues } = useMarketplaceVenues();
+  const featured = venues[0] ?? fallbackVenues[0];
   return (
     <div className="space-y-6">
       <section className="grid grid-cols-[1.3fr_.7fr] overflow-hidden bg-olive text-white tablet:grid-cols-1">
@@ -146,7 +180,7 @@ function Explore() {
         </div>
         <div className="relative min-h-[280px] tablet:min-h-[230px]">
           <Image
-            src={venues[0].image.src}
+            src={featured.image.src}
             alt="Lapangan padel"
             fill
             priority
@@ -218,6 +252,7 @@ function Explore() {
 }
 
 function VenueList() {
+  const { venues, loading } = useMarketplaceVenues();
   const [query, setQuery] = useState("");
   const [city, setCity] = useState("Semua kota");
   const filtered = useMemo(
@@ -227,7 +262,7 @@ function VenueList() {
           (city === "Semua kota" || venue.city === city) &&
           `${venue.name} ${venue.category}`.toLowerCase().includes(query.toLowerCase()),
       ),
-    [city, query],
+    [city, query, venues],
   );
 
   return (
@@ -258,7 +293,7 @@ function VenueList() {
           ))}
         </select>
       </div>
-      <p className="text-[11px] text-[#11111173]">{filtered.length} venue ditemukan</p>
+      <p className="text-[11px] text-[#11111173]">{loading ? "Memuat venue mitra..." : `${filtered.length} venue ditemukan`}</p>
       {filtered.length ? (
         <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-4">
           {filtered.map((venue) => <VenueCard key={venue.slug} venue={venue} />)}
@@ -277,7 +312,8 @@ function VenueList() {
 }
 
 function VenueDetail({ path }: { path: string }) {
-  const venue = venues.find((item) => item.slug === path.split("/").pop()) ?? venues[0];
+  const { venues } = useMarketplaceVenues();
+  const venue = venues.find((item) => item.slug === path.split("/").pop()) ?? venues[0] ?? fallbackVenues[0];
   const category = categories.find((item) => item.slug === venue.categorySlug) ?? categories[0];
 
   return (
@@ -323,10 +359,10 @@ function VenueDetail({ path }: { path: string }) {
       </section>
       <Panel title="Ruang tersedia" eyebrow="Pratinjau langsung">
         <div className="grid grid-cols-3 gap-3 p-5 tablet:grid-cols-1">
-          {["Lapangan 01", "Lapangan 02", "Lapangan 03"].map((court, index) => (
-            <article key={court} className="border border-line p-4">
-              <h3 className="text-[13px] font-extrabold uppercase">{court}</h3>
-              <p className="mt-2 text-[10px] text-[#11111173]">{index + 2} jadwal hari ini</p>
+          {venue.courts.map((court) => (
+            <article key={court.id || court.name} className="border border-line p-4">
+              <h3 className="text-[13px] font-extrabold uppercase">{court.name}</h3>
+              <p className="mt-2 text-[10px] text-[#11111173]">Mulai {rupiah(court.price)} per sesi</p>
             </article>
           ))}
         </div>
@@ -337,11 +373,32 @@ function VenueDetail({ path }: { path: string }) {
 
 function Booking() {
   const router = useRouter();
-  const [venueSlug, setVenueSlug] = useState(venues[0].slug);
-  const [date, setDate] = useState("2026-09-28");
-  const [selectedSlots, setSelectedSlots] = useState<string[]>(["19:00"]);
-  const current = venues.find((item) => item.slug === venueSlug) ?? venues[0];
-  const total = current.price * selectedSlots.length;
+  const { venues } = useMarketplaceVenues();
+  const [venueSlug, setVenueSlug] = useState(fallbackVenues[0].slug);
+  const [courtId, setCourtId] = useState("");
+  const [date, setDate] = useState(localIsoDate());
+  const [selectedSlots, setSelectedSlots] = useState<string[]>([]);
+  const current = venues.find((item) => item.slug === venueSlug) ?? venues[0] ?? fallbackVenues[0];
+  const currentCourt = current.courts.find((court) => court.id === courtId) ?? current.courts[0];
+  const unavailableSlots = useUnavailableSlots(currentCourt?.id ?? "", date);
+  const total = (currentCourt?.price ?? current.price) * selectedSlots.length;
+
+  useEffect(() => {
+    const requested = new URLSearchParams(window.location.search).get("venue");
+    if (requested && venues.some((venue) => venue.slug === requested)) {
+      queueMicrotask(() => setVenueSlug(requested));
+    } else if (!venues.some((venue) => venue.slug === venueSlug) && venues[0]) {
+      queueMicrotask(() => setVenueSlug(venues[0].slug));
+    }
+  }, [venueSlug, venues]);
+
+  useEffect(() => {
+    if (currentCourt?.id && currentCourt.id !== courtId) queueMicrotask(() => setCourtId(currentCourt.id));
+  }, [courtId, currentCourt?.id]);
+
+  useEffect(() => {
+    queueMicrotask(() => setSelectedSlots((selected) => selected.filter((slot) => !unavailableSlots.includes(slot))));
+  }, [unavailableSlots]);
 
   const toggleSlot = (slot: string) => {
     setSelectedSlots((selected) =>
@@ -356,11 +413,14 @@ function Booking() {
   const continueToCheckout = () => {
     if (!selectedSlots.length) return;
     const draft: BookingDraft = {
+      venueId: current.id,
       venueSlug,
       venueName: current.name,
+      courtId: currentCourt?.id ?? "",
+      courtName: currentCourt?.name ?? "Lapangan utama",
       date,
       slots: selectedSlots,
-      unitPrice: current.price,
+      unitPrice: currentCourt?.price ?? current.price,
     };
     window.sessionStorage.setItem(BOOKING_DRAFT_KEY, JSON.stringify(draft));
     router.push("/checkout");
@@ -374,7 +434,11 @@ function Booking() {
             Venue
             <select
               value={venueSlug}
-              onChange={(event) => setVenueSlug(event.target.value)}
+              onChange={(event) => {
+                setVenueSlug(event.target.value);
+                setCourtId("");
+                setSelectedSlots([]);
+              }}
               className={`${fieldClass} mt-2 normal-case`}
             >
               {venues.map((venue) => (
@@ -385,9 +449,23 @@ function Booking() {
             </select>
           </label>
           <label className="block text-[10px] font-extrabold tracking-label uppercase">
+            Lapangan
+            <select
+              value={currentCourt?.id ?? ""}
+              onChange={(event) => {
+                setCourtId(event.target.value);
+                setSelectedSlots([]);
+              }}
+              className={`${fieldClass} mt-2 normal-case`}
+            >
+              {current.courts.map((court) => <option key={court.id || court.name} value={court.id}>{court.name} - {rupiah(court.price)}</option>)}
+            </select>
+          </label>
+          <label className="block text-[10px] font-extrabold tracking-label uppercase">
             Tanggal
             <input
               type="date"
+              min={localIsoDate()}
               value={date}
               onChange={(event) => setDate(event.target.value)}
               className={`${fieldClass} mt-2 normal-case`}
@@ -398,11 +476,11 @@ function Booking() {
               Waktu tersedia
             </p>
             <div className="grid grid-cols-4 gap-2 mobile:grid-cols-3">
-              {slots.map((slot, index) => (
+              {slots.map((slot) => (
                 <button
                   key={slot}
                   type="button"
-                  disabled={index === 2 || index === 5}
+                  disabled={unavailableSlots.includes(slot)}
                   onClick={() => toggleSlot(slot)}
                   aria-pressed={selectedSlots.includes(slot)}
                   className={`min-h-12 cursor-pointer rounded-field border text-[11px] font-bold disabled:cursor-not-allowed disabled:bg-stone disabled:text-[#11111142] ${
@@ -433,7 +511,7 @@ function Booking() {
             />
           </div>
           <h3 className="mt-5 text-[17px] font-extrabold uppercase">{current.name}</h3>
-          <p className="mt-1 text-[11px] text-[#11111173]">Lapangan 02 - {current.city}</p>
+          <p className="mt-1 text-[11px] text-[#11111173]">{currentCourt?.name ?? "Lapangan utama"} - {current.city}</p>
           <div className="mt-5 space-y-3 border-y border-line py-4 text-[11px]">
             <p className="flex justify-between gap-4"><span>Tanggal</span><strong>{date}</strong></p>
             <div className="flex items-start justify-between gap-4">
@@ -465,15 +543,24 @@ function Booking() {
 }
 
 function Checkout() {
-  const [promo, setPromo] = useState("");
-  const [applied, setApplied] = useState(false);
+  const router = useRouter();
+  const { user } = useAuth();
+  const fallback = fallbackVenues[0];
   const [draft, setDraft] = useState<BookingDraft>({
-    venueSlug: venues[0].slug,
-    venueName: venues[0].name,
-    date: "2026-09-28",
-    slots: ["19:00"],
-    unitPrice: venues[0].price,
+    venueId: fallback.id,
+    venueSlug: fallback.slug,
+    venueName: fallback.name,
+    courtId: fallback.courts[0].id,
+    courtName: fallback.courts[0].name,
+    date: localIsoDate(),
+    slots: [],
+    unitPrice: fallback.price,
   });
+  const [name, setName] = useState(user?.name ?? "");
+  const [phone, setPhone] = useState("");
+  const [method, setMethod] = useState("DOKU Virtual Account");
+  const [processing, setProcessing] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const stored = window.sessionStorage.getItem(BOOKING_DRAFT_KEY);
@@ -488,9 +575,82 @@ function Checkout() {
     }
   }, []);
 
+  useEffect(() => {
+    if (user?.name) queueMicrotask(() => setName(user.name));
+  }, [user?.name]);
+
   const subtotal = draft.unitPrice * draft.slots.length;
-  const discount = applied ? Math.min(25000, subtotal) : 0;
-  const total = subtotal + 5000 - discount;
+  const total = subtotal + 5000;
+
+  const createBooking = async () => {
+    if (!name.trim() || !phone.trim()) {
+      setErrorMessage("Nama lengkap dan nomor telepon wajib diisi.");
+      return;
+    }
+    if (!draft.slots.length) {
+      setErrorMessage("Pilih jadwal terlebih dahulu.");
+      return;
+    }
+    setProcessing(true);
+    setErrorMessage("");
+    const supabase = createClient();
+    const { data: authData } = supabase ? await supabase.auth.getUser() : { data: { user: null } };
+
+    if (!supabase || !authData.user) {
+      const payment: BookingPayment = {
+        bookingId: `DEMO-${Date.now()}`,
+        paymentId: `PAY-${Date.now()}`,
+        bookingCode: `LKR-DEMO-${String(Date.now()).slice(-6)}`,
+        venueName: draft.venueName,
+        courtName: draft.courtName,
+        date: draft.date,
+        slots: draft.slots,
+        method,
+        total,
+        demo: true,
+      };
+      window.sessionStorage.setItem(BOOKING_PAYMENT_KEY, JSON.stringify(payment));
+      router.push("/payment");
+      return;
+    }
+    if (!draft.venueId || !draft.courtId) {
+      setErrorMessage("Data venue belum siap. Kembali ke pemilihan jadwal dan coba lagi.");
+      setProcessing(false);
+      return;
+    }
+    const bookingSlots = draft.slots.map((start) => ({
+      court_id: draft.courtId,
+      date: draft.date,
+      start_time: start,
+      end_time: `${String((Number(start.slice(0, 2)) + 1) % 24).padStart(2, "0")}:00`,
+    }));
+    const { data, error } = await supabase.rpc("create_marketplace_booking", {
+      p_venue_id: draft.venueId,
+      p_customer_name: name.trim(),
+      p_customer_phone: phone.trim(),
+      p_payment_method: method,
+      p_slots: bookingSlots,
+    });
+    const created = Array.isArray(data) ? data[0] : data;
+    if (error || !created) {
+      setErrorMessage(error?.message ?? "Pesanan gagal dibuat. Silakan coba lagi.");
+      setProcessing(false);
+      return;
+    }
+    const payment: BookingPayment = {
+      bookingId: String(created.booking_id),
+      paymentId: String(created.payment_id),
+      bookingCode: String(created.booking_code),
+      venueName: draft.venueName,
+      courtName: draft.courtName,
+      date: draft.date,
+      slots: draft.slots,
+      method,
+      total: Number(created.total),
+    };
+    window.sessionStorage.setItem(BOOKING_PAYMENT_KEY, JSON.stringify(payment));
+    router.push("/payment");
+  };
 
   return (
     <div className="grid grid-cols-[minmax(0,1fr)_360px] gap-5 tablet:grid-cols-1">
@@ -499,24 +659,24 @@ function Checkout() {
           <div className="grid grid-cols-2 gap-4 p-5 mobile:grid-cols-1">
             <label className="text-[10px] font-extrabold tracking-label uppercase">
               Nama lengkap
-              <input className={`${fieldClass} mt-2 normal-case`} defaultValue="Pelanggan Demo" />
+              <input value={name} onChange={(event) => setName(event.target.value)} className={`${fieldClass} mt-2 normal-case`} />
             </label>
             <label className="text-[10px] font-extrabold tracking-label uppercase">
               Nomor telepon
-              <input className={`${fieldClass} mt-2 normal-case`} defaultValue="+62 812 3456 7890" />
+              <input value={phone} onChange={(event) => setPhone(event.target.value)} className={`${fieldClass} mt-2 normal-case`} placeholder="+62 812 3456 7890" />
             </label>
           </div>
         </Panel>
         <Panel title="Metode pembayaran" eyebrow="Pembayaran aman">
           <div className="grid grid-cols-3 gap-2 p-5 mobile:grid-cols-1">
             {["DOKU Virtual Account", "QRIS", "Kartu Kredit / Debit"].map(
-              (method, index) => (
+              (option) => (
                 <label
-                  key={method}
+                  key={option}
                   className="flex min-h-20 cursor-pointer items-center gap-3 border border-line p-3 has-checked:border-olive has-checked:bg-[#535b400a]"
                 >
-                  <input type="radio" name="payment" defaultChecked={index === 0} />
-                  <span className="text-[11px] font-bold">{method}</span>
+                  <input type="radio" name="payment" value={option} checked={method === option} onChange={() => setMethod(option)} />
+                  <span className="text-[11px] font-bold">{option}</span>
                 </label>
               ),
             )}
@@ -527,43 +687,22 @@ function Checkout() {
         <div className="p-5">
           <h3 className="text-[15px] font-extrabold uppercase">{draft.venueName}</h3>
           <p className="mt-2 text-[11px] leading-6 text-[#11111173]">
-            Lapangan 02<br />{draft.date}<br />{draft.slots.join(", ")}
+            {draft.courtName}<br />{draft.date}<br />{draft.slots.join(", ") || "Belum ada jadwal"}
           </p>
-          <div className="mt-5 flex gap-2">
-            <input
-              value={promo}
-              onChange={(event) => {
-                setPromo(event.target.value);
-                setApplied(false);
-              }}
-              className={fieldClass}
-              placeholder="Kode promo"
-            />
-            <button
-              type="button"
-              onClick={() => setApplied(Boolean(promo))}
-              className={secondaryButton}
-            >
-              Terapkan
-            </button>
-          </div>
-          {applied && <p className="mt-2 text-[10px] font-bold text-[#266d3e]">Promo diterapkan.</p>}
           <div className="mt-5 space-y-3 border-y border-line py-4 text-[11px]">
             <p className="flex justify-between">
               <span>{draft.slots.length} sesi</span><span>{rupiah(subtotal)}</span>
             </p>
             <p className="flex justify-between"><span>Biaya layanan</span><span>Rp 5.000</span></p>
-            <p className="flex justify-between">
-              <span>Diskon</span><span>{discount ? `-${rupiah(discount)}` : "Rp 0"}</span>
-            </p>
           </div>
           <p className="mt-5 flex items-end justify-between">
             <span className="text-[11px]">Total</span>
             <strong className="text-[23px]">{rupiah(total)}</strong>
           </p>
-          <SmartLink href="/payment" className={`${primaryButton} mt-6 w-full`}>
-            <ShieldCheck size={16} /> Bayar dengan aman
-          </SmartLink>
+          {errorMessage && <p className="mt-4 text-[10px] font-bold text-[#8d332e]">{errorMessage}</p>}
+          <button type="button" disabled={processing} onClick={createBooking} className={`${primaryButton} mt-6 w-full`}>
+            <ShieldCheck size={16} /> {processing ? "Membuat pesanan..." : "Bayar dengan aman"}
+          </button>
           <p className="mt-3 text-center text-[9px] text-[#11111173]">
             Hanya demo. Tidak ada pembayaran yang diproses.
           </p>
@@ -574,7 +713,48 @@ function Checkout() {
 }
 
 function Payment() {
+  const router = useRouter();
   const [copied, setCopied] = useState(false);
+  const [processing, setProcessing] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [payment, setPayment] = useState<BookingPayment | null>(null);
+
+  useEffect(() => {
+    const stored = window.sessionStorage.getItem(BOOKING_PAYMENT_KEY);
+    if (!stored) return;
+    try {
+      const parsed = JSON.parse(stored) as BookingPayment;
+      queueMicrotask(() => setPayment(parsed));
+    } catch {
+      window.sessionStorage.removeItem(BOOKING_PAYMENT_KEY);
+    }
+  }, []);
+
+  const confirmPayment = async () => {
+    if (!payment) {
+      setErrorMessage("Data pembayaran tidak ditemukan. Buat pesanan baru terlebih dahulu.");
+      return;
+    }
+    setProcessing(true);
+    if (payment.demo) {
+      router.push("/booking/success");
+      return;
+    }
+    const supabase = createClient();
+    if (!supabase) {
+      setErrorMessage("Supabase belum terhubung.");
+      setProcessing(false);
+      return;
+    }
+    const { error } = await supabase.rpc("confirm_demo_payment", { p_booking_id: payment.bookingId });
+    if (error) {
+      setErrorMessage(error.message);
+      setProcessing(false);
+      return;
+    }
+    router.push("/booking/success");
+  };
+
   return (
     <div className="mx-auto max-w-[720px]">
       <Panel title="Selesaikan pembayaran" eyebrow="DOKU Virtual Account">
@@ -583,9 +763,9 @@ function Payment() {
             <CreditCard size={24} />
           </span>
           <p className="mt-6 text-[11px] text-[#11111173]">Total pembayaran</p>
-          <p className="mt-2 text-[34px] font-extrabold">Rp 305.000</p>
+          <p className="mt-2 text-[34px] font-extrabold">{rupiah(payment?.total ?? 0)}</p>
           <div className="mx-auto mt-7 max-w-[420px] border border-line bg-ivory p-5 text-left">
-            <p className="text-[9px] font-extrabold tracking-label uppercase">BCA Virtual Account</p>
+            <p className="text-[9px] font-extrabold tracking-label uppercase">{payment?.method ?? "Metode pembayaran"}</p>
             <div className="mt-2 flex items-center justify-between gap-3">
               <strong className="text-[20px] mobile:text-[16px]">8808 0812 3456 7890</strong>
               <button type="button" onClick={() => setCopied(true)} className={secondaryButton}>
@@ -593,12 +773,10 @@ function Payment() {
               </button>
             </div>
           </div>
-          <SmartLink
-            href="/booking/success"
-            className={`${primaryButton} mt-8 w-full max-w-[420px]`}
-          >
-            Saya sudah menyelesaikan pembayaran
-          </SmartLink>
+          {errorMessage && <p className="mt-5 text-[10px] font-bold text-[#8d332e]">{errorMessage}</p>}
+          <button type="button" disabled={processing || !payment} onClick={confirmPayment} className={`${primaryButton} mt-8 w-full max-w-[420px]`}>
+            {processing ? "Memperbarui pembayaran..." : "Saya sudah menyelesaikan pembayaran"}
+          </button>
           <p className="mt-4 text-[10px] text-[#11111173]">Status pembayaran hanya simulasi.</p>
         </div>
       </Panel>
@@ -607,6 +785,17 @@ function Payment() {
 }
 
 function Success() {
+  const [payment, setPayment] = useState<BookingPayment | null>(null);
+  useEffect(() => {
+    const stored = window.sessionStorage.getItem(BOOKING_PAYMENT_KEY);
+    if (!stored) return;
+    try {
+      const parsed = JSON.parse(stored) as BookingPayment;
+      queueMicrotask(() => setPayment(parsed));
+    } catch {
+      window.sessionStorage.removeItem(BOOKING_PAYMENT_KEY);
+    }
+  }, []);
   return (
     <div className="mx-auto max-w-[760px]">
       <Panel>
@@ -626,10 +815,10 @@ function Success() {
             </div>
             <div className="p-5">
               <p className="text-[9px] text-[#11111173] uppercase">Kode pemesanan</p>
-              <p className="mt-1 text-[20px] font-extrabold">LKR-240927</p>
-              <p className="mt-5 text-[12px] font-bold">PIK Padel Club</p>
+              <p className="mt-1 text-[20px] font-extrabold">{payment?.bookingCode ?? "LOKARIA"}</p>
+              <p className="mt-5 text-[12px] font-bold">{payment?.venueName ?? "Venue LOKARIA"}</p>
               <p className="mt-1 text-[11px] leading-5 text-[#11111173]">
-                Lapangan 02<br />28 Sep 2026, 19:00
+                {payment?.courtName ?? "Lapangan"}<br />{payment?.date ?? "-"}, {payment?.slots.join(", ") ?? "-"}
               </p>
             </div>
           </div>
@@ -644,7 +833,11 @@ function Success() {
 
 function Bookings() {
   const [filter, setFilter] = useState("Semua");
-  const shown = customerBookings.filter(
+  const { user } = useAuth();
+  const { bookings, loading } = useCustomerBookings();
+  const isDemo = user?.email.endsWith("@lokaria.test");
+  const source = bookings.length || !isDemo ? bookings : customerBookings.map((booking) => ({ ...booking, paymentStatus: booking.status === "Terkonfirmasi" ? "Lunas" : "Menunggu" }));
+  const shown = source.filter(
     (booking) => filter === "Semua" || booking.status === filter,
   );
   return (
@@ -663,6 +856,7 @@ function Bookings() {
           </button>
         ))}
       </div>
+      {loading && <p className="text-[11px] text-[#11111173]">Memuat riwayat pembelian...</p>}
       {shown.map((booking) => (
         <article
           key={booking.id}
@@ -671,6 +865,7 @@ function Bookings() {
           <div>
             <div className="flex flex-wrap items-center gap-3">
               <StatusBadge>{booking.status}</StatusBadge>
+              <span className="text-[9px] font-bold text-olive">Pembayaran: {booking.paymentStatus}</span>
               <span className="text-[9px] font-bold text-[#11111173]">{booking.id}</span>
             </div>
             <h2 className="mt-4 text-[18px] font-extrabold uppercase">{booking.venue}</h2>

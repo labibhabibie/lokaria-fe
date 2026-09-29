@@ -6,7 +6,7 @@ Responsive customer, partner, and admin interfaces for the LOKARIA venue-booking
 
 - Node.js 20 or newer
 - npm
-- A Supabase project for real authentication and profile persistence
+- A Supabase project for authentication, marketplace, and operational data
 
 ## Local Development
 
@@ -44,19 +44,21 @@ Never put the Supabase service-role key in a `NEXT_PUBLIC_*` variable or browser
 
 ## Database Setup
 
-Run [the profile and avatar migration](supabase/migrations/20260927000000_profiles_and_avatars.sql)
-through the Supabase SQL Editor, or use the Supabase CLI:
+Apply every migration in [`supabase/migrations`](supabase/migrations) with the Supabase CLI:
 
 ```bash
 supabase link --project-ref YOUR_PROJECT_REF
 supabase db push
 ```
 
-The migration creates:
+The migrations create:
 
 - `public.profiles` linked to `auth.users`
 - A new-user trigger with `CUSTOMER` as the secure default role
-- Row Level Security so users can read and edit only their own profile
+- Partner, venue, court, pricing, staff, inventory, POS, and finance tables
+- Customer bookings, multi-slot booking items, and payment state
+- Atomic booking RPCs with active-slot double-booking protection
+- Row Level Security for customer-owned and partner-owned records
 - A public `avatars` bucket with a 2 MB image limit
 - Storage policies that restrict uploads to each user's own folder
 
@@ -66,8 +68,15 @@ sign-up never accepts a privileged role.
 ## Google Sign-In
 
 1. Create a Web OAuth client in Google Auth Platform.
-2. In Google, add the Supabase callback shown in **Supabase > Authentication > Providers > Google**. It normally looks like `https://PROJECT_REF.supabase.co/auth/v1/callback`.
-3. Add the Google Client ID and Client Secret to the Google provider in Supabase.
+2. In Google, add the Supabase callback shown in **Supabase > Authentication > Providers > Google**. For this project it is `https://blcdkeswamvzvuwgcncp.supabase.co/auth/v1/callback`.
+3. Copy [`supabase/.env.example`](supabase/.env.example) to `supabase/.env.local`, fill the Google Client ID and Client Secret, then push the auth configuration:
+
+```bash
+set -a
+source supabase/.env.local
+set +a
+supabase config push
+```
 4. In **Supabase > Authentication > URL Configuration**, add these redirect URLs:
    - `http://localhost:3000/auth/callback`
    - `http://127.0.0.1:3000/auth/callback`
@@ -84,5 +93,6 @@ npm run lint
 npm run build -- --webpack
 ```
 
-All booking, payment, POS, inventory, and reporting records are still UI mock data. Supabase
-currently persists authentication and user profile data only.
+Real Supabase users persist partner CRUD, inventory, POS, finance, customer bookings,
+payment status, and purchase history. The `@lokaria.test` accounts intentionally keep using
+local demo data so development previews remain available without creating cloud records.
