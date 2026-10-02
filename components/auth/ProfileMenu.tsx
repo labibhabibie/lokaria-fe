@@ -2,19 +2,22 @@
 
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
-import {
-  Camera,
-  ChevronDown,
-  LogOut,
-  Pencil,
-  X,
-} from "lucide-react";
+import { Camera, ChevronDown, LogOut, Pencil, X } from "lucide-react";
 import { SmartLink } from "@/components/ui/SmartLink";
 import { getProfileNavigation, roleLabel } from "@/lib/auth/routes";
-import { fieldClass, primaryButton, secondaryButton } from "@/components/portal/Primitives";
+import {
+  fieldClass,
+  primaryButton,
+  secondaryButton,
+} from "@/components/portal/Primitives";
 import { useAuth } from "./AuthProvider";
 
-function Avatar({ name, initials, url, large = false }: {
+function Avatar({
+  name,
+  initials,
+  url,
+  large = false,
+}: {
   name: string;
   initials: string;
   url?: string;
@@ -105,11 +108,11 @@ export function ProfileMenu() {
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
         aria-haspopup="menu"
-        className="flex cursor-pointer items-center gap-3 rounded-field p-1.5 text-left hover:bg-[#ffffff12]"
+        className="flex cursor-pointer items-center gap-3 rounded-field p-1.5 text-left bg-beige/30 hover:bg-[#ffffff12] backdrop-blur-3xl  transition-all duration-300 hover:-translate-y-0.5 border border-[#ffffff94]/20 px-4 justify-center items-center rounded-full"
       >
         <div className="text-right mobile:hidden">
           <p className="text-[11px] font-bold text-white">{user.name}</p>
-          <p className="mt-0.5 text-[8px] tracking-label text-beige uppercase">
+          <p className="mt-0.5 text-[8px] tracking-label text-white uppercase">
             {roleLabel(user.role)}
           </p>
         </div>
@@ -128,7 +131,9 @@ export function ProfileMenu() {
             </span>
             <div className="min-w-0">
               <p className="truncate text-[12px] font-extrabold">{user.name}</p>
-              <p className="mt-1 truncate text-[9px] text-[#11111173]">{user.email}</p>
+              <p className="mt-1 truncate text-[9px] text-[#11111173]">
+                {user.email}
+              </p>
             </div>
           </div>
           <nav className="py-2">
@@ -177,8 +182,15 @@ export function ProfileMenu() {
           >
             <header className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-[9px] font-extrabold tracking-label text-olive uppercase">Akun</p>
-                <h2 id="edit-profile-title" className="mt-1 text-[20px] font-extrabold uppercase">Edit profil</h2>
+                <p className="text-[9px] font-extrabold tracking-label text-olive uppercase">
+                  Akun
+                </p>
+                <h2
+                  id="edit-profile-title"
+                  className="mt-1 text-[20px] font-extrabold uppercase"
+                >
+                  Edit profil
+                </h2>
               </div>
               <button
                 type="button"
@@ -206,7 +218,9 @@ export function ProfileMenu() {
                     className="sr-only"
                   />
                 </label>
-                <p className="mt-2 text-[9px] leading-4 text-[#11111173]">JPG, PNG, atau WebP. Maksimal 2 MB.</p>
+                <p className="mt-2 text-[9px] leading-4 text-[#11111173]">
+                  JPG, PNG, atau WebP. Maksimal 2 MB.
+                </p>
               </div>
             </div>
             <label className="mt-6 block text-[10px] font-extrabold uppercase">
@@ -217,12 +231,25 @@ export function ProfileMenu() {
                 className={`${fieldClass} mt-2 normal-case`}
               />
             </label>
-            <p className={`mt-4 min-h-5 text-[11px] font-bold ${message.toLowerCase().includes("diperbarui") ? "text-[#266d3e]" : "text-[#a13b35]"}`}>
+            <p
+              className={`mt-4 min-h-5 text-[11px] font-bold ${message.toLowerCase().includes("diperbarui") ? "text-[#266d3e]" : "text-[#a13b35]"}`}
+            >
               {message}
             </p>
             <div className="mt-3 flex justify-end gap-2">
-              <button type="button" onClick={() => setEditing(false)} className={secondaryButton}>Batal</button>
-              <button type="button" onClick={save} disabled={saving} className={primaryButton}>
+              <button
+                type="button"
+                onClick={() => setEditing(false)}
+                className={secondaryButton}
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                onClick={save}
+                disabled={saving}
+                className={primaryButton}
+              >
                 {saving ? "Menyimpan..." : "Simpan profil"}
               </button>
             </div>

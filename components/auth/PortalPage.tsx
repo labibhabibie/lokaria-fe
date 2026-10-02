@@ -30,8 +30,11 @@ function PortalShell({ children }: { children: ReactNode }) {
   return (
     <main className="min-h-screen bg-ivory text-ink">
       <header className="sticky top-0 z-30 flex min-h-[76px] items-center justify-between border-b border-[#ffffff1f] bg-olive px-[max(3vw,32px)] text-white mobile:px-[18px]">
-        <SmartLink href={home} className="text-[24px] font-extrabold tracking-[-1.5px] text-white no-underline">
-          LOKAR<span className="text-beige">IA</span>
+        <SmartLink
+          href={home}
+          className="text-[24px] font-extrabold tracking-[-1.5px] text-white no-underline"
+        >
+          LOKA<span className="text-beige">RIA</span>
         </SmartLink>
         <ProfileMenu />
       </header>
@@ -43,7 +46,10 @@ function PortalShell({ children }: { children: ReactNode }) {
             className="sticky top-[96px] flex flex-col gap-1 tablet:hidden"
           >
             {user.role === USER_ROLES.CUSTOMER && (
-              <SmartLink href="/" className="rounded-field px-3 py-2.5 text-[11px] font-bold whitespace-nowrap text-[#1111119c] no-underline hover:bg-ivory">
+              <SmartLink
+                href="/"
+                className="rounded-field px-3 py-2.5 text-[11px] font-bold whitespace-nowrap text-[#1111119c] no-underline hover:bg-ivory"
+              >
                 Beranda Publik
               </SmartLink>
             )}
@@ -73,7 +79,9 @@ function PortalShell({ children }: { children: ReactNode }) {
                   href={item.path}
                   aria-current={active ? "page" : undefined}
                   className={`grid min-h-11 place-items-center rounded-field px-2 text-center text-[9px] font-extrabold no-underline ${
-                    active ? "bg-olive text-white" : "text-[#1111118c] hover:bg-ivory"
+                    active
+                      ? "bg-olive text-white"
+                      : "text-[#1111118c] hover:bg-ivory"
                   }`}
                 >
                   {item.navLabel}
@@ -93,11 +101,15 @@ function PortalShell({ children }: { children: ReactNode }) {
 export function PortalPage({ page }: { page: PortalPageDefinition }) {
   const { user } = useAuth();
 
-  const workspace = user?.role === USER_ROLES.CUSTOMER
-    ? <CustomerWorkspace path={page.path} />
-    : user?.role === USER_ROLES.PARTNER_OWNER || user?.role === USER_ROLES.PARTNER_STAFF
-      ? <PartnerWorkspace path={page.path} />
-      : <AdminWorkspace path={page.path} />;
+  const workspace =
+    user?.role === USER_ROLES.CUSTOMER ? (
+      <CustomerWorkspace path={page.path} />
+    ) : user?.role === USER_ROLES.PARTNER_OWNER ||
+      user?.role === USER_ROLES.PARTNER_STAFF ? (
+      <PartnerWorkspace path={page.path} />
+    ) : (
+      <AdminWorkspace path={page.path} />
+    );
 
   return (
     <RoleGuard allowedRoles={page.roles}>

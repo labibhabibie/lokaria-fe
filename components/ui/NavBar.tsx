@@ -22,9 +22,13 @@ type Props = {
 /** Last two letters of the wordmark render in beige. */
 function Wordmark({ text, onClick }: { text: string; onClick?: () => void }) {
   return (
-    <SmartLink href="/" onClick={onClick} className="justify-self-start text-[27px] font-extrabold tracking-[-1.5px] text-white no-underline">
-      {text.slice(0, -2)}
-      <span className="text-beige">{text.slice(-2)}</span>
+    <SmartLink
+      href="/"
+      onClick={onClick}
+      className="justify-self-start text-[27px] font-extrabold tracking-[-1.5px] text-white no-underline"
+    >
+      {text.slice(0, -3)}
+      <span className="text-beige">{text.slice(-3)}</span>
     </SmartLink>
   );
 }
@@ -56,12 +60,14 @@ export function NavBar({ wordmark, links, signIn, cta, floatingCta }: Props) {
 
   const close = () => setOpen(false);
   const authenticated = status === "authenticated" && user;
-  const action = authenticated && user.role !== USER_ROLES.CUSTOMER
-    ? { label: "Jelajahi", href: "/#categories" }
-    : cta;
-  const mobileAction = authenticated && user.role !== USER_ROLES.CUSTOMER
-    ? { label: "Jelajahi", href: "/#categories" }
-    : floatingCta;
+  const action =
+    authenticated && user.role !== USER_ROLES.CUSTOMER
+      ? { label: "Jelajahi", href: "/#categories" }
+      : cta;
+  const mobileAction =
+    authenticated && user.role !== USER_ROLES.CUSTOMER
+      ? { label: "Jelajahi", href: "/#categories" }
+      : floatingCta;
 
   return (
     <>
@@ -69,13 +75,19 @@ export function NavBar({ wordmark, links, signIn, cta, floatingCta }: Props) {
         className={cx(
           "fixed inset-x-0 top-0 z-50 grid grid-cols-[1fr_auto_1fr] items-center border-b px-[max(3.5vw,40px)] font-sans text-white transition-all duration-[450ms]",
           "tablet:grid-cols-[1fr_auto] mobile:px-[18px]",
-          scrolled ? "h-[76px] border-[#f5f2ec24] bg-[#535b40ed] backdrop-blur-[18px]" : "h-[92px] border-transparent bg-transparent",
+          scrolled
+            ? "h-[76px] border-[#f5f2ec24] bg-[#535b40ed] backdrop-blur-[18px]"
+            : "h-[92px] border-transparent bg-transparent",
         )}
       >
         <Wordmark text={wordmark} />
         <div className="flex gap-[27px] text-[16px] font-[650] tablet:hidden">
           {links.map((l) => (
-            <SmartLink key={l.href} href={l.href} className="group relative text-white no-underline">
+            <SmartLink
+              key={l.href}
+              href={l.href}
+              className="group relative text-white no-underline"
+            >
               {l.label}
               <span className="absolute right-full -bottom-1.5 left-0 h-px bg-current transition-all duration-300 group-hover:right-0" />
             </SmartLink>
@@ -85,16 +97,29 @@ export function NavBar({ wordmark, links, signIn, cta, floatingCta }: Props) {
           {authenticated ? (
             <ProfileMenu />
           ) : (
-            <SmartLink href={signIn.href} className="text-white no-underline">
+            <SmartLink
+              href={signIn.href}
+              className="text-white no-underline  min-h-[42px]! flex backdrop-blur-3xl bg-beige/30 transition-all duration-300 hover:-translate-y-0.5 border border-[#ffffff94]/20 hover:bg-beige px-4 justify-center items-center rounded-full"
+            >
               {signIn.label}
             </SmartLink>
           )}
-          <Button variant="ivory" size="sm" href={action.href} className="min-h-[42px]! px-[18px]! py-1 backdrop-blur-[10px]">
+          <Button
+            variant="ivory"
+            size="sm"
+            href={action.href}
+            className="min-h-[42px]! px-[18px]! py-1 backdrop-blur-[10px]"
+          >
             {action.label}
           </Button>
         </div>
         <div className="hidden justify-self-end tablet:block">
-          <IconButton label="Buka menu" variant="glass" size={44} onClick={() => setOpen(true)}>
+          <IconButton
+            label="Buka menu"
+            variant="glass"
+            size={44}
+            onClick={() => setOpen(true)}
+          >
             ☰
           </IconButton>
         </div>
@@ -132,7 +157,12 @@ export function NavBar({ wordmark, links, signIn, cta, floatingCta }: Props) {
         <div className="flex h-[92px] shrink-0 items-center justify-between">
           <Wordmark text={wordmark} onClick={close} />
           <div ref={closeRef}>
-            <IconButton label="Tutup menu" variant="glass" size={44} onClick={close}>
+            <IconButton
+              label="Tutup menu"
+              variant="glass"
+              size={44}
+              onClick={close}
+            >
               ×
             </IconButton>
           </div>
@@ -159,7 +189,13 @@ export function NavBar({ wordmark, links, signIn, cta, floatingCta }: Props) {
               {signIn.label}
             </TextLink>
           )}
-          <Button variant="beige" size="lg" fullWidth href={action.href} onClick={close}>
+          <Button
+            variant="beige"
+            size="lg"
+            fullWidth
+            href={action.href}
+            onClick={close}
+          >
             {action.label}
           </Button>
         </div>

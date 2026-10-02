@@ -10,24 +10,55 @@ import { cx } from "@/lib/cx";
 type Field = "what" | "where" | "when";
 type Option = { value: string; label: string };
 
-const whatOptions: Option[] = categories.map((c) => ({ value: c.slug, label: c.title }));
-const whereOptions: Option[] = cities.map((c) => ({ value: c.slug, label: c.title }));
+const whatOptions: Option[] = categories.map((c) => ({
+  value: c.slug,
+  label: c.title,
+}));
+const whereOptions: Option[] = cities.map((c) => ({
+  value: c.slug,
+  label: c.title,
+}));
 
 function formatWhen(v: string) {
   const d = new Date(v);
   if (Number.isNaN(d.getTime())) return "";
-  return d.toLocaleString("id-ID", { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+  return d.toLocaleString("id-ID", {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 }
 
-function Dropdown({ children, className }: { children: React.ReactNode; className?: string }) {
+function Dropdown({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
-    <div className={cx("absolute top-[calc(100%+8px)] left-0 z-10 min-w-full overflow-hidden rounded-field border border-[#1111111a] bg-white p-1.5 text-ink shadow-panel", className)}>
+    <div
+      className={cx(
+        "absolute top-[calc(100%+8px)] left-0 z-10 min-w-full overflow-hidden rounded-field border border-[#1111111a] bg-white p-1.5 text-ink shadow-panel",
+        className,
+      )}
+    >
       {children}
     </div>
   );
 }
 
-function OptionList({ options, selected, onPick }: { options: Option[]; selected?: string; onPick: (v: string) => void }) {
+function OptionList({
+  options,
+  selected,
+  onPick,
+}: {
+  options: Option[];
+  selected?: string;
+  onPick: (v: string) => void;
+}) {
   return (
     <ul role="listbox" className="m-0 list-none p-0">
       {options.map((o) => (
@@ -59,7 +90,8 @@ export function HeroSearch() {
 
   useEffect(() => {
     if (!open) return;
-    const onDown = (e: MouseEvent) => !ref.current?.contains(e.target as Node) && setOpen(null);
+    const onDown = (e: MouseEvent) =>
+      !ref.current?.contains(e.target as Node) && setOpen(null);
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(null);
     document.addEventListener("mousedown", onDown);
     document.addEventListener("keydown", onKey);
@@ -87,23 +119,55 @@ export function HeroSearch() {
       className="mt-7 grid max-w-[880px] grid-cols-[repeat(3,minmax(0,1fr))_auto] gap-2 rounded-[18px] bg-[#f5f2ecf2] p-2 shadow-panel backdrop-blur-[10px] mobile:grid-cols-1"
     >
       <div className="relative">
-        <FieldTrigger label={s.what.label} placeholder={s.what.placeholder} value={whatOptions.find((o) => o.value === what)?.label} open={open === "what"} onClick={() => toggle("what")} />
+        <FieldTrigger
+          label={s.what.label}
+          placeholder={s.what.placeholder}
+          value={whatOptions.find((o) => o.value === what)?.label}
+          open={open === "what"}
+          onClick={() => toggle("what")}
+        />
         {open === "what" && (
           <Dropdown>
-            <OptionList options={whatOptions} selected={what} onPick={(v) => { setWhat(v); setOpen(null); }} />
+            <OptionList
+              options={whatOptions}
+              selected={what}
+              onPick={(v) => {
+                setWhat(v);
+                setOpen(null);
+              }}
+            />
           </Dropdown>
         )}
       </div>
       <div className="relative">
-        <FieldTrigger label={s.where.label} placeholder={s.where.placeholder} value={whereOptions.find((o) => o.value === where)?.label} open={open === "where"} onClick={() => toggle("where")} />
+        <FieldTrigger
+          label={s.where.label}
+          placeholder={s.where.placeholder}
+          value={whereOptions.find((o) => o.value === where)?.label}
+          open={open === "where"}
+          onClick={() => toggle("where")}
+        />
         {open === "where" && (
           <Dropdown>
-            <OptionList options={whereOptions} selected={where} onPick={(v) => { setWhere(v); setOpen(null); }} />
+            <OptionList
+              options={whereOptions}
+              selected={where}
+              onPick={(v) => {
+                setWhere(v);
+                setOpen(null);
+              }}
+            />
           </Dropdown>
         )}
       </div>
       <div className="relative">
-        <FieldTrigger label={s.when.label} placeholder={s.when.placeholder} value={when ? formatWhen(when) : undefined} open={open === "when"} onClick={() => toggle("when")} />
+        <FieldTrigger
+          label={s.when.label}
+          placeholder={s.when.placeholder}
+          value={when ? formatWhen(when) : undefined}
+          open={open === "when"}
+          onClick={() => toggle("when")}
+        />
         {open === "when" && (
           <Dropdown className="p-3">
             <input

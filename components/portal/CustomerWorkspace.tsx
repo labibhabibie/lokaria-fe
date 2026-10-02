@@ -115,7 +115,9 @@ function VenueCard({ venue }: { venue: ListedVenue }) {
       <div className="p-4">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <h3 className="text-[15px] font-extrabold uppercase">{venue.name}</h3>
+            <h3 className="text-[15px] font-extrabold uppercase">
+              {venue.name}
+            </h3>
             <p className="mt-1 flex items-center gap-1 text-[10px] text-[#11111180]">
               <MapPin size={12} /> {venue.city}
             </p>
@@ -130,7 +132,10 @@ function VenueCard({ venue }: { venue: ListedVenue }) {
             <strong className="text-[14px]">{rupiah(venue.price)}</strong>
             <span className="block text-[9px] text-[#11111173]">per sesi</span>
           </p>
-          <SmartLink href={`/booking?venue=${venue.slug}`} className={secondaryButton}>
+          <SmartLink
+            href={`/booking?venue=${venue.slug}`}
+            className={secondaryButton}
+          >
             Pesan <ChevronRight size={14} />
           </SmartLink>
         </div>
@@ -200,7 +205,10 @@ function Explore() {
               Apa yang sedang kamu cari?
             </h2>
           </div>
-          <SmartLink href="/venues" className="text-[10px] font-extrabold text-olive uppercase">
+          <SmartLink
+            href="/venues"
+            className="text-[10px] font-extrabold text-olive uppercase"
+          >
             Lihat semua
           </SmartLink>
         </div>
@@ -211,11 +219,15 @@ function Explore() {
               href={`/venues?category=${category.slug}`}
               className="min-h-[126px] border border-line bg-white p-4 text-ink no-underline hover:border-olive"
             >
-              <span className="text-[9px] text-[#11111173]">{category.code}</span>
+              <span className="text-[9px] text-[#11111173]">
+                {category.code}
+              </span>
               <h3 className="mt-8 text-[12px] font-extrabold uppercase">
                 {category.title}
               </h3>
-              <p className="mt-2 text-[9px] text-olive">Mulai {rupiah(category.price)}</p>
+              <p className="mt-2 text-[9px] text-olive">
+                Mulai {rupiah(category.price)}
+              </p>
             </SmartLink>
           ))}
         </div>
@@ -223,7 +235,9 @@ function Explore() {
 
       <div className="grid grid-cols-[1fr_310px] gap-6 tablet:grid-cols-1">
         <section>
-          <h2 className="mb-4 text-[20px] font-extrabold uppercase">Populer di dekatmu</h2>
+          <h2 className="mb-4 text-[20px] font-extrabold uppercase">
+            Populer di dekatmu
+          </h2>
           <div className="grid grid-cols-2 gap-3 mobile:no-scrollbar mobile:-mx-[18px] mobile:flex mobile:snap-x mobile:overflow-x-auto mobile:px-[18px]">
             {venues.slice(0, 4).map((venue) => (
               <div key={venue.slug} className="mobile:w-[84vw] mobile:shrink-0">
@@ -235,13 +249,24 @@ function Explore() {
         <Panel title="Pemesanan mendatang" eyebrow="Besok">
           <div className="p-5">
             <StatusBadge>Terkonfirmasi</StatusBadge>
-            <h3 className="mt-5 text-[18px] font-extrabold uppercase">PIK Padel Club</h3>
+            <h3 className="mt-5 text-[18px] font-extrabold uppercase">
+              PIK Padel Club
+            </h3>
             <p className="mt-2 text-[11px] text-[#11111180]">Lapangan 02</p>
             <div className="mt-5 space-y-3 border-y border-line py-4 text-[11px]">
-              <p className="flex items-center gap-2"><CalendarDays size={15} />28 Sep 2026</p>
-              <p className="flex items-center gap-2"><Clock3 size={15} />19:00 - 20:00</p>
+              <p className="flex items-center gap-2">
+                <CalendarDays size={15} />
+                28 Sep 2026
+              </p>
+              <p className="flex items-center gap-2">
+                <Clock3 size={15} />
+                19:00 - 20:00
+              </p>
             </div>
-            <SmartLink href="/bookings" className={`${secondaryButton} mt-5 w-full`}>
+            <SmartLink
+              href="/bookings"
+              className={`${secondaryButton} mt-5 w-full`}
+            >
               Lihat pesanan
             </SmartLink>
           </div>
@@ -260,7 +285,9 @@ function VenueList() {
       venues.filter(
         (venue) =>
           (city === "Semua kota" || venue.city === city) &&
-          `${venue.name} ${venue.category}`.toLowerCase().includes(query.toLowerCase()),
+          `${venue.name} ${venue.category}`
+            .toLowerCase()
+            .includes(query.toLowerCase()),
       ),
     [city, query, venues],
   );
@@ -293,10 +320,16 @@ function VenueList() {
           ))}
         </select>
       </div>
-      <p className="text-[11px] text-[#11111173]">{loading ? "Memuat venue mitra..." : `${filtered.length} venue ditemukan`}</p>
+      <p className="text-[11px] text-[#11111173]">
+        {loading
+          ? "Memuat venue mitra..."
+          : `${filtered.length} venue ditemukan`}
+      </p>
       {filtered.length ? (
         <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-4">
-          {filtered.map((venue) => <VenueCard key={venue.slug} venue={venue} />)}
+          {filtered.map((venue) => (
+            <VenueCard key={venue.slug} venue={venue} />
+          ))}
         </div>
       ) : (
         <Panel>
@@ -313,8 +346,13 @@ function VenueList() {
 
 function VenueDetail({ path }: { path: string }) {
   const { venues } = useMarketplaceVenues();
-  const venue = venues.find((item) => item.slug === path.split("/").pop()) ?? venues[0] ?? fallbackVenues[0];
-  const category = categories.find((item) => item.slug === venue.categorySlug) ?? categories[0];
+  const venue =
+    venues.find((item) => item.slug === path.split("/").pop()) ??
+    venues[0] ??
+    fallbackVenues[0];
+  const category =
+    categories.find((item) => item.slug === venue.categorySlug) ??
+    categories[0];
 
   return (
     <div className="space-y-5">
@@ -330,7 +368,9 @@ function VenueDetail({ path }: { path: string }) {
         </div>
         <div className="p-[clamp(24px,4vw,44px)]">
           <StatusBadge>{venue.live ?? "Tersedia"}</StatusBadge>
-          <p className="mt-6 text-[10px] font-extrabold text-olive uppercase">{venue.category}</p>
+          <p className="mt-6 text-[10px] font-extrabold text-olive uppercase">
+            {venue.category}
+          </p>
           <h2 className="mt-2 text-[clamp(27px,4vw,44px)] leading-none font-extrabold uppercase">
             {venue.name}
           </h2>
@@ -342,13 +382,18 @@ function VenueDetail({ path }: { path: string }) {
           </p>
           <div className="mt-6 grid grid-cols-2 gap-2">
             {category.detail.highlights.slice(0, 4).map((item) => (
-              <span key={item} className="flex items-center gap-2 bg-ivory p-3 text-[10px] font-bold">
+              <span
+                key={item}
+                className="flex items-center gap-2 bg-ivory p-3 text-[10px] font-bold"
+              >
                 <Check size={13} /> {item}
               </span>
             ))}
           </div>
           <p className="mt-7 text-[10px] text-[#11111173]">Mulai dari</p>
-          <p className="mt-1 text-[23px] font-extrabold">{rupiah(venue.price)}</p>
+          <p className="mt-1 text-[23px] font-extrabold">
+            {rupiah(venue.price)}
+          </p>
           <SmartLink
             href={`/booking?venue=${venue.slug}`}
             className={`${primaryButton} mt-5 w-full`}
@@ -360,9 +405,16 @@ function VenueDetail({ path }: { path: string }) {
       <Panel title="Ruang tersedia" eyebrow="Pratinjau langsung">
         <div className="grid grid-cols-3 gap-3 p-5 tablet:grid-cols-1">
           {venue.courts.map((court) => (
-            <article key={court.id || court.name} className="border border-line p-4">
-              <h3 className="text-[13px] font-extrabold uppercase">{court.name}</h3>
-              <p className="mt-2 text-[10px] text-[#11111173]">Mulai {rupiah(court.price)} per sesi</p>
+            <article
+              key={court.id || court.name}
+              className="border border-line p-4"
+            >
+              <h3 className="text-[13px] font-extrabold uppercase">
+                {court.name}
+              </h3>
+              <p className="mt-2 text-[10px] text-[#11111173]">
+                Mulai {rupiah(court.price)} per sesi
+              </p>
             </article>
           ))}
         </div>
@@ -378,8 +430,12 @@ function Booking() {
   const [courtId, setCourtId] = useState("");
   const [date, setDate] = useState(localIsoDate());
   const [selectedSlots, setSelectedSlots] = useState<string[]>([]);
-  const current = venues.find((item) => item.slug === venueSlug) ?? venues[0] ?? fallbackVenues[0];
-  const currentCourt = current.courts.find((court) => court.id === courtId) ?? current.courts[0];
+  const current =
+    venues.find((item) => item.slug === venueSlug) ??
+    venues[0] ??
+    fallbackVenues[0];
+  const currentCourt =
+    current.courts.find((court) => court.id === courtId) ?? current.courts[0];
   const unavailableSlots = useUnavailableSlots(currentCourt?.id ?? "", date);
   const total = (currentCourt?.price ?? current.price) * selectedSlots.length;
 
@@ -393,11 +449,16 @@ function Booking() {
   }, [venueSlug, venues]);
 
   useEffect(() => {
-    if (currentCourt?.id && currentCourt.id !== courtId) queueMicrotask(() => setCourtId(currentCourt.id));
+    if (currentCourt?.id && currentCourt.id !== courtId)
+      queueMicrotask(() => setCourtId(currentCourt.id));
   }, [courtId, currentCourt?.id]);
 
   useEffect(() => {
-    queueMicrotask(() => setSelectedSlots((selected) => selected.filter((slot) => !unavailableSlots.includes(slot))));
+    queueMicrotask(() =>
+      setSelectedSlots((selected) =>
+        selected.filter((slot) => !unavailableSlots.includes(slot)),
+      ),
+    );
   }, [unavailableSlots]);
 
   const toggleSlot = (slot: string) => {
@@ -458,7 +519,11 @@ function Booking() {
               }}
               className={`${fieldClass} mt-2 normal-case`}
             >
-              {current.courts.map((court) => <option key={court.id || court.name} value={court.id}>{court.name} - {rupiah(court.price)}</option>)}
+              {current.courts.map((court) => (
+                <option key={court.id || court.name} value={court.id}>
+                  {court.name} - {rupiah(court.price)}
+                </option>
+              ))}
             </select>
           </label>
           <label className="block text-[10px] font-extrabold tracking-label uppercase">
@@ -494,7 +559,8 @@ function Booking() {
               ))}
             </div>
             <p className="mt-3 text-[10px] text-[#11111173]">
-              Pilih satu atau beberapa waktu yang tersedia. Jadwal berwarna abu-abu tidak dapat dipilih.
+              Pilih satu atau beberapa waktu yang tersedia. Jadwal berwarna
+              abu-abu tidak dapat dipilih.
             </p>
           </div>
         </div>
@@ -510,18 +576,28 @@ function Booking() {
               className="object-cover"
             />
           </div>
-          <h3 className="mt-5 text-[17px] font-extrabold uppercase">{current.name}</h3>
-          <p className="mt-1 text-[11px] text-[#11111173]">{currentCourt?.name ?? "Lapangan utama"} - {current.city}</p>
+          <h3 className="mt-5 text-[17px] font-extrabold uppercase">
+            {current.name}
+          </h3>
+          <p className="mt-1 text-[11px] text-[#11111173]">
+            {currentCourt?.name ?? "Lapangan utama"} - {current.city}
+          </p>
           <div className="mt-5 space-y-3 border-y border-line py-4 text-[11px]">
-            <p className="flex justify-between gap-4"><span>Tanggal</span><strong>{date}</strong></p>
+            <p className="flex justify-between gap-4">
+              <span>Tanggal</span>
+              <strong>{date}</strong>
+            </p>
             <div className="flex items-start justify-between gap-4">
               <span>Waktu</span>
               <strong className="text-right">
-                {selectedSlots.length ? selectedSlots.join(", ") : "Belum ada jadwal dipilih"}
+                {selectedSlots.length
+                  ? selectedSlots.join(", ")
+                  : "Belum ada jadwal dipilih"}
               </strong>
             </div>
             <p className="flex justify-between gap-4">
-              <span>Sesi</span><strong>{selectedSlots.length} x 60 menit</strong>
+              <span>Sesi</span>
+              <strong>{selectedSlots.length} x 60 menit</strong>
             </p>
           </div>
           <div className="mt-4 flex items-end justify-between">
@@ -594,7 +670,9 @@ function Checkout() {
     setProcessing(true);
     setErrorMessage("");
     const supabase = createClient();
-    const { data: authData } = supabase ? await supabase.auth.getUser() : { data: { user: null } };
+    const { data: authData } = supabase
+      ? await supabase.auth.getUser()
+      : { data: { user: null } };
 
     if (!supabase || !authData.user) {
       const payment: BookingPayment = {
@@ -609,12 +687,17 @@ function Checkout() {
         total,
         demo: true,
       };
-      window.sessionStorage.setItem(BOOKING_PAYMENT_KEY, JSON.stringify(payment));
+      window.sessionStorage.setItem(
+        BOOKING_PAYMENT_KEY,
+        JSON.stringify(payment),
+      );
       router.push("/payment");
       return;
     }
     if (!draft.venueId || !draft.courtId) {
-      setErrorMessage("Data venue belum siap. Kembali ke pemilihan jadwal dan coba lagi.");
+      setErrorMessage(
+        "Data venue belum siap. Kembali ke pemilihan jadwal dan coba lagi.",
+      );
       setProcessing(false);
       return;
     }
@@ -633,7 +716,9 @@ function Checkout() {
     });
     const created = Array.isArray(data) ? data[0] : data;
     if (error || !created) {
-      setErrorMessage(error?.message ?? "Pesanan gagal dibuat. Silakan coba lagi.");
+      setErrorMessage(
+        error?.message ?? "Pesanan gagal dibuat. Silakan coba lagi.",
+      );
       setProcessing(false);
       return;
     }
@@ -659,11 +744,20 @@ function Checkout() {
           <div className="grid grid-cols-2 gap-4 p-5 mobile:grid-cols-1">
             <label className="text-[10px] font-extrabold tracking-label uppercase">
               Nama lengkap
-              <input value={name} onChange={(event) => setName(event.target.value)} className={`${fieldClass} mt-2 normal-case`} />
+              <input
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                className={`${fieldClass} mt-2 normal-case`}
+              />
             </label>
             <label className="text-[10px] font-extrabold tracking-label uppercase">
               Nomor telepon
-              <input value={phone} onChange={(event) => setPhone(event.target.value)} className={`${fieldClass} mt-2 normal-case`} placeholder="+62 812 3456 7890" />
+              <input
+                value={phone}
+                onChange={(event) => setPhone(event.target.value)}
+                className={`${fieldClass} mt-2 normal-case`}
+                placeholder="+62 812 3456 7890"
+              />
             </label>
           </div>
         </Panel>
@@ -675,7 +769,13 @@ function Checkout() {
                   key={option}
                   className="flex min-h-20 cursor-pointer items-center gap-3 border border-line p-3 has-checked:border-olive has-checked:bg-[#535b400a]"
                 >
-                  <input type="radio" name="payment" value={option} checked={method === option} onChange={() => setMethod(option)} />
+                  <input
+                    type="radio"
+                    name="payment"
+                    value={option}
+                    checked={method === option}
+                    onChange={() => setMethod(option)}
+                  />
                   <span className="text-[11px] font-bold">{option}</span>
                 </label>
               ),
@@ -685,23 +785,43 @@ function Checkout() {
       </div>
       <Panel title="Ringkasan pesanan" eyebrow="1 item">
         <div className="p-5">
-          <h3 className="text-[15px] font-extrabold uppercase">{draft.venueName}</h3>
+          <h3 className="text-[15px] font-extrabold uppercase">
+            {draft.venueName}
+          </h3>
           <p className="mt-2 text-[11px] leading-6 text-[#11111173]">
-            {draft.courtName}<br />{draft.date}<br />{draft.slots.join(", ") || "Belum ada jadwal"}
+            {draft.courtName}
+            <br />
+            {draft.date}
+            <br />
+            {draft.slots.join(", ") || "Belum ada jadwal"}
           </p>
           <div className="mt-5 space-y-3 border-y border-line py-4 text-[11px]">
             <p className="flex justify-between">
-              <span>{draft.slots.length} sesi</span><span>{rupiah(subtotal)}</span>
+              <span>{draft.slots.length} sesi</span>
+              <span>{rupiah(subtotal)}</span>
             </p>
-            <p className="flex justify-between"><span>Biaya layanan</span><span>Rp 5.000</span></p>
+            <p className="flex justify-between">
+              <span>Biaya layanan</span>
+              <span>Rp 5.000</span>
+            </p>
           </div>
           <p className="mt-5 flex items-end justify-between">
             <span className="text-[11px]">Total</span>
             <strong className="text-[23px]">{rupiah(total)}</strong>
           </p>
-          {errorMessage && <p className="mt-4 text-[10px] font-bold text-[#8d332e]">{errorMessage}</p>}
-          <button type="button" disabled={processing} onClick={createBooking} className={`${primaryButton} mt-6 w-full`}>
-            <ShieldCheck size={16} /> {processing ? "Membuat pesanan..." : "Bayar dengan aman"}
+          {errorMessage && (
+            <p className="mt-4 text-[10px] font-bold text-[#8d332e]">
+              {errorMessage}
+            </p>
+          )}
+          <button
+            type="button"
+            disabled={processing}
+            onClick={createBooking}
+            className={`${primaryButton} mt-6 w-full`}
+          >
+            <ShieldCheck size={16} />{" "}
+            {processing ? "Membuat pesanan..." : "Bayar dengan aman"}
           </button>
           <p className="mt-3 text-center text-[9px] text-[#11111173]">
             Hanya demo. Tidak ada pembayaran yang diproses.
@@ -732,7 +852,9 @@ function Payment() {
 
   const confirmPayment = async () => {
     if (!payment) {
-      setErrorMessage("Data pembayaran tidak ditemukan. Buat pesanan baru terlebih dahulu.");
+      setErrorMessage(
+        "Data pembayaran tidak ditemukan. Buat pesanan baru terlebih dahulu.",
+      );
       return;
     }
     setProcessing(true);
@@ -746,7 +868,9 @@ function Payment() {
       setProcessing(false);
       return;
     }
-    const { error } = await supabase.rpc("confirm_demo_payment", { p_booking_id: payment.bookingId });
+    const { error } = await supabase.rpc("confirm_demo_payment", {
+      p_booking_id: payment.bookingId,
+    });
     if (error) {
       setErrorMessage(error.message);
       setProcessing(false);
@@ -763,21 +887,44 @@ function Payment() {
             <CreditCard size={24} />
           </span>
           <p className="mt-6 text-[11px] text-[#11111173]">Total pembayaran</p>
-          <p className="mt-2 text-[34px] font-extrabold">{rupiah(payment?.total ?? 0)}</p>
+          <p className="mt-2 text-[34px] font-extrabold">
+            {rupiah(payment?.total ?? 0)}
+          </p>
           <div className="mx-auto mt-7 max-w-[420px] border border-line bg-ivory p-5 text-left">
-            <p className="text-[9px] font-extrabold tracking-label uppercase">{payment?.method ?? "Metode pembayaran"}</p>
+            <p className="text-[9px] font-extrabold tracking-label uppercase">
+              {payment?.method ?? "Metode pembayaran"}
+            </p>
             <div className="mt-2 flex items-center justify-between gap-3">
-              <strong className="text-[20px] mobile:text-[16px]">8808 0812 3456 7890</strong>
-              <button type="button" onClick={() => setCopied(true)} className={secondaryButton}>
+              <strong className="text-[20px] mobile:text-[16px]">
+                8808 0812 3456 7890
+              </strong>
+              <button
+                type="button"
+                onClick={() => setCopied(true)}
+                className={secondaryButton}
+              >
                 {copied ? "Tersalin" : "Salin"}
               </button>
             </div>
           </div>
-          {errorMessage && <p className="mt-5 text-[10px] font-bold text-[#8d332e]">{errorMessage}</p>}
-          <button type="button" disabled={processing || !payment} onClick={confirmPayment} className={`${primaryButton} mt-8 w-full max-w-[420px]`}>
-            {processing ? "Memperbarui pembayaran..." : "Saya sudah menyelesaikan pembayaran"}
+          {errorMessage && (
+            <p className="mt-5 text-[10px] font-bold text-[#8d332e]">
+              {errorMessage}
+            </p>
+          )}
+          <button
+            type="button"
+            disabled={processing || !payment}
+            onClick={confirmPayment}
+            className={`${primaryButton} mt-8 w-full max-w-[420px]`}
+          >
+            {processing
+              ? "Memperbarui pembayaran..."
+              : "Saya sudah menyelesaikan pembayaran"}
           </button>
-          <p className="mt-4 text-[10px] text-[#11111173]">Status pembayaran hanya simulasi.</p>
+          <p className="mt-4 text-[10px] text-[#11111173]">
+            Status pembayaran hanya simulasi.
+          </p>
         </div>
       </Panel>
     </div>
@@ -811,14 +958,25 @@ function Success() {
           </h2>
           <div className="mx-auto mt-8 grid max-w-[520px] grid-cols-[160px_1fr] border border-line text-left mobile:grid-cols-1">
             <div className="grid aspect-square place-items-center bg-ink p-5 text-center text-white">
-              <div><Ticket size={36} className="mx-auto" /><p className="mt-3 text-[10px]">PRATINJAU QR</p></div>
+              <div>
+                <Ticket size={36} className="mx-auto" />
+                <p className="mt-3 text-[10px]">PRATINJAU QR</p>
+              </div>
             </div>
             <div className="p-5">
-              <p className="text-[9px] text-[#11111173] uppercase">Kode pemesanan</p>
-              <p className="mt-1 text-[20px] font-extrabold">{payment?.bookingCode ?? "LOKARIA"}</p>
-              <p className="mt-5 text-[12px] font-bold">{payment?.venueName ?? "Venue LOKARIA"}</p>
+              <p className="text-[9px] text-[#11111173] uppercase">
+                Kode pemesanan
+              </p>
+              <p className="mt-1 text-[20px] font-extrabold">
+                {payment?.bookingCode ?? "LOKARIA"}
+              </p>
+              <p className="mt-5 text-[12px] font-bold">
+                {payment?.venueName ?? "Venue LOKARIA"}
+              </p>
               <p className="mt-1 text-[11px] leading-5 text-[#11111173]">
-                {payment?.courtName ?? "Lapangan"}<br />{payment?.date ?? "-"}, {payment?.slots.join(", ") ?? "-"}
+                {payment?.courtName ?? "Lapangan"}
+                <br />
+                {payment?.date ?? "-"}, {payment?.slots.join(", ") ?? "-"}
               </p>
             </div>
           </div>
@@ -836,7 +994,14 @@ function Bookings() {
   const { user } = useAuth();
   const { bookings, loading } = useCustomerBookings();
   const isDemo = user?.email.endsWith("@lokaria.test");
-  const source = bookings.length || !isDemo ? bookings : customerBookings.map((booking) => ({ ...booking, paymentStatus: booking.status === "Terkonfirmasi" ? "Lunas" : "Menunggu" }));
+  const source =
+    bookings.length || !isDemo
+      ? bookings
+      : customerBookings.map((booking) => ({
+          ...booking,
+          paymentStatus:
+            booking.status === "Terkonfirmasi" ? "Lunas" : "Menunggu",
+        }));
   const shown = source.filter(
     (booking) => filter === "Semua" || booking.status === filter,
   );
@@ -849,14 +1014,20 @@ function Bookings() {
             type="button"
             onClick={() => setFilter(item)}
             className={`min-h-10 shrink-0 cursor-pointer rounded-full border px-4 text-[10px] font-extrabold uppercase ${
-              filter === item ? "border-olive bg-olive text-white" : "border-line bg-white"
+              filter === item
+                ? "border-olive bg-olive text-white"
+                : "border-line bg-white"
             }`}
           >
             {item}
           </button>
         ))}
       </div>
-      {loading && <p className="text-[11px] text-[#11111173]">Memuat riwayat pembelian...</p>}
+      {loading && (
+        <p className="text-[11px] text-[#11111173]">
+          Memuat riwayat pembelian...
+        </p>
+      )}
       {shown.map((booking) => (
         <article
           key={booking.id}
@@ -865,17 +1036,27 @@ function Bookings() {
           <div>
             <div className="flex flex-wrap items-center gap-3">
               <StatusBadge>{booking.status}</StatusBadge>
-              <span className="text-[9px] font-bold text-olive">Pembayaran: {booking.paymentStatus}</span>
-              <span className="text-[9px] font-bold text-[#11111173]">{booking.id}</span>
+              <span className="text-[9px] font-bold text-olive">
+                Pembayaran: {booking.paymentStatus}
+              </span>
+              <span className="text-[9px] font-bold text-[#11111173]">
+                {booking.id}
+              </span>
             </div>
-            <h2 className="mt-4 text-[18px] font-extrabold uppercase">{booking.venue}</h2>
+            <h2 className="mt-4 text-[18px] font-extrabold uppercase">
+              {booking.venue}
+            </h2>
             <p className="mt-2 text-[11px] text-[#11111173]">
               {booking.space} - {booking.date}, {booking.time}
             </p>
           </div>
           <div className="text-right mobile:text-left">
-            <p className="text-[16px] font-extrabold">{rupiah(booking.total)}</p>
-            <button type="button" className={`${secondaryButton} mt-3`}>Lihat detail</button>
+            <p className="text-[16px] font-extrabold">
+              {rupiah(booking.total)}
+            </p>
+            <button type="button" className={`${secondaryButton} mt-3`}>
+              Lihat detail
+            </button>
           </div>
         </article>
       ))}
@@ -889,9 +1070,15 @@ function Profile() {
     <div className="grid grid-cols-[250px_minmax(0,1fr)] gap-5 tablet:grid-cols-1">
       <Panel>
         <div className="p-6 text-center">
-          <span className="mx-auto grid size-20 place-items-center rounded-full bg-olive text-[20px] font-extrabold text-white">CD</span>
-          <h2 className="mt-4 text-[17px] font-extrabold uppercase">Pelanggan Demo</h2>
-          <p className="mt-1 text-[11px] text-[#11111173]">Pelanggan sejak Januari 2026</p>
+          <span className="mx-auto grid size-20 place-items-center rounded-full bg-olive text-[20px] font-extrabold text-white">
+            CD
+          </span>
+          <h2 className="mt-4 text-[17px] font-extrabold uppercase">
+            Pelanggan Demo
+          </h2>
+          <p className="mt-1 text-[11px] text-[#11111173]">
+            Pelanggan sejak Januari 2026
+          </p>
         </div>
       </Panel>
       <Panel title="Informasi pribadi" eyebrow="Akun">
@@ -902,23 +1089,34 @@ function Profile() {
           }}
           className="grid grid-cols-2 gap-4 p-5 mobile:grid-cols-1"
         >
-          {["Nama lengkap", "Email", "Telepon", "Kota asal"].map((label, index) => (
-            <label key={label} className="text-[10px] font-extrabold tracking-label uppercase">
-              {label}
-              <input
-                className={`${fieldClass} mt-2 normal-case`}
-                defaultValue={[
-                  "Pelanggan Demo",
-                  "customer@lokaria.test",
-                  "+62 812 3456 7890",
-                  "Jakarta",
-                ][index]}
-              />
-            </label>
-          ))}
+          {["Nama lengkap", "Email", "Telepon", "Kota asal"].map(
+            (label, index) => (
+              <label
+                key={label}
+                className="text-[10px] font-extrabold tracking-label uppercase"
+              >
+                {label}
+                <input
+                  className={`${fieldClass} mt-2 normal-case`}
+                  defaultValue={
+                    [
+                      "Pelanggan Demo",
+                      "customer@lokaria.test",
+                      "+62 812 3456 7890",
+                      "Jakarta",
+                    ][index]
+                  }
+                />
+              </label>
+            ),
+          )}
           <div className="col-span-2 flex items-center justify-between gap-4 border-t border-line pt-5 mobile:col-span-1">
-            <p className="text-[11px] font-bold text-[#266d3e]">{saved ? "Profil disimpan secara lokal." : ""}</p>
-            <button type="submit" className={primaryButton}>Simpan perubahan</button>
+            <p className="text-[11px] font-bold text-[#266d3e]">
+              {saved ? "Profil disimpan secara lokal." : ""}
+            </p>
+            <button type="submit" className={primaryButton}>
+              Simpan perubahan
+            </button>
           </div>
         </form>
       </Panel>
@@ -936,12 +1134,21 @@ function Rewards() {
     <div className="space-y-5">
       <section className="grid grid-cols-2 bg-loyalty text-white mobile:grid-cols-1">
         <div className="p-[clamp(24px,5vw,52px)]">
-          <p className="text-[10px] font-extrabold text-beige uppercase">Saldo tersedia</p>
-          <p className="mt-4 text-[clamp(42px,7vw,76px)] leading-none font-extrabold">1,250</p>
+          <p className="text-[10px] font-extrabold text-beige uppercase">
+            Saldo tersedia
+          </p>
+          <p className="mt-4 text-[clamp(42px,7vw,76px)] leading-none font-extrabold">
+            1,250
+          </p>
           <p className="mt-2 text-[12px] text-[#ffffff9c]">Poin Lokaria</p>
         </div>
         <div className="grid place-items-center border-l border-[#ffffff1f] p-8 text-center mobile:border-t mobile:border-l-0">
-          <div><Award size={44} className="mx-auto text-beige" /><p className="mt-4 text-[18px] font-extrabold uppercase">Anggota Perak</p></div>
+          <div>
+            <Award size={44} className="mx-auto text-beige" />
+            <p className="mt-4 text-[18px] font-extrabold uppercase">
+              Anggota Perak
+            </p>
+          </div>
         </div>
       </section>
       <Panel title="Hadiah tersedia" eyebrow="Tukarkan poin">
@@ -949,9 +1156,16 @@ function Rewards() {
           {rewards.map(([name, points]) => (
             <article key={name} className="border border-line p-5">
               <Gift size={20} className="text-olive" />
-              <h3 className="mt-5 text-[14px] font-extrabold uppercase">{name}</h3>
+              <h3 className="mt-5 text-[14px] font-extrabold uppercase">
+                {name}
+              </h3>
               <p className="mt-2 text-[11px] text-[#11111173]">{points}</p>
-              <button type="button" className={`${secondaryButton} mt-5 w-full`}>Tukarkan</button>
+              <button
+                type="button"
+                className={`${secondaryButton} mt-5 w-full`}
+              >
+                Tukarkan
+              </button>
             </article>
           ))}
         </div>
@@ -969,15 +1183,27 @@ function Membership() {
   return (
     <div className="grid grid-cols-3 gap-4 tablet:grid-cols-1">
       {tiers.map((tier, index) => (
-        <article key={tier.name} className={`border border-line p-6 ${tier.style}`}>
+        <article
+          key={tier.name}
+          className={`border border-line p-6 ${tier.style}`}
+        >
           <Sparkles size={22} />
-          <p className="mt-8 text-[10px] font-extrabold uppercase">Tingkat {index + 1}</p>
-          <h2 className="mt-2 text-[28px] font-extrabold uppercase">{tier.name}</h2>
+          <p className="mt-8 text-[10px] font-extrabold uppercase">
+            Tingkat {index + 1}
+          </p>
+          <h2 className="mt-2 text-[28px] font-extrabold uppercase">
+            {tier.name}
+          </h2>
           <p className="mt-3 text-[14px] font-bold">{tier.price}</p>
           <div className="mt-7 space-y-3 border-y border-current/20 py-5">
-            {["Diskon pemesanan", "Poin anggota", "Bantuan prioritas"].map((perk) => (
-              <p key={perk} className="flex items-center gap-2 text-[11px]"><Check size={14} />{perk}</p>
-            ))}
+            {["Diskon pemesanan", "Poin anggota", "Bantuan prioritas"].map(
+              (perk) => (
+                <p key={perk} className="flex items-center gap-2 text-[11px]">
+                  <Check size={14} />
+                  {perk}
+                </p>
+              ),
+            )}
           </div>
           <button
             type="button"

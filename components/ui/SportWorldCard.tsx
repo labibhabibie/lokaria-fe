@@ -39,7 +39,10 @@ export function SportWorldCard({
 }: Props) {
   return (
     <article
-      className={cx("group relative isolate flex min-h-[480px] overflow-hidden rounded-card font-sans text-white shadow-card", className)}
+      className={cx(
+        "group relative isolate flex min-h-[480px] overflow-hidden rounded-card font-sans text-white shadow-card",
+        className,
+      )}
     >
       <Image
         src={image.src}
@@ -52,32 +55,45 @@ export function SportWorldCard({
         aria-hidden="true"
         className="absolute inset-0 -z-10 bg-[linear-gradient(#1111117a_0%,#1111110a_42%,#111111e6_100%),linear-gradient(110deg,#11111142,#0000_58%)]"
       />
-      <span
+      {/* <span
         aria-hidden="true"
         className="pointer-events-none absolute inset-2.5 z-[3] rounded-[20px] border border-[#fff3] transition-[border-color,inset] duration-[350ms] group-hover:inset-3.5 group-hover:border-[#ffffff6b]"
-      />
-      <div className="absolute top-[31px] right-[31px] left-[31px] z-[2] flex items-center justify-between text-micro font-extrabold tracking-[.17em] uppercase">
+      /> */}
+      {/* <div className="absolute top-[31px] right-[31px] left-[31px] z-[2] flex items-center justify-between text-micro font-extrabold tracking-[.17em] uppercase">
         <span className="inline-flex items-center gap-2.5">
           <span className={cx("size-2 rounded-full shadow-[0_0_0_5px_#ffffff21]", accentClassName)} />
           {index}
         </span>
         <span>{code}</span>
-      </div>
+      </div> */}
       <div className="relative z-[2] w-full self-end px-10 py-[38px] mobile:px-7 mobile:py-8">
         {description && (
-          <p className="mb-3 max-w-[500px] font-serif text-[15px] leading-[1.45] text-[#ffffffb3] italic">{description}</p>
+          <p className="mb-3 max-w-[500px] font-serif text-[15px] leading-[1.45] text-[#ffffffb3] italic">
+            {description}
+          </p>
         )}
         <h3 className="m-0 text-display-sm font-bold uppercase">{title}</h3>
         <div className="mt-6 flex flex-wrap items-center justify-between gap-6 border-t border-[#ffffff3d] pt-[18px]">
-          <span className="text-[10px] font-[650] tracking-[.06em] text-[#ffffffab] uppercase">{price}</span>
+          <span className="text-[10px] font-[650] tracking-[.06em] text-[#ffffffab] uppercase">
+            {price}
+          </span>
           <div className="inline-flex gap-[9px]">
             <SmartLink
               href={detailsHref}
-              className={cx(pill, "border-[#ffffff57] bg-[#1111112e] text-white backdrop-blur-[8px] hover:border-[#ffffffb8] hover:bg-[#ffffff21]")}
+              className={cx(
+                pill,
+                "border-[#ffffff57] bg-[#1111112e] text-white backdrop-blur-[8px] hover:border-[#ffffffb8] hover:bg-[#ffffff21]",
+              )}
             >
               {detailsLabel}
             </SmartLink>
-            <SmartLink href={bookHref} className={cx(pill, "border-beige bg-beige text-ink hover:border-white hover:bg-white")}>
+            <SmartLink
+              href={bookHref}
+              className={cx(
+                pill,
+                "border-beige bg-beige text-ink hover:border-white hover:bg-white",
+              )}
+            >
               {bookLabel}
             </SmartLink>
           </div>

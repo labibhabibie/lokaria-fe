@@ -154,8 +154,8 @@ enabled = true
 site_url = "https://lokaria.labib.click"
 # A list of *exact* URLs that auth providers are permitted to redirect to post authentication.
 additional_redirect_urls = [
-  "http://localhost:3000/auth/callback",
-  "http://127.0.0.1:3000/auth/callback",
+  "http://localhost:9115/auth/callback",
+  "http://127.0.0.1:9115/auth/callback",
   "https://lokaria.labib.click/auth/callback",
 ]
 # How long tokens are valid for, in seconds. Defaults to 3600 (1 hour), maximum 604,800 (1 week).

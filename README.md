@@ -16,15 +16,15 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Open `http://localhost:3000/login`.
+Open `http://localhost:9115/login`.
 
 Without Supabase credentials, the development-only demo accounts remain available:
 
-| Role | Email | Password |
-|---|---|---|
-| Customer | `customer@lokaria.test` | `Customer123!` |
-| Partner owner | `mitra@lokaria.test` | `Mitra123!` |
-| Super admin | `admin@lokaria.test` | `Admin123!` |
+| Role          | Email                   | Password       |
+| ------------- | ----------------------- | -------------- |
+| Customer      | `customer@lokaria.test` | `Customer123!` |
+| Partner owner | `mitra@lokaria.test`    | `Mitra123!`    |
+| Super admin   | `admin@lokaria.test`    | `Admin123!`    |
 
 ## Supabase Environment
 
@@ -33,7 +33,7 @@ Get the project URL and publishable key from **Supabase Dashboard > Connect**, t
 ```dotenv
 NEXT_PUBLIC_SUPABASE_URL=https://PROJECT_REF.supabase.co
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_...
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_SITE_URL=http://localhost:9115
 NEXT_PUBLIC_ENABLE_MOCK_AUTH=true
 ```
 
@@ -77,9 +77,10 @@ source supabase/.env.local
 set +a
 supabase config push
 ```
+
 4. In **Supabase > Authentication > URL Configuration**, add these redirect URLs:
-   - `http://localhost:3000/auth/callback`
-   - `http://127.0.0.1:3000/auth/callback`
+   - `http://localhost:9115/auth/callback`
+   - `http://127.0.0.1:9115/auth/callback`
    - `https://lokaria.labib.click/auth/callback`
 5. Restart the Next.js development server after editing `.env.local`.
 

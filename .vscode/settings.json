@@ -1,0 +1,20 @@
+{
+  "editor.fontSize": 12,
+  "editor.hover.delay": 200,
+  "editor.accessibilityPageSize": 500,
+  "editor.tabSize": 2,
+  "workbench.colorCustomizations": {
+    "commandCenter.border": "#e7e7e799",
+    "commandCenter.foreground": "#e7e7e7",
+    "titleBar.activeBackground": "#422a20",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveBackground": "#422a2099",
+    "titleBar.inactiveForeground": "#e7e7e799"
+  },
+  "peacock.color": "#422a20",
+  "editor.formatOnPaste": true,
+  "editor.wordWrapColumn": 80,
+  "html.format.wrapLineLength": 120,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.wordWrap": "off"
+}
